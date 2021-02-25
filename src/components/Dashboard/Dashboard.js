@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Sampler from '../Sampler/Sampler';
+import Select from '../Select/Select';
 import { Play, Pause } from '../../resources/icons/index';
 
 import { v4 as uuidv4 } from 'uuid';
@@ -20,17 +21,17 @@ function Dashboard() {
     sampler: Sampler,
   };
 
-  function handleCreateInstrument(event) {
+  function handleCreateInstrument(option) {
     const _instruments = [...instruments];
-    const type = event.target.value;
+    const instrument = option;
 
     //TODO - remove this, for prototyping only
-    if (!type || type === 'null') return;
+    if (instrument === 'null') return;
 
-    //TODO eventually replace with DB _id to get the configs, etc.
+    //TODO replace with DB _id to get the configs, etc.
     const id = uuidv4();
 
-    const newInstrument = [type, id];
+    const newInstrument = [instrument, id];
     _instruments.push(newInstrument);
 
     setInstruments(_instruments);
@@ -41,12 +42,12 @@ function Dashboard() {
     setPlayState(Tone.Transport.state);
   }, []);
 
-  //create component dynamically, based on the instrument that the user selects
+  // Create component dynamically, based on the instrument that the user selects
   function renderInstruments() {
     return instruments.map((instrumentTuple) => {
-      const [type, id] = instrumentTuple;
+      const [instrument, id] = instrumentTuple;
 
-      return React.createElement(instrumentComponents[type], {
+      return React.createElement(instrumentComponents[instrument], {
         key: id,
         id: id,
         Tone: Tone,
@@ -54,33 +55,33 @@ function Dashboard() {
     });
   }
 
-  function renderInstrumentOptions() {
-    const instrumentOptions = Object.keys(instrumentComponents);
-    return instrumentOptions.map((instrument, idx) => (
-      <option value={instrument} key={idx}>
-        {instrument}
-      </option>
-    ));
-  }
+  // function renderInstrumentOptions() {
+  //   const instrumentOptions =
+  //   return instrumentOptions.map((instrument, idx) => (
+  //     <option value={instrument} key={idx}>
+  //       {instrument}
+  //     </option>
+  //   ));
+  // }
 
   return (
-    <div>
-      {renderInstruments()}
-      {/* TODO - Refactor into its own component */}
-      <div onClick={handleTransport} className={styles.transportButton}>
-        {playState === 'stopped' ? <Play /> : <Pause />}
+    <div className={styles.container}>
+      <div className={styles.panel}>
+        <div className={styles.master}>
+          <div onClick={handleTransport} className={styles.transportButton}>
+            {playState === 'stopped' ? <Play /> : <Pause />}
+          </div>
+          <Select
+            onChangeFn={handleCreateInstrument}
+            options={Object.keys(instrumentComponents)}
+            defaultOption={'add instrument'}
+          />
+        </div>
+        <div className={styles.instruments}>
+          {/* define instruments panel */}
+        </div>
       </div>
-      <select
-        name="intruments"
-        id="instruments"
-        onChange={handleCreateInstrument}
-      >
-        {/* TODO - make a select component */}
-        {/* TODO - make a select component */}
-        {renderInstrumentOptions()}
-        {/* TODO - remove this, for prototyping only */}
-        <option value={null}>null</option>
-      </select>
+      {renderInstruments()}
     </div>
   );
 }
@@ -139,7 +140,7 @@ function Synth({ Tone }) {
     <div>
       <div className={styles.instrument}>
         <div className={styles.panel}>Synth</div>
-        {/* <MemoedSequencer
+        {/* <Sequencer
           synth={synth}
           pattern={pattern}
           toggleActive={toggleActive}

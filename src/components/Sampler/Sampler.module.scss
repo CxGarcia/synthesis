@@ -13,10 +13,13 @@
   justify-content: center;
   border: 1px solid $secondary;
   border-radius: 10px;
-  padding: 0.5rem;
+  padding: 0.5rem 0;
   margin: 0.5rem 0;
-  min-width: 15vw;
-  max-width: 15vw;
+  max-height: 5vh;
+  min-width: 20vw;
+  max-width: 20vw;
+  position: relative;
+  overflow: hidden;
 
   & > * {
     font-family: 'Montserrat';
@@ -26,9 +29,29 @@
     text-transform: capitalize;
   }
 
-  & select {
-    background: transparent;
-    border: none;
-    outline: none;
+  &:hover {
+    cursor: pointer;
   }
+}
+
+.fx {
+  position: absolute;
+  right: 0;
+  height: 100%;
+  margin: 0;
+  background-color: $secondary;
+  text-align: center;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  font-weight: 600;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.effectsPanel {
+  position: relative;
+  height: 5vh;
 }

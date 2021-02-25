@@ -3,20 +3,25 @@ import styles from './Sequencer.module.scss';
 
 import Tile from '../Tile/Tile';
 
-function Sequencer({ synth, pattern, toggleActive }) {
-  const notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-  const length = notes.length;
+const Sequencer = React.memo(function Sequencer({
+  instrument,
+  pattern,
+  toggleActive,
+  note,
+}) {
+  //TODO: to render keyboard
+  // const notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+  // notes[row % length] + String()
+  // const length = Array.isArray(notes) && notes.length;
 
-  function renderSequence(pitch) {
+  function renderSequence() {
     return pattern.map((arr, row) => {
-      const note = notes[row % length] + String(pitch);
       return (
         <div className={styles.sequence} key={`R-${row}-N${note}`}>
-          <h2>{note}</h2>
           {arr.map((active, col) => {
             return (
               <Tile
-                synth={synth}
+                instrument={instrument}
                 note={note}
                 key={`R-${row}-C${col}-N${note}`}
                 active={active !== 0}
@@ -33,15 +38,18 @@ function Sequencer({ synth, pattern, toggleActive }) {
 
   return (
     <>
-      <div>{renderSequence(4)}</div>
+      <div>{renderSequence()}</div>
     </>
   );
-}
-
-const MemoedSequencer = React.memo(Sequencer, compareChangeInPattern);
+},
+compareChangeInPattern);
 
 //Only rerender the sequencer when there is a change in the pattern
 function compareChangeInPattern(prevProps, newProps) {
-  return prevProps.pattern === newProps.pattern;
+  return (
+    prevProps.pattern === newProps.pattern &&
+    prevProps.instrument === newProps.instrument
+  );
 }
-export default MemoedSequencer;
+
+export default Sequencer;

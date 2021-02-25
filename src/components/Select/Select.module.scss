@@ -1,0 +1,16 @@
+@import '../../global-styles/variables';
+
+.select {
+  font-size: $base-size;
+  text-transform: uppercase;
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 25%;
+  text-overflow: ellipsis;
+  color: $text;
+}
+
+.error {
+  color: red;
+}

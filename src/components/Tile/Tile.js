@@ -1,9 +1,10 @@
 import React from 'react';
 import styles from './Tile.module.scss';
 
-function Tile({ synth, note, active, row, col, toggleActive }) {
+function Tile({ instrument, note, active, row, col, toggleActive }) {
   function handlePlay() {
-    synth.triggerAttackRelease(note, '8n');
+    if (active) return;
+    instrument.triggerAttackRelease(note, '8n');
   }
 
   return (
