@@ -12,14 +12,7 @@ function Tile({ synth, note, active, row, col, toggleActive }) {
         toggleActive(note, row, col);
         handlePlay();
       }}
-      style={{
-        background: active ? 'red' : 'white',
-        height: '2rem',
-        width: '2rem',
-        color: 'white',
-        border: '1px dashed black',
-        boxSizing: 'border-box',
-      }}
+      className={`${active ? styles.active : null} ${styles.tile}`}
     ></div>
   );
 }

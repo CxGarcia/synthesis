@@ -1,0 +1,15 @@
+/* COLOR SCHEME */
+$primary: #31353c;
+$secondary: #595e6a;
+$highlights: #f5ffb7;
+$text: #f1ecbd;
+$bg: #31353c;
+
+/* FONT STYLES*/
+$base-size: 1rem;
+$type-scale: 1.33;
+$h3: calc($base-size * $type-scale);
+$h2: calc($h3 * $type-scale);
+$h1: calc($h2 * $type-scale);
+$text-sm: calc($base-size / $type-scale);
+$header-margin: 0 0 1rem 2rem;

@@ -1,10 +1,6 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useLayoutEffect,
-} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Sampler from '../Sampler/Sampler';
+import { Play, Pause } from '../../resources/icons/index';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -12,16 +8,12 @@ import styles from './Dashboard.module.scss';
 import * as Tone from 'tone';
 
 function Dashboard() {
-  const handleTransport = useCallback(() => {
-    Tone.Transport.toggle();
-    // setPlayState(Tone.Transport.state)
-  }, []);
-
   // Tone.Transport.timeSignature = 16;
   Tone.Transport.bpm.value = 120;
 
   const [instruments, setInstruments] = useState([]);
   const [activeCol, setActiveCol] = useState(0);
+  const [playState, setPlayState] = useState(Tone.Transport.state);
 
   const instrumentComponents = {
     synth: Synth,
@@ -31,9 +23,11 @@ function Dashboard() {
   function handleCreateInstrument(event) {
     const _instruments = [...instruments];
     const type = event.target.value;
+
+    //TODO - remove this, for prototyping only
     if (!type || type === 'null') return;
 
-    //eventually replace with DB _id to get the configs, etc.
+    //TODO eventually replace with DB _id to get the configs, etc.
     const id = uuidv4();
 
     const newInstrument = [type, id];
@@ -41,6 +35,11 @@ function Dashboard() {
 
     setInstruments(_instruments);
   }
+
+  const handleTransport = useCallback(() => {
+    Tone.Transport.toggle();
+    setPlayState(Tone.Transport.state);
+  }, []);
 
   //create component dynamically, based on the instrument that the user selects
   function renderInstruments() {
@@ -67,12 +66,17 @@ function Dashboard() {
   return (
     <div>
       {renderInstruments()}
-      <button onClick={handleTransport}>Start / Stop</button>
+      {/* TODO - Refactor into its own component */}
+      <div onClick={handleTransport} className={styles.transportButton}>
+        {playState === 'stopped' ? <Play /> : <Pause />}
+      </div>
       <select
         name="intruments"
         id="instruments"
         onChange={handleCreateInstrument}
       >
+        {/* TODO - make a select component */}
+        {/* TODO - make a select component */}
         {renderInstrumentOptions()}
         {/* TODO - remove this, for prototyping only */}
         <option value={null}>null</option>

@@ -1,0 +1,7 @@
+.transportButton {
+  & > * {
+    //TODO - this css should belong to icons only
+    width: 25px;
+    height: 25px;
+  }
+}

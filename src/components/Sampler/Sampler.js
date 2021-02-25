@@ -83,9 +83,8 @@ function Sampler({ Tone }) {
     <div>
       <div className={styles.instrument}>
         <div className={styles.panel}>
-          <h1 style={{ textTransform: 'uppercase' }}>
-            {name} | {instrument}
-          </h1>
+          <p>{name}</p>
+          <span>|</span>
           <select
             name="intruments"
             id="instruments"
