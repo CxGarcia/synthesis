@@ -4,19 +4,12 @@ import React, {
   useCallback,
   useLayoutEffect,
 } from 'react';
+import Sampler from '../Sampler/Sampler';
+
 import { v4 as uuidv4 } from 'uuid';
+
 import styles from './Dashboard.module.scss';
 import * as Tone from 'tone';
-
-const notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-const length = notes.length;
-
-const MemoedSequencer = React.memo(Sequencer, compareChangeInPattern);
-
-//Only rerender the sequencer when there is a change in the pattern
-function compareChangeInPattern(prevProps, newProps) {
-  return prevProps.pattern === newProps.pattern;
-}
 
 function Dashboard() {
   const handleTransport = useCallback(() => {
@@ -57,6 +50,7 @@ function Dashboard() {
       return React.createElement(instrumentComponents[type], {
         key: id,
         id: id,
+        Tone: Tone,
       });
     });
   }
@@ -80,14 +74,14 @@ function Dashboard() {
         onChange={handleCreateInstrument}
       >
         {renderInstrumentOptions()}
-        {/* {//TODO - remove this, for prototyping only} */}
+        {/* TODO - remove this, for prototyping only */}
         <option value={null}>null</option>
       </select>
     </div>
   );
 }
 
-function Synth() {
+function Synth({ Tone }) {
   const synth = new Tone.Synth().toDestination();
   const [pattern, setPattern] = useState([]);
   const [configs, setConfigs] = useState();
@@ -141,179 +135,13 @@ function Synth() {
     <div>
       <div className={styles.instrument}>
         <div className={styles.panel}>Synth</div>
-        <MemoedSequencer
+        {/* <MemoedSequencer
           synth={synth}
           pattern={pattern}
           toggleActive={toggleActive}
-        />
+        /> */}
       </div>
     </div>
-  );
-}
-
-function createArr(n, fill = 0, cb = (el) => el) {
-  return Array(n).fill(fill).map(cb);
-}
-
-function Sampler() {
-  const [configs, setConfigs] = useState({
-    bars: 1,
-    subdivisions: 16,
-  });
-
-  const [instrument, setInstrument] = useState('kick');
-  const [sample, setSample] = useState(null);
-  const [pattern, setPattern] = useState([]);
-  const [name, setName] = useState('sampler');
-
-  const events = createArr(
-    configs.subdivisions * configs.bars,
-    null,
-    (_, idx) => idx
-  );
-
-  useEffect(() => {
-    const _sample = new Tone.Sampler({
-      urls: {
-        A1: `/assets/samples/${instrument}.wav`,
-      },
-      onload: () => {
-        // sample.triggerAttackRelease('F1');
-        console.log(`${instrument} loaded`);
-      },
-    }).toDestination();
-
-    setSample(_sample);
-  }, [instrument]);
-
-  useLayoutEffect(() => {
-    setPattern(
-      createArr(1, 0, (_) => createArr(configs.bars * configs.subdivisions))
-    );
-  }, [configs.bars, configs.subdivisions]);
-
-  useEffect(() => {
-    const sequence = new Tone.Sequence(
-      (time, col) => {
-        // setActiveCol(col);
-
-        pattern.forEach((row, noteIdx) => {
-          if (row[col] !== 0) {
-            sample.triggerAttackRelease('F1', '1n', time);
-          }
-        });
-      },
-      events,
-      `${configs.subdivisions}n`
-    );
-
-    sequence.loop = true;
-    sequence.start(0);
-
-    return () => {
-      console.log('disposing sequence');
-      sequence.dispose();
-    };
-  }, [configs.subdivisions, events, pattern, sample]);
-
-  const toggleActive = useCallback(
-    (note, row, col) => {
-      const _pattern = [...pattern];
-
-      _pattern[row][col] = _pattern[row][col] === 0 ? note : 0;
-      setPattern(_pattern);
-    },
-    [pattern]
-  );
-
-  function handleSelectInstrument(event) {
-    event.preventDefault();
-
-    setInstrument(event.target.value);
-  }
-
-  return (
-    <div>
-      <div className={styles.instrument}>
-        <div className={styles.panel}>
-          <h1 style={{ textTransform: 'uppercase' }}>
-            {name} | {instrument}
-          </h1>
-          <select
-            name="intruments"
-            id="instruments"
-            onChange={handleSelectInstrument}
-          >
-            <option value="kick">Kick</option>
-            <option value="kick2">Kick 2</option>
-            <option value="openhh">Open HH</option>
-            <option value="closedhh">Closed HH</option>
-            <option value="combo">Combo</option>
-            <option value="maracas">Maracas</option>
-          </select>
-        </div>
-        <MemoedSequencer
-          synth={sample}
-          pattern={pattern}
-          toggleActive={toggleActive}
-        />
-      </div>
-    </div>
-  );
-}
-
-function Sequencer({ synth, pattern, toggleActive }) {
-  function renderSequence(pitch) {
-    return pattern.map((arr, row) => {
-      const note = notes[row % length] + String(pitch);
-      return (
-        <div className={styles.sequence} key={`R-${row}-N${note}`}>
-          <h2>{note}</h2>
-          {arr.map((active, col) => {
-            return (
-              <Tile
-                synth={synth}
-                note={note}
-                key={`R-${row}-C${col}-N${note}`}
-                active={active !== 0}
-                row={row}
-                col={col}
-                toggleActive={toggleActive}
-              />
-            );
-          })}
-        </div>
-      );
-    });
-  }
-
-  return (
-    <>
-      <div>{renderSequence(4)}</div>
-    </>
-  );
-}
-
-function Tile({ synth, note, active, row, col, toggleActive }) {
-  function handlePlay() {
-    synth.triggerAttackRelease(note, '8n');
-  }
-
-  return (
-    <div
-      onMouseDown={() => {
-        toggleActive(note, row, col);
-        handlePlay();
-      }}
-      style={{
-        background: active ? 'red' : 'white',
-        height: '2rem',
-        width: '2rem',
-        color: 'white',
-        border: '1px dashed black',
-        boxSizing: 'border-box',
-      }}
-    ></div>
   );
 }
 
