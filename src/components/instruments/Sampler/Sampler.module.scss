@@ -1,4 +1,4 @@
-@import '../../global-styles/variables';
+@import '../../../global-styles/variables';
 
 .instrument {
   display: flex;
@@ -20,6 +20,7 @@
   max-width: 20vw;
   position: relative;
   overflow: hidden;
+  transition: all 0.5s ease;
 
   & > * {
     font-family: 'Montserrat';
@@ -31,10 +32,15 @@
 
   &:hover {
     cursor: pointer;
+    background-color: rgba($secondary, 0.5);
   }
 }
 
-.fx {
+.activePanel {
+  border: 1px solid $highlights;
+}
+
+.button {
   position: absolute;
   right: 0;
   height: 100%;
@@ -49,6 +55,11 @@
   &:hover {
     cursor: pointer;
   }
+}
+
+.activeButton {
+  background-color: $highlights;
+  color: $secondary;
 }
 
 .effectsPanel {

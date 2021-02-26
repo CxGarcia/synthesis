@@ -1,9 +1,8 @@
 import React from 'react';
 import styles from './EffectsPanel.module.scss';
 
-import Tile from '../Tile/Tile';
-
-function EffectsPanel({ Tone, handleEffect }) {
+function EffectsPanel({ Tone, handleAddEffect, activeInstrumentId }) {
+  console.log(activeInstrumentId);
   const effects = {
     distortion: new Tone.Distortion(0.8).toDestination(),
     phaser: new Tone.Phaser({
@@ -22,7 +21,7 @@ function EffectsPanel({ Tone, handleEffect }) {
       return (
         <div
           className={styles.effect}
-          onClick={() => handleEffect(effects[effect])}
+          onClick={() => handleAddEffect(effects[effect])}
         >
           {effect}
         </div>

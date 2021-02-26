@@ -5,13 +5,15 @@ import React, {
   useCallback,
 } from 'react';
 
-import Sequencer from '../Sequencer/Sequencer';
-import Select from '../Select/Select';
-import EffectsPanel from '../EffectsPanel/EffectsPanel';
-import styles from './Sampler.module.scss';
-import { createArr } from '../../utils';
+import { useGlobalState } from '../../../context/GlobalState';
 
-function Sampler({ Tone }) {
+import Sequencer from '../../Sequencer/Sequencer';
+import Select from '../../Select/Select';
+import EffectsPanel from '../../EffectsPanel/EffectsPanel';
+import styles from './Sampler.module.scss';
+import { createArr } from '../../../utils';
+
+function Sampler({ Tone, dispatch, effects, id, active }) {
   const [configs, setConfigs] = useState({
     bars: 1,
     subdivisions: 16,
@@ -21,9 +23,6 @@ function Sampler({ Tone }) {
   const [sample, setSample] = useState(null);
   const [pattern, setPattern] = useState([]);
   const [name, setName] = useState('sampler');
-
-  const [effects, setEffects] = useState([]);
-  const [effectsPanel, setEffectsPanel] = useState(false);
 
   const note = 'F1';
   // const pitch = 1;
@@ -91,16 +90,12 @@ function Sampler({ Tone }) {
     [pattern]
   );
 
-  function handleSelectInstrument(option) {
-    setInstrument(option);
-  }
+  const handleSetActiveInstrument = () =>
+    dispatch({ type: 'SET_ACTIVE_INSTRUMENT', id });
 
-  function handleEffect(effect) {
-    const _effects = [...effects, effect];
-    setEffects(_effects);
-  }
+  const handleSelectInstrument = (option) => setInstrument(option);
 
-  const instrumentOptions = [
+  const sampleOptions = [
     'kick',
     'kick-2',
     'open-hh',
@@ -112,24 +107,16 @@ function Sampler({ Tone }) {
   return (
     <>
       <div className={styles.instrument}>
-        <div className={styles.panel}>
+        <div className={`${styles.panel} ${active && styles.activePanel}`}>
           <p>{name}</p>
           <span>|</span>
-          <Select
-            onChangeFn={handleSelectInstrument}
-            options={instrumentOptions}
-          />
+          <Select onChangeFn={handleSelectInstrument} options={sampleOptions} />
           <div
-            className={styles.fx}
-            onClick={() => setEffectsPanel(!effectsPanel)}
+            className={`${styles.button} ${active && styles.activeButton}`}
+            onClick={handleSetActiveInstrument}
           >
-            FX
+            ACT
           </div>
-        </div>
-        <div className={styles.effectsPanel}>
-          {effectsPanel && (
-            <EffectsPanel Tone={Tone} handleEffect={handleEffect} />
-          )}
         </div>
         <Sequencer
           instrument={sample}

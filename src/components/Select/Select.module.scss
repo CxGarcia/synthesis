@@ -9,6 +9,9 @@
   width: 25%;
   text-overflow: ellipsis;
   color: $text;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .error {

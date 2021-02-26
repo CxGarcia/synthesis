@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import styles from './Select.module.scss';
 
 function Select({ options, onChangeFn, defaultOption }) {
@@ -18,7 +18,7 @@ function Select({ options, onChangeFn, defaultOption }) {
     event.preventDefault();
 
     onChangeFn(event.target.value);
-    selectRef.current.value = defaultOption;
+    if (defaultOption) selectRef.current.value = defaultOption;
   }
 
   return (
