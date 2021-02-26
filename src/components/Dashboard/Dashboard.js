@@ -13,12 +13,10 @@ import styles from './Dashboard.module.scss';
 
 function Dashboard() {
   const [state, dispatch] = useGlobalState();
-  const { instruments, Tone, activeInstrumentId } = state;
+  const { instruments, Tone, activeInstrumentId, effectsList } = state;
 
   const [playState, setPlayState] = useState(Tone.Transport.state);
   const [activeCol, setActiveCol] = useState(0);
-
-  let activeInstrument;
 
   Tone.Transport.bpm.value = 120;
 
@@ -51,14 +49,17 @@ function Dashboard() {
     });
   }
 
-  function handleAddEffect(effect, id) {
-    dispatch({ type: 'ADD_EFFECT_TO_INSTRUMENT', effect, id });
-  }
+  const activeInstrumentEffects =
+    activeInstrumentId &&
+    getActiveInstrumentEffects(instruments, activeInstrumentId);
 
   return (
     <div className={styles.container}>
       <div className={styles.panel}>
-        <div className={styles.master}>
+        <div className={styles.masterPanel}>
+          <div className={styles.panelTitle}>
+            <h2>Master</h2>
+          </div>
           <div onClick={handleTransport} className={styles.transportButton}>
             {playState === 'stopped' ? <Play /> : <Pause />}
           </div>
@@ -68,11 +69,16 @@ function Dashboard() {
             defaultOption={'add instrument'}
           />
         </div>
-        <div className={styles.instruments}>
+        <div className={styles.instrumentsPanel}>
+          <div className={styles.panelTitle}>
+            <h2>Instrument</h2>
+          </div>
           <EffectsPanel
             Tone={Tone}
-            handleAddEffect={handleAddEffect}
+            dispatch={dispatch}
             activeInstrumentId={activeInstrumentId}
+            activeInstrumentEffects={activeInstrumentEffects}
+            effectsList={effectsList}
           />
         </div>
       </div>
@@ -82,3 +88,12 @@ function Dashboard() {
 }
 
 export default Dashboard;
+
+function getActiveInstrumentEffects(instruments, activeInstrumentId) {
+  const instrument = instruments.find((_instrument) => {
+    return _instrument.id === activeInstrumentId;
+  });
+
+  const { effects } = instrument;
+  return effects;
+}

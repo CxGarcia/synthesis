@@ -9,21 +9,34 @@
 
 .panel {
   height: 25vh;
+  position: relative;
   border: 1px solid $secondary;
-  border-radius: 10px;
+  border-radius: 5px;
   display: flex;
   flex-flow: row nowrap;
-  padding: 0 0.5rem;
+  overflow: hidden;
   & > * {
     flex: 1;
     padding: 1rem;
   }
 }
 
-.master {
+.masterPanel {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
   & > * {
-    margin: 0.5rem 0;
+    padding: 0.5rem 0;
   }
+}
+
+.instrumentsPanel {
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
 }
 
 .transportButton {
@@ -31,5 +44,29 @@
     //TODO - this css should belong to icons only
     width: 25px;
     height: 25px;
+  }
+}
+
+.panelTitle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 2.5rem;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  background-color: $secondary;
+  color: $text;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  font-family: 'Montserrat';
+  & > * {
+    // margin-top: 2vh;
+    font-weight: 400;
+    height: fit-content;
+    width: fit-content;
+    transform: rotate(270deg);
   }
 }

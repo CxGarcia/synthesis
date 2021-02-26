@@ -12,6 +12,19 @@ function StateProvider({ children }) {
     instruments: [],
     activeInstrumentId: null,
     Tone: Tone,
+    effectsList: [
+      { name: 'distortion', method: new Tone.Distortion(0.8) },
+      {
+        name: 'phaser',
+        method: new Tone.Phaser({
+          frequency: 15,
+          octaves: 5,
+          baseFrequency: 1000,
+        }),
+      },
+      { name: 'compressor', method: new Tone.Compressor(-30, 3) },
+      { name: 'hipass', method: new Tone.Filter(1500, 'highpass') },
+    ],
   });
 
   const value = [state, dispatch];
@@ -77,14 +90,35 @@ function stateReducer(state, action) {
     }
 
     case 'ADD_EFFECT_TO_INSTRUMENT': {
-      const { id, effect } = action;
-      const { instruments } = state;
+      const { effect } = action;
+      const { instruments, activeInstrumentId: id } = state;
 
       const _instruments = instruments.map((_instrument) => {
         if (_instrument.id !== id) return _instrument;
         const { effects } = _instrument;
 
         return { ..._instrument, effects: [...effects, effect] };
+      });
+
+      return {
+        ...state,
+        instruments: _instruments,
+      };
+    }
+
+    case 'TOGGLE_INSTRUMENT_EFFECT': {
+      const { effect } = action;
+      const { instruments, activeInstrumentId: id } = state;
+
+      const _instruments = instruments.map((_instrument) => {
+        if (_instrument.id !== id) return _instrument;
+        const { effects } = _instrument;
+
+        const effectObj = state.effectsList.find(
+          (_effect) => _effect.name === effect
+        );
+
+        return { ..._instrument, effects: [...effects, effectObj] };
       });
 
       return {

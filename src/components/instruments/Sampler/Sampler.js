@@ -5,11 +5,8 @@ import React, {
   useCallback,
 } from 'react';
 
-import { useGlobalState } from '../../../context/GlobalState';
-
 import Sequencer from '../../Sequencer/Sequencer';
 import Select from '../../Select/Select';
-import EffectsPanel from '../../EffectsPanel/EffectsPanel';
 import styles from './Sampler.module.scss';
 import { createArr } from '../../../utils';
 
@@ -45,7 +42,9 @@ function Sampler({ Tone, dispatch, effects, id, active }) {
   useEffect(() => {
     if (sample == null) return;
 
-    sample.chain(...effects, Tone.Destination);
+    const _effects = effects.map((_effect) => _effect.method);
+
+    sample.chain(..._effects, Tone.Destination);
   }, [Tone.Destination, Tone.destination, effects, sample]);
 
   // create the tiles with the correct layout
@@ -115,7 +114,7 @@ function Sampler({ Tone, dispatch, effects, id, active }) {
             className={`${styles.button} ${active && styles.activeButton}`}
             onClick={handleSetActiveInstrument}
           >
-            ACT
+            FX
           </div>
         </div>
         <Sequencer

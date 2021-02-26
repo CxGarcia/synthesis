@@ -1,0 +1,19 @@
+@import '../../global-styles/variables';
+
+.svg {
+  overflow: visible;
+  fill: $text;
+  fill-opacity: 0.5;
+  stroke: $secondary;
+  stroke-width: 7px;
+  width: 10px;
+  height: 10px;
+  transition: all 0.25s ease;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.active {
+  stroke: $text;
+}

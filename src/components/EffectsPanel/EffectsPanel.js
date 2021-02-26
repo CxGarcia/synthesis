@@ -1,29 +1,36 @@
 import React from 'react';
 import styles from './EffectsPanel.module.scss';
+// import Switch from 'react-switch';
+import Switch from '../Switch/Switch';
 
-function EffectsPanel({ Tone, handleAddEffect, activeInstrumentId }) {
-  console.log(activeInstrumentId);
-  const effects = {
-    distortion: new Tone.Distortion(0.8).toDestination(),
-    phaser: new Tone.Phaser({
-      frequency: 15,
-      octaves: 5,
-      baseFrequency: 1000,
-    }),
-    compressor: new Tone.Compressor(-30, 3),
-    hipass: new Tone.Filter(1500, 'highpass'),
-  };
+function EffectsPanel({
+  Tone,
+  activeInstrumentId,
+  activeInstrumentEffects,
+  dispatch,
+  effectsList,
+}) {
+  function handleAddEffect(effect) {
+    const _effect = effectsList.find((_eff) => _eff.name === effect);
+    dispatch({ type: 'ADD_EFFECT_TO_INSTRUMENT', effect: _effect });
+  }
+
+  const handleRemoveEffect = (effect) => {};
 
   function renderEffects() {
-    const effectKeys = Object.keys(effects);
+    const effectNames = effectsList.map((_effect) => _effect.name);
 
-    return effectKeys.map((effect, idx) => {
+    return effectNames.map((_effect, idx) => {
       return (
-        <div
-          className={styles.effect}
-          onClick={() => handleAddEffect(effects[effect])}
-        >
-          {effect}
+        <div className={styles.effect}>
+          <Switch
+            active={
+              activeInstrumentEffects &&
+              activeInstrumentEffects.find((_eff) => _eff.name === _effect)
+            }
+            handleAddEffect={handleAddEffect}
+          />
+          <h3 onClick={() => handleAddEffect(_effect)}>{_effect}</h3>
         </div>
       );
     });
@@ -31,7 +38,11 @@ function EffectsPanel({ Tone, handleAddEffect, activeInstrumentId }) {
 
   return (
     <div className={styles.container}>
-      <div>{renderEffects()}</div>
+      {activeInstrumentId ? (
+        <div>{renderEffects()}</div>
+      ) : (
+        <h1>Select your instrument</h1>
+      )}
     </div>
   );
 }
