@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useLayoutEffect,
   useCallback,
+  useRef,
 } from 'react';
 
 import Sequencer from '../../Sequencer/Sequencer';
@@ -18,6 +19,12 @@ function Synth({ Tone, dispatch, effects, id, active, volume }) {
     subdivisions: 16,
   });
 
+  const synthRef = useRef(null);
+
+  const [chords, setChords] = useState(
+    createArr(configs.subdivisions * configs.bars, [])
+  );
+
   const notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
 
   useEffect(() => {
@@ -27,29 +34,35 @@ function Synth({ Tone, dispatch, effects, id, active, volume }) {
     }).toDestination();
 
     _synth.volume.value = volume;
+    synthRef.current = _synth;
+
     setSynth(_synth);
 
-    return () => _synth.dispose();
+    return () => synthRef.current.dispose();
   }, [Tone.PolySynth, Tone.Synth, volume]);
 
   const toggleActive = useCallback(
     (note, row, col) => {
       const _pattern = [...pattern];
 
+      const _chords = chords.map((chord, idx) => {
+        if (idx !== col) return chord;
+        else return [...chord, note];
+      });
+
       _pattern[row][col] = _pattern[row][col] === 0 ? note : 0;
+
       setPattern(_pattern);
+      setChords(_chords);
     },
-    [pattern]
+    [pattern, chords]
   );
 
   useEffect(() => {
     const sequence = new Tone.Sequence(
       (time, col) => {
-        pattern.forEach((row, noteIdx) => {
-          if (row[col] !== 0) {
-            synth.triggerAttackRelease(['C4', 'E4', 'G4'], '8n', time);
-          }
-        });
+        if (chords[col].length < 1) return;
+        synth.triggerAttackRelease(chords[col], '8n', time);
       },
 
       createArr(configs.subdivisions * configs.bars, null, (_, idx) => idx),
@@ -63,7 +76,14 @@ function Synth({ Tone, dispatch, effects, id, active, volume }) {
       console.log('disposing sequence');
       sequence.dispose();
     };
-  }, [Tone.Sequence, configs.bars, configs.subdivisions, pattern, synth]);
+  }, [
+    Tone.Sequence,
+    chords,
+    configs.bars,
+    configs.subdivisions,
+    pattern,
+    synth,
+  ]);
 
   // add effects to synth, if any
   useEffect(() => {
@@ -104,7 +124,7 @@ function Synth({ Tone, dispatch, effects, id, active, volume }) {
           instrument={synth}
           pattern={pattern}
           toggleActive={toggleActive}
-          // note={note}
+          keyboard={true}
         />
       </div>
     </>

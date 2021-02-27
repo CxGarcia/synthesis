@@ -50,20 +50,13 @@ function Sampler({ Tone, dispatch, effects, id, active, volume }) {
   }, [Tone.Destination, Tone.destination, effects, sample]);
 
   useLayoutEffect(() => {
-    setPattern(
-      createArr(1, 0, (_) => createArr(configs.bars * configs.subdivisions))
-    );
+    setPattern(createArr(configs.bars * configs.subdivisions));
   }, [configs.bars, configs.subdivisions]);
 
   useEffect(() => {
     const sequence = new Tone.Sequence(
       (time, col) => {
-        // setActiveCol(col);
-        pattern.forEach((row, noteIdx) => {
-          if (row[col] !== 0) {
-            sample.triggerAttackRelease(note, '1n', time);
-          }
-        });
+        if (pattern[col] !== 0) sample.triggerAttackRelease(note, '1n', time);
       },
       createArr(configs.subdivisions * configs.bars, null, (_, idx) => idx),
       `${configs.subdivisions}n`
@@ -80,13 +73,12 @@ function Sampler({ Tone, dispatch, effects, id, active, volume }) {
   }, [Tone.Sequence, configs.bars, configs.subdivisions, pattern, sample]);
 
   const toggleActive = useCallback(
-    (note, row, col) => {
+    (note, _, col) => {
       const _pattern = [...pattern];
 
-      _pattern[row][col] = _pattern[row][col] === 0 ? note : 0;
+      _pattern[col] = _pattern[col] === 0 ? note : 0;
       setPattern(_pattern);
     },
-
     [pattern]
   );
 

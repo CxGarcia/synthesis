@@ -12,7 +12,8 @@ function useDebounce(fn, timeout = 1000) {
 }
 
 function createArr(n, fill = 0, cb = (el) => el) {
-  return Array(n).fill(fill).map(cb);
+  const arr = Array(n).fill(fill).map(cb);
+  return arr;
 }
 
 function createMatrix(row, col) {
