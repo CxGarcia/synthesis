@@ -9,7 +9,6 @@ const Sequencer = React.memo(function Sequencer({
   toggleActive,
   note,
 }) {
-  //TODO: to render keyboard
   // const notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
   // notes[row % length] + String()
   // const length = Array.isArray(notes) && notes.length;

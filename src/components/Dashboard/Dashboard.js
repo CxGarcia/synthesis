@@ -1,15 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useGlobalState } from '../../context/GlobalState';
 import instrumentComponents from '../instruments/index';
 
-import Sampler from '../instruments/Sampler/Sampler';
-import EffectsPanel from '../EffectsPanel/EffectsPanel';
 import Select from '../Select/Select';
 import { Play, Pause } from '../../resources/icons/index';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import styles from './Dashboard.module.scss';
+import { useEffect } from 'react';
+import InstrumentPanel from '../panels/InstrumentPanel/InstrumentPanel';
 
 function Dashboard() {
   const [state, dispatch] = useGlobalState();
@@ -23,15 +21,18 @@ function Dashboard() {
   const handleCreateInstrument = (selectedInstrument) =>
     dispatch({ type: 'CREATE_INSTRUMENT', selectedInstrument });
 
+  // Play/Pause master
   const handleTransport = useCallback(() => {
-    Tone.Transport.toggle();
+    if (playState === 'started') Tone.Transport.stop();
+    else Tone.Transport.start();
+
     setPlayState(Tone.Transport.state);
-  }, [Tone.Transport]);
+  }, [Tone.Transport, playState]);
 
   // Create component dynamically, based on the instrument that the user selects
   function renderInstruments() {
     return instruments.map((_instrument) => {
-      const { instrument, id, effects } = _instrument;
+      const { instrument, id, effects, volume } = _instrument;
 
       const newInstrument = React.createElement(
         instrumentComponents[instrument],
@@ -41,6 +42,7 @@ function Dashboard() {
           Tone,
           effects,
           dispatch,
+          volume,
           active: id === activeInstrumentId,
         }
       );
@@ -49,9 +51,33 @@ function Dashboard() {
     });
   }
 
-  const activeInstrumentEffects =
-    activeInstrumentId &&
-    getActiveInstrumentEffects(instruments, activeInstrumentId);
+  const activeInstrument =
+    activeInstrumentId && getActiveInstrument(instruments, activeInstrumentId);
+
+  const handleKeyPress = useCallback(
+    (event) => {
+      const { which } = event;
+
+      switch (which) {
+        case 32: {
+          handleTransport();
+          return;
+        }
+        default: {
+          return;
+        }
+      }
+    },
+    [handleTransport]
+  );
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyPress, false);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress, false);
+    };
+  }, [handleKeyPress]);
 
   return (
     <div className={styles.container}>
@@ -69,15 +95,15 @@ function Dashboard() {
             defaultOption={'add instrument'}
           />
         </div>
+
         <div className={styles.instrumentsPanel}>
           <div className={styles.panelTitle}>
             <h2>Instrument</h2>
           </div>
-          <EffectsPanel
+          <InstrumentPanel
             Tone={Tone}
             dispatch={dispatch}
-            activeInstrumentId={activeInstrumentId}
-            activeInstrumentEffects={activeInstrumentEffects}
+            activeInstrument={activeInstrument}
             effectsList={effectsList}
           />
         </div>
@@ -89,11 +115,11 @@ function Dashboard() {
 
 export default Dashboard;
 
-function getActiveInstrumentEffects(instruments, activeInstrumentId) {
+//Helper functions
+function getActiveInstrument(instruments, activeInstrumentId) {
   const instrument = instruments.find((_instrument) => {
     return _instrument.id === activeInstrumentId;
   });
 
-  const { effects } = instrument;
-  return effects;
+  return instrument;
 }

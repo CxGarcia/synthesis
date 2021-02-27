@@ -52,7 +52,7 @@ function stateReducer(state, action) {
       //TODO replace with DB _id to get the configs, etc.
       const id = uuidv4();
       const { selectedInstrument } = action;
-      const defaultSettings = { effects: [] };
+      const defaultSettings = { effects: [], volume: -25 };
 
       const instrument = {
         instrument: selectedInstrument,
@@ -71,21 +71,17 @@ function stateReducer(state, action) {
     }
 
     case 'DELETE_INSTRUMENT': {
-      const projectsCopy = [...state.projects];
-      const tasksCopy = [...state.tasks];
+      const { id } = action;
+      const _instruments = [...state.instruments];
 
-      const filteredProjects = projectsCopy.filter((project) => {
-        return project.projectId !== action.projectId;
-      });
-
-      const filteredTasks = tasksCopy.filter((task) => {
-        return task.projectId !== action.projectId;
+      const filteredInstruments = _instruments.filter((instrument) => {
+        return instrument.id !== id;
       });
 
       return {
         ...state,
-        projects: [...filteredProjects],
-        tasks: [...filteredTasks],
+        instruments: filteredInstruments,
+        activeInstrumentId: state.activeInstrumentId === id && null,
       };
     }
 
@@ -106,7 +102,7 @@ function stateReducer(state, action) {
       };
     }
 
-    case 'TOGGLE_INSTRUMENT_EFFECT': {
+    case 'REMOVE_EFFECT_FROM_INSTRUMENT': {
       const { effect } = action;
       const { instruments, activeInstrumentId: id } = state;
 
@@ -133,6 +129,22 @@ function stateReducer(state, action) {
       return {
         ...state,
         activeInstrumentId: id,
+      };
+    }
+
+    case 'UPDATE_INSTRUMENT_VOLUME': {
+      const { volume } = action;
+      const { instruments, activeInstrumentId } = state;
+
+      const _instruments = instruments.map((_instrument) => {
+        if (_instrument.id !== activeInstrumentId) return _instrument;
+
+        return { ..._instrument, volume: volume };
+      });
+
+      return {
+        ...state,
+        instruments: _instruments,
       };
     }
 

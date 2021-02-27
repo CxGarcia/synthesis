@@ -1,0 +1,86 @@
+@import '../../../global-styles/variables';
+
+.instrument {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.panel {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $secondary;
+  border-radius: 5px;
+  padding: 0.5rem 0;
+  max-height: 35px;
+  min-width: 20vw;
+  max-width: 20vw;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s ease;
+
+  & > * {
+    font-family: 'Montserrat';
+    font-size: $base-size;
+    margin: 0 0.5rem;
+    color: $text;
+    text-transform: capitalize;
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgba($secondary, 0.5);
+  }
+}
+
+.activePanel {
+  border: 1px solid $highlights;
+}
+
+.fxButton {
+  position: absolute;
+  right: 0;
+  height: 100%;
+  margin: 0;
+  background-color: $secondary;
+  color: $primary;
+  text-align: center;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  font-weight: 600;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.activeButton {
+  background-color: $highlights;
+}
+
+.delete {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  margin: 0;
+  transition: all 0.25s ease;
+
+  text-align: center;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+
+  font-weight: 600;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+}
+
+.effectsPanel {
+  position: relative;
+  height: 5vh;
+}

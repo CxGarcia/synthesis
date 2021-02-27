@@ -10,7 +10,7 @@ import Select from '../../Select/Select';
 import styles from './Sampler.module.scss';
 import { createArr } from '../../../utils';
 
-function Sampler({ Tone, dispatch, effects, id, active }) {
+function Sampler({ Tone, dispatch, effects, id, active, volume }) {
   const [configs, setConfigs] = useState({
     bars: 1,
     subdivisions: 16,
@@ -35,19 +35,20 @@ function Sampler({ Tone, dispatch, effects, id, active }) {
       },
     });
 
+    _sample.volume.value = volume;
     setSample(_sample);
-  }, [Tone.Sampler, instrument]);
+
+    return () => _sample.dispose();
+  }, [Tone.Sampler, instrument, volume]);
 
   // add effects to the sample, if any
   useEffect(() => {
     if (sample == null) return;
-
     const _effects = effects.map((_effect) => _effect.method);
 
     sample.chain(..._effects, Tone.Destination);
   }, [Tone.Destination, Tone.destination, effects, sample]);
 
-  // create the tiles with the correct layout
   useLayoutEffect(() => {
     setPattern(
       createArr(1, 0, (_) => createArr(configs.bars * configs.subdivisions))
@@ -92,6 +93,9 @@ function Sampler({ Tone, dispatch, effects, id, active }) {
   const handleSetActiveInstrument = () =>
     dispatch({ type: 'SET_ACTIVE_INSTRUMENT', id });
 
+  const handleDeleteInstrument = () =>
+    dispatch({ type: 'DELETE_INSTRUMENT', id });
+
   const handleSelectInstrument = (option) => setInstrument(option);
 
   const sampleOptions = [
@@ -107,11 +111,14 @@ function Sampler({ Tone, dispatch, effects, id, active }) {
     <>
       <div className={styles.instrument}>
         <div className={`${styles.panel} ${active && styles.activePanel}`}>
+          <h1 className={styles.delete} onClick={handleDeleteInstrument}>
+            X
+          </h1>
           <p>{name}</p>
           <span>|</span>
           <Select onChangeFn={handleSelectInstrument} options={sampleOptions} />
           <div
-            className={`${styles.button} ${active && styles.activeButton}`}
+            className={`${styles.fxButton} ${active && styles.activeButton}`}
             onClick={handleSetActiveInstrument}
           >
             FX

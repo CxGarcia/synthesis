@@ -40,12 +40,13 @@
   border: 1px solid $highlights;
 }
 
-.button {
+.fxButton {
   position: absolute;
   right: 0;
   height: 100%;
   margin: 0;
   background-color: $secondary;
+  color: $primary;
   text-align: center;
   padding: 0 0.5rem;
   display: flex;
@@ -59,7 +60,26 @@
 
 .activeButton {
   background-color: $highlights;
-  color: $secondary;
+}
+
+.delete {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  margin: 0;
+  transition: all 0.25s ease;
+
+  text-align: center;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+
+  font-weight: 600;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
 }
 
 .effectsPanel {

@@ -15,6 +15,7 @@
   display: flex;
   flex-flow: row nowrap;
   overflow: hidden;
+  margin-bottom: 2rem;
   & > * {
     flex: 1;
     padding: 1rem;
@@ -34,7 +35,7 @@
 .instrumentsPanel {
   position: relative;
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: row nowrap;
   align-items: center;
   justify-content: center;
 }
@@ -58,13 +59,16 @@
   align-items: center;
   justify-content: center;
   background-color: $secondary;
-  color: $text;
+  text-transform: uppercase;
+
+  color: $primary;
+  font-weight: 600;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   font-family: 'Montserrat';
   & > * {
     // margin-top: 2vh;
-    font-weight: 400;
+    font-weight: 600;
     height: fit-content;
     width: fit-content;
     transform: rotate(270deg);

@@ -6,7 +6,8 @@
   background: transparent;
   border: none;
   outline: none;
-  width: 20%;
+  width: fit-content;
+  max-width: 25%;
   text-overflow: ellipsis;
   color: $text;
   &:hover {
