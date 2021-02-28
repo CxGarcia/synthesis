@@ -1,7 +1,8 @@
-import React from 'react';
-import styles from './Sequencer.module.scss';
-
+import React, { useState } from 'react';
 import Tile from '../Tile/Tile';
+import { useDebounce } from 'utils/index';
+
+import styles from './Sequencer.module.scss';
 
 const Sequencer = React.memo(function Sequencer({
   instrument,
@@ -9,19 +10,43 @@ const Sequencer = React.memo(function Sequencer({
   toggleActive,
   note,
   keyboard,
+  pitch = 4,
 }) {
+  const [isPainting, setIsPainting] = useState(false);
+
+  function handlePainting() {
+    setIsPainting(!isPainting);
+  }
+
   function renderKeyboard() {
-    const notes = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4'];
+    const notes = [
+      'C',
+      'C#',
+      'D',
+      'D#',
+      'E',
+      'F',
+      'F#',
+      'G',
+      'G#',
+      'A',
+      'A#',
+      'B',
+    ];
+
     const length = notes.length;
     return pattern.map((_pattern, row) => {
-      const note = notes[row % length] + String();
+      const note = notes[row % length] + String(pitch);
       return renderSequence(_pattern, note, row);
     });
   }
 
-  function renderSequence(_pattern, _note, row = 0) {
+  function renderSequence(_pattern = pattern, _note = note, row = 0) {
     return (
       <div className={styles.sequence} key={`R-${row}-N${note}`}>
+        <div className={styles.noteTile}>
+          <h3>{_note.replace(/[0-9]/g, '')}</h3>
+        </div>
         {_pattern.map((active, col) => {
           return (
             <Tile
@@ -32,6 +57,8 @@ const Sequencer = React.memo(function Sequencer({
               row={row}
               col={col}
               toggleActive={toggleActive}
+              handlePainting={handlePainting}
+              isPainting={isPainting}
             />
           );
         })}
@@ -40,14 +67,13 @@ const Sequencer = React.memo(function Sequencer({
   }
 
   return (
-    <div className={styles.sequencer}>
-      {keyboard ? renderKeyboard() : renderSequence(pattern, note)}
+    <div className={styles.sequencer} onMouseLeave={() => setIsPainting(false)}>
+      {keyboard ? renderKeyboard() : renderSequence()}
     </div>
   );
 },
 compareChangeInPattern);
 
-//Only rerender the sequencer when there is a change in the pattern
 function compareChangeInPattern(prevProps, newProps) {
   return (
     prevProps.pattern === newProps.pattern &&
@@ -56,29 +82,3 @@ function compareChangeInPattern(prevProps, newProps) {
 }
 
 export default Sequencer;
-
-// const notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-// notes[row % length] + String()
-// const length = Array.isArray(notes) && notes.length;
-
-// function renderSequence() {
-//   return pattern.map((arr, row) => {
-//     return (
-//       <div className={styles.sequence} key={`R-${row}-N${note}`}>
-//         {arr.map((active, col) => {
-//           return (
-//             <Tile
-//               instrument={instrument}
-//               note={note}
-//               key={`R-${row}-C${col}-N${note}`}
-//               active={active !== 0}
-//               row={row}
-//               col={col}
-//               toggleActive={toggleActive}
-//             />
-//           );
-//         })}
-//       </div>
-//     );
-//   });
-// }

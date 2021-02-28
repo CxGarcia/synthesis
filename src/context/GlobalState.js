@@ -2,7 +2,7 @@ import React, { createContext, useContext, useReducer } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import * as Tone from 'tone';
 
-const StateContext = createContext();
+const StateContext = createContext(null);
 StateContext.displayName = 'StateContext';
 
 function StateProvider({ children }) {

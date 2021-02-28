@@ -1,3 +1,5 @@
+@import '../../global-styles/variables';
+
 .sequencer {
   display: flex;
   flex-flow: column wrap;
@@ -12,4 +14,17 @@
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
+}
+
+.noteTile {
+  width: 2rem;
+  padding: 0.25rem;
+  height: fit-content;
+  background-color: $secondary;
+  border-radius: 5px;
+  transform: rotate(270deg);
+  color: $primary;
+  font-family: 'Montserrat';
+  font-weight: 600;
+  border: 1px solid $primary;
 }

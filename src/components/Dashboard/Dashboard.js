@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
-import { useGlobalState } from '../../context/GlobalState';
-import instrumentComponents from '../instruments/index';
+import { useGlobalState } from 'context/GlobalState';
+import instrumentComponents from 'components/instruments/index';
 
-import Select from '../Select/Select';
+import Select from 'components/Select/Select';
 import { Play, Pause } from '../../resources/icons/index';
 
 import styles from './Dashboard.module.scss';
@@ -60,6 +60,7 @@ function Dashboard() {
 
       switch (which) {
         case 32: {
+          event.preventDefault();
           handleTransport();
           return;
         }
@@ -108,7 +109,7 @@ function Dashboard() {
           />
         </div>
       </div>
-      {renderInstruments()}
+      <div className={styles.instruments}>{renderInstruments()}</div>
     </div>
   );
 }

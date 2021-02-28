@@ -15,42 +15,77 @@ function Synth({ Tone, dispatch, effects, id, active, volume }) {
   const [pattern, setPattern] = useState([]);
   const [name, setName] = useState('synth');
   const [configs, setConfigs] = useState({
-    bars: 1,
+    bars: 2,
     subdivisions: 16,
+    pitchRange: '3-4',
   });
 
-  const synthRef = useRef(null);
-
+  // const notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
+  const notes = [
+    'C',
+    'C#',
+    'D',
+    'D#',
+    'E',
+    'F',
+    'F#',
+    'G',
+    'G#',
+    'A',
+    'A#',
+    'B',
+  ];
   const [chords, setChords] = useState(
     createArr(configs.subdivisions * configs.bars, [])
   );
 
-  const notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-
   useEffect(() => {
     const _synth = new Tone.PolySynth(Tone.Synth, {
-      volume: -8,
+      volume: volume,
       portamento: 0.005,
     }).toDestination();
 
-    _synth.volume.value = volume;
-    synthRef.current = _synth;
+    _synth.set({
+      oscillator: { volume: 0, type: 'triangle' },
+      envelope: { attack: 0.5, decay: 0.5, sustain: 0.5, release: 1 },
+      filter: { type: 'lowpass', frequency: 200 },
+      filterEnvelope: {
+        frequency: 200,
+        attack: 0.1,
+        decay: 0,
+        sustain: 0,
+        release: 0,
+      },
+    });
 
     setSynth(_synth);
 
-    return () => synthRef.current.dispose();
+    return () => {
+      console.log('disposing synth');
+      synth && synth.dispose();
+    };
   }, [Tone.PolySynth, Tone.Synth, volume]);
 
   const toggleActive = useCallback(
     (note, row, col) => {
       const _pattern = [...pattern];
+      let _chords;
 
-      const _chords = chords.map((chord, idx) => {
-        if (idx !== col) return chord;
-        else return [...chord, note];
-      });
+      if (_pattern[row][col] === 0) {
+        _chords = chords.map((chord, idx) => {
+          if (idx !== col) return chord;
+          else return [...chord, note];
+        });
 
-      _pattern[row][col] = _pattern[row][col] === 0 ? note : 0;
+        _pattern[row][col] = 1;
+      } else {
+        _chords = chords.map((chord, idx) => {
+          if (idx !== col) return chord;
+          else return chord.filter((_note) => _note !== note);
+        });
+
+        _pattern[row][col] = 0;
+      }
 
       setPattern(_pattern);
       setChords(_chords);
@@ -87,10 +122,14 @@ function Synth({ Tone, dispatch, effects, id, active, volume }) {
 
   // add effects to synth, if any
   useEffect(() => {
-    if (synth == null) return;
+    if (!synth) return;
     const _effects = effects.map((_effect) => _effect.method);
 
     synth.chain(..._effects, Tone.Destination);
+
+    // return () => {
+    //   _effects.forEach((_effect) => _effect.dispose());
+    // };
   }, [Tone.Destination, Tone.destination, effects, synth]);
 
   useLayoutEffect(() => {
@@ -120,12 +159,14 @@ function Synth({ Tone, dispatch, effects, id, active, volume }) {
             FX
           </div>
         </div>
-        <Sequencer
-          instrument={synth}
-          pattern={pattern}
-          toggleActive={toggleActive}
-          keyboard={true}
-        />
+        <div className={styles.keyboard}>
+          <Sequencer
+            instrument={synth}
+            pattern={pattern}
+            toggleActive={toggleActive}
+            keyboard={true}
+          />
+        </div>
       </div>
     </>
   );

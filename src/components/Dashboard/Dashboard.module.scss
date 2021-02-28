@@ -3,7 +3,7 @@
 .container {
   height: 100vh;
   width: 100vw;
-  overflow: hidden;
+  // overflow: hidden;
   padding: 2.5rem;
 }
 
@@ -73,4 +73,11 @@
     width: fit-content;
     transform: rotate(270deg);
   }
+}
+
+.instruments {
+  display: flex;
+  flex-flow: column nowrap;
+  height: 100vh;
+  overflow: scroll;
 }

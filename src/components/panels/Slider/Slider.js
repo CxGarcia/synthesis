@@ -13,7 +13,7 @@ function Slider({
 }) {
   const [value, setValue] = useState(defaultVal);
 
-  const debouncedHandleChangeFn = useDebounce(handleChangeFn, 100);
+  const debouncedHandleChangeFn = useDebounce(handleChangeFn, 250);
 
   function handleChange(event) {
     event.preventDefault();
