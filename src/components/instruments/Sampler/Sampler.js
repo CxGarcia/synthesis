@@ -10,17 +10,22 @@ import Select from '../../Select/Select';
 import styles from './Sampler.module.scss';
 import { createArr } from '../../../utils';
 
-function Sampler({ Tone, dispatch, effects, id, active, volume }) {
-  const [configs, setConfigs] = useState({
-    bars: 1,
-    subdivisions: 16,
-  });
-
+function Sampler({
+  Tone,
+  dispatch,
+  effects,
+  id,
+  active,
+  volume,
+  bars,
+  subdivisions,
+}) {
   const [instrument, setInstrument] = useState('kick');
   const [sample, setSample] = useState(null);
   const [pattern, setPattern] = useState([]);
   const [name, setName] = useState('sampler');
 
+  const totalTiles = bars * subdivisions;
   const note = 'F1';
   // const pitch = 1;
 
@@ -50,16 +55,16 @@ function Sampler({ Tone, dispatch, effects, id, active, volume }) {
   }, [Tone.Destination, Tone.destination, effects, sample]);
 
   useLayoutEffect(() => {
-    setPattern(createArr(configs.bars * configs.subdivisions));
-  }, [configs.bars, configs.subdivisions]);
+    setPattern(createArr(totalTiles));
+  }, [bars, dispatch, id, subdivisions, totalTiles]);
 
   useEffect(() => {
     const sequence = new Tone.Sequence(
       (time, col) => {
         if (pattern[col] !== 0) sample.triggerAttackRelease(note, '1n', time);
       },
-      createArr(configs.subdivisions * configs.bars, null, (_, idx) => idx),
-      `${configs.subdivisions}n`
+      createArr(totalTiles, null, (_, idx) => idx),
+      `${subdivisions}n`
     );
 
     sequence.loop = true;
@@ -70,7 +75,7 @@ function Sampler({ Tone, dispatch, effects, id, active, volume }) {
       sequence.dispose();
     };
     //eslint-disable-next-line
-  }, [Tone.Sequence, configs.bars, configs.subdivisions, pattern, sample]);
+  }, [Tone.Sequence, bars, subdivisions, pattern, sample]);
 
   const toggleActive = useCallback(
     (note, _, col) => {

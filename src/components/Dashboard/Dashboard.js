@@ -1,22 +1,22 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useGlobalState } from 'context/GlobalState';
-import instrumentComponents from 'components/instruments/index';
 
+import instrumentComponents from 'components/instruments/index';
 import Select from 'components/Select/Select';
+import InstrumentPanel from 'components/panels/InstrumentPanel/InstrumentPanel';
+import TransportPosition from 'components/panels/TransportPosition/TransportPosition';
+
 import { Play, Pause } from '../../resources/icons/index';
 
 import styles from './Dashboard.module.scss';
-import { useEffect } from 'react';
-import InstrumentPanel from '../panels/InstrumentPanel/InstrumentPanel';
 
 function Dashboard() {
   const [state, dispatch] = useGlobalState();
-  const { instruments, Tone, activeInstrumentId, effectsList } = state;
+  const { instruments, Tone, activeInstrumentId, effectsList, maxBars } = state;
 
   const [playState, setPlayState] = useState(Tone.Transport.state);
-  const [activeCol, setActiveCol] = useState(0);
 
-  Tone.Transport.bpm.value = 120;
+  // Tone.Transport.bpm.value = 120;
 
   const handleCreateInstrument = (selectedInstrument) =>
     dispatch({ type: 'CREATE_INSTRUMENT', selectedInstrument });
@@ -32,7 +32,14 @@ function Dashboard() {
   // Create component dynamically, based on the instrument that the user selects
   function renderInstruments() {
     return instruments.map((_instrument) => {
-      const { instrument, id, effects, volume } = _instrument;
+      const {
+        instrument,
+        id,
+        effects,
+        volume,
+        bars,
+        subdivisions,
+      } = _instrument;
 
       const newInstrument = React.createElement(
         instrumentComponents[instrument],
@@ -43,6 +50,8 @@ function Dashboard() {
           effects,
           dispatch,
           volume,
+          bars,
+          subdivisions,
           active: id === activeInstrumentId,
         }
       );
@@ -109,6 +118,9 @@ function Dashboard() {
           />
         </div>
       </div>
+      {instruments.length > 0 && (
+        <TransportPosition Tone={Tone} maxBars={maxBars} />
+      )}
       <div className={styles.instruments}>{renderInstruments()}</div>
     </div>
   );

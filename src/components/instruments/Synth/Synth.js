@@ -10,13 +10,21 @@ import Sequencer from '../../Sequencer/Sequencer';
 import styles from './Synth.module.scss';
 import { createArr, createMatrix } from '../../../utils';
 
-function Synth({ Tone, dispatch, effects, id, active, volume }) {
+function Synth({
+  Tone,
+  dispatch,
+  effects,
+  id,
+  active,
+  volume,
+  bars,
+  subdivisions,
+}) {
   const [synth, setSynth] = useState(null);
   const [pattern, setPattern] = useState([]);
   const [name, setName] = useState('synth');
+  const totalTiles = bars * subdivisions;
   const [configs, setConfigs] = useState({
-    bars: 2,
-    subdivisions: 16,
     pitchRange: '3-4',
   });
 
@@ -35,9 +43,8 @@ function Synth({ Tone, dispatch, effects, id, active, volume }) {
     'A#',
     'B',
   ];
-  const [chords, setChords] = useState(
-    createArr(configs.subdivisions * configs.bars, [])
-  );
+
+  const [chords, setChords] = useState([]);
 
   useEffect(() => {
     const _synth = new Tone.PolySynth(Tone.Synth, {
@@ -64,6 +71,7 @@ function Synth({ Tone, dispatch, effects, id, active, volume }) {
       console.log('disposing synth');
       synth && synth.dispose();
     };
+    //eslint-disable-next-line
   }, [Tone.PolySynth, Tone.Synth, volume]);
 
   const toggleActive = useCallback(
@@ -100,8 +108,8 @@ function Synth({ Tone, dispatch, effects, id, active, volume }) {
         synth.triggerAttackRelease(chords[col], '8n', time);
       },
 
-      createArr(configs.subdivisions * configs.bars, null, (_, idx) => idx),
-      `${configs.subdivisions}n`
+      createArr(totalTiles, null, (_, idx) => idx),
+      `${subdivisions}n`
     );
 
     sequence.loop = true;
@@ -111,14 +119,7 @@ function Synth({ Tone, dispatch, effects, id, active, volume }) {
       console.log('disposing sequence');
       sequence.dispose();
     };
-  }, [
-    Tone.Sequence,
-    chords,
-    configs.bars,
-    configs.subdivisions,
-    pattern,
-    synth,
-  ]);
+  }, [Tone.Sequence, chords, pattern, subdivisions, synth, totalTiles]);
 
   // add effects to synth, if any
   useEffect(() => {
@@ -133,8 +134,9 @@ function Synth({ Tone, dispatch, effects, id, active, volume }) {
   }, [Tone.Destination, Tone.destination, effects, synth]);
 
   useLayoutEffect(() => {
-    setPattern(createMatrix(notes.length, configs.subdivisions * configs.bars));
-  }, [configs.bars, configs.subdivisions, notes.length]);
+    setPattern(createMatrix(notes.length, totalTiles));
+    setChords(createArr(totalTiles, []));
+  }, [notes.length, totalTiles]);
 
   const handleSetActiveInstrument = () =>
     dispatch({ type: 'SET_ACTIVE_INSTRUMENT', id });

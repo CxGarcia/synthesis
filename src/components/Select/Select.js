@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import styles from './Select.module.scss';
 
-function Select({ options, onChangeFn, defaultOption }) {
+function Select({ options, onChangeFn, defaultOption, initialOption }) {
   const selectRef = useRef(null);
 
   function renderOptions() {
@@ -9,7 +9,7 @@ function Select({ options, onChangeFn, defaultOption }) {
 
     return _options.map((option, idx) => (
       <option value={option} key={idx}>
-        {option.replace('-', ' ')}
+        {option}
       </option>
     ));
   }
@@ -23,7 +23,12 @@ function Select({ options, onChangeFn, defaultOption }) {
 
   return (
     <>
-      <select className={styles.select} onChange={handleChange} ref={selectRef}>
+      <select
+        className={styles.select}
+        onChange={handleChange}
+        value={initialOption}
+        ref={selectRef}
+      >
         {renderOptions()}
       </select>
     </>

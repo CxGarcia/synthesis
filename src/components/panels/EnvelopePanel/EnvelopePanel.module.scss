@@ -2,12 +2,8 @@
 
 .subPanelContainer {
   display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  margin: 0 2rem;
+  flex-flow: row nowrap;
+  align-items: center;
   color: $text;
   font-family: 'Montserrat';
-  & > * {
-    margin: 0.25rem 0;
-  }
 }

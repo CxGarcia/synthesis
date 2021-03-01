@@ -1,10 +1,9 @@
-@import '../../global-styles/variables';
+@import 'global-styles/variables';
 
 .tile {
   background: $secondary;
   height: 2rem;
   width: 2rem;
-  color: white;
   border: 1px solid $primary;
   border-radius: 5px;
 }

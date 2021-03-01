@@ -26,7 +26,7 @@ function Slider({
   return (
     <>
       <label htmlFor="input">
-        <h3>{label}</h3>
+        <h3 className={styles.sliderLabel}>{label}</h3>
       </label>
       <input
         type="range"

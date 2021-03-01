@@ -1,4 +1,4 @@
-@import '../../global-styles/variables';
+@import 'global-styles/variables';
 
 .sequencer {
   display: flex;
@@ -24,7 +24,9 @@
   border-radius: 5px;
   transform: rotate(270deg);
   color: $primary;
-  font-family: 'Montserrat';
   font-weight: 600;
   border: 1px solid $primary;
+  &:hover {
+    cursor: pointer;
+  }
 }

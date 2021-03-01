@@ -6,12 +6,11 @@ const StateContext = createContext(null);
 StateContext.displayName = 'StateContext';
 
 function StateProvider({ children }) {
-  // const { projects, tasks } = useAuth(); Fetch initial projects from db
-
   const [state, dispatch] = useReducer(stateReducer, {
     instruments: [],
     activeInstrumentId: null,
     Tone: Tone,
+    maxBars: 1,
     effectsList: [
       { name: 'distortion', method: new Tone.Distortion(0.8) },
       {
@@ -52,7 +51,12 @@ function stateReducer(state, action) {
       //TODO replace with DB _id to get the configs, etc.
       const id = uuidv4();
       const { selectedInstrument } = action;
-      const defaultSettings = { effects: [], volume: -25 };
+      const defaultSettings = {
+        effects: [],
+        volume: -25,
+        subdivisions: 16,
+        bars: 1,
+      };
 
       const instrument = {
         instrument: selectedInstrument,
@@ -67,7 +71,10 @@ function stateReducer(state, action) {
     }
 
     case 'UPDATE_INSTRUMENT': {
-      return { ...state, projects: [...state.projects, action.project] };
+      return {
+        ...state,
+        instruments: [...state.intruments, action.intruments],
+      };
     }
 
     case 'DELETE_INSTRUMENT': {
@@ -123,15 +130,6 @@ function stateReducer(state, action) {
       };
     }
 
-    case 'SET_ACTIVE_INSTRUMENT': {
-      const { id } = action;
-
-      return {
-        ...state,
-        activeInstrumentId: id,
-      };
-    }
-
     case 'UPDATE_INSTRUMENT_VOLUME': {
       const { volume } = action;
       const { instruments, activeInstrumentId } = state;
@@ -148,6 +146,33 @@ function stateReducer(state, action) {
       };
     }
 
+    case 'SET_ACTIVE_INSTRUMENT': {
+      const { id } = action;
+
+      return {
+        ...state,
+        activeInstrumentId: id,
+      };
+    }
+
+    case 'SET_BARS': {
+      const { bars } = action;
+      const { instruments, activeInstrumentId, maxBars } = state;
+      const _bars = fractionStrToDecimal(bars);
+
+      const _instruments = instruments.map((_instrument) => {
+        if (_instrument.id !== activeInstrumentId) return _instrument;
+
+        return { ..._instrument, bars: _bars };
+      });
+
+      return {
+        ...state,
+        instruments: _instruments,
+        maxBars: _bars > maxBars ? _bars : maxBars,
+      };
+    }
+
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
@@ -155,3 +180,7 @@ function stateReducer(state, action) {
 }
 
 export { StateProvider, useGlobalState };
+
+function fractionStrToDecimal(str) {
+  return str.split('/').reduce((p, c) => p / c);
+}

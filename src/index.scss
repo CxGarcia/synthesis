@@ -42,9 +42,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+:root,
 * {
-  box-sizing: border-box;
   font-family: 'Montserrat';
+  box-sizing: border-box;
 }
 
 /* RESET CSS */

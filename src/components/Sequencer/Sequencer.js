@@ -4,6 +4,8 @@ import { useDebounce } from 'utils/index';
 
 import styles from './Sequencer.module.scss';
 
+const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+
 const Sequencer = React.memo(function Sequencer({
   instrument,
   pattern,
@@ -19,21 +21,6 @@ const Sequencer = React.memo(function Sequencer({
   }
 
   function renderKeyboard() {
-    const notes = [
-      'C',
-      'C#',
-      'D',
-      'D#',
-      'E',
-      'F',
-      'F#',
-      'G',
-      'G#',
-      'A',
-      'A#',
-      'B',
-    ];
-
     const length = notes.length;
     return pattern.map((_pattern, row) => {
       const note = notes[row % length] + String(pitch);
@@ -44,7 +31,10 @@ const Sequencer = React.memo(function Sequencer({
   function renderSequence(_pattern = pattern, _note = note, row = 0) {
     return (
       <div className={styles.sequence} key={`R-${row}-N${note}`}>
-        <div className={styles.noteTile}>
+        <div
+          className={styles.noteTile}
+          onMouseDown={() => instrument.triggerAttackRelease(_note, '4n')}
+        >
           <h3>{_note.replace(/[0-9]/g, '')}</h3>
         </div>
         {_pattern.map((active, col) => {
