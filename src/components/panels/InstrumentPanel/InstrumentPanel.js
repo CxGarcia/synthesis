@@ -1,8 +1,8 @@
 import React from 'react';
 
 import Slider from '../Slider/Slider';
-import EffectsPanel from '../EffectsPanel/EffectsPanel';
-import EnvelopePanel from '../EnvelopePanel/EnvelopePanel';
+import EffectsPanel from '@panels/EffectsPanel/EffectsPanel';
+import ChartADSR from '@panels/ChartADSR/ChartADSR';
 import Select from '@components/Select/Select';
 import { createArr } from '@utils/';
 
@@ -16,8 +16,7 @@ function InstrumentPanel({ dispatch, Tone, activeInstrument, effectsList }) {
       </div>
     );
 
-  const { effects, volume, bars, pitch } = activeInstrument;
-  console.log(activeInstrument);
+  const { effects, volume, bars, pitch, envelope } = activeInstrument;
 
   const handleVolume = (_volume) =>
     dispatch({ type: 'UPDATE_INSTRUMENT_VOLUME', volume: _volume });
@@ -33,6 +32,7 @@ function InstrumentPanel({ dispatch, Tone, activeInstrument, effectsList }) {
 
   return (
     <>
+      <ChartADSR envelope={envelope} dispatch={dispatch} />
       <div className={styles.subPanelContainer}>
         <EffectsPanel
           Tone={Tone}
@@ -60,7 +60,6 @@ function InstrumentPanel({ dispatch, Tone, activeInstrument, effectsList }) {
           defaultVal={+volume}
           label="VOL"
         />
-        {/* <EnvelopePanel /> */}
       </div>
     </>
   );

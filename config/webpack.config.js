@@ -333,6 +333,9 @@ module.exports = function (webpackEnv) {
         '@utils': path.resolve('src/utils/'),
         '@resources': path.resolve('src/resources/'),
         '@context': path.resolve('src/context/'),
+        '@panels': path.resolve('src/components/panels/'),
+        '@instruments': path.resolve('src/components/instruments/'),
+        '@effects': path.resolve('src/components/effects/'),
 
         // Allows for better profiling with ReactDevTools
         ...(isEnvProductionProfile && {

@@ -1,10 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useGlobalState } from '@context/GlobalState';
 
-import instrumentComponents from '@components/instruments';
+import instrumentComponents from '@instruments';
+import InstrumentPanel from '@panels/InstrumentPanel/InstrumentPanel';
+import TransportPosition from '@panels/TransportPosition/TransportPosition';
 import Select from '@components/Select/Select';
-import InstrumentPanel from '@components/panels/InstrumentPanel/InstrumentPanel';
-import TransportPosition from '@components/panels/TransportPosition/TransportPosition';
 
 import { Play, Pause } from '@resources/icons';
 
@@ -40,6 +40,7 @@ function Dashboard() {
         bars,
         subdivisions,
         pitch,
+        envelope,
       } = _instrument;
 
       const newInstrument = React.createElement(
@@ -54,6 +55,7 @@ function Dashboard() {
           bars,
           subdivisions,
           pitch,
+          envelope,
           active: id === activeInstrumentId,
         }
       );

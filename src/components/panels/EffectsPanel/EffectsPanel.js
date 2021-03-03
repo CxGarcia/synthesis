@@ -9,23 +9,28 @@ function EffectsPanel({ activeInstrumentEffects, dispatch, effectsList }) {
     dispatch({ type: 'ADD_EFFECT_TO_INSTRUMENT', effect: _effect });
   }
 
-  const handleRemoveEffect = (effect) => {};
+  const handleRemoveEffect = (effect) => {
+    console.log(effect);
+  };
 
   function renderEffects() {
-    const effectNames = effectsList.map((_effect) => _effect.name);
+    // const effectNames = effectsList.map((_effect) => _effect.name);
 
-    return effectNames.map((_effect, idx) => {
+    return effectsList.map((_effect, idx) => {
       const active =
         activeInstrumentEffects &&
-        activeInstrumentEffects.find((_eff) => _eff.name === _effect);
+        activeInstrumentEffects.some((_eff) => _eff.name === _effect.name);
+
       return (
         <div className={styles.effect} key={idx}>
           <Switch active={active} handleAddEffect={handleAddEffect} />
           <h3
-            onClick={() => handleAddEffect(_effect)}
+            onClick={() =>
+              active ? handleRemoveEffect(_effect) : handleAddEffect(_effect)
+            }
             className={active && styles.activeTitle}
           >
-            {_effect}
+            {_effect.name}
           </h3>
         </div>
       );

@@ -52,11 +52,12 @@ function stateReducer(state, action) {
       const id = uuidv4();
       const { selectedInstrument } = action;
       const defaultSettings = {
-        effects: [],
+        effects: [{ name: 'distortion', method: new Tone.Distortion(0.8) }],
         volume: -25,
         subdivisions: 16,
         bars: 1,
         pitch: 4,
+        envelope: [0.1, 0.5, 0.25, 0.5],
       };
 
       const instrument = {
@@ -95,10 +96,10 @@ function stateReducer(state, action) {
 
     case 'ADD_EFFECT_TO_INSTRUMENT': {
       const { effect } = action;
-      const { instruments, activeInstrumentId: id } = state;
+      const { instruments, activeInstrumentId } = state;
 
       const _instruments = instruments.map((_instrument) => {
-        if (_instrument.id !== id) return _instrument;
+        if (_instrument.id !== activeInstrumentId) return _instrument;
         const { effects } = _instrument;
 
         return { ..._instrument, effects: [...effects, effect] };
@@ -118,7 +119,7 @@ function stateReducer(state, action) {
         if (_instrument.id !== id) return _instrument;
         const { effects } = _instrument;
 
-        const effectObj = state.effectsList.find(
+        const effectObj = state.effectsList.filter(
           (_effect) => _effect.name === effect
         );
 
@@ -182,6 +183,22 @@ function stateReducer(state, action) {
         if (_instrument.id !== activeInstrumentId) return _instrument;
 
         return { ..._instrument, pitch: pitch };
+      });
+
+      return {
+        ...state,
+        instruments: _instruments,
+      };
+    }
+
+    case 'SET_ENVELOPE': {
+      const { values } = action;
+      const { instruments, activeInstrumentId } = state;
+
+      const _instruments = instruments.map((_instrument) => {
+        if (_instrument.id !== activeInstrumentId) return _instrument;
+
+        return { ..._instrument, envelope: values };
       });
 
       return {

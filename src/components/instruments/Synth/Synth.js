@@ -55,6 +55,7 @@ function Synth({
   bars,
   subdivisions,
   pitch,
+  envelope,
 }) {
   const [synth, setSynth] = useState(null);
   const [pattern, setPattern] = useState([]);
@@ -80,6 +81,8 @@ function Synth({
   const [chords, setChords] = useState([]);
 
   useEffect(() => {
+    const [attack, decay, sustain, release] = envelope;
+
     const _synth = new Tone.PolySynth(Tone.Synth, {
       volume: volume,
       portamento: 0.005,
@@ -87,7 +90,7 @@ function Synth({
 
     _synth.set({
       oscillator: { volume: 12, type: 'sine' },
-      envelope: { attack: 0.1, decay: 0.5, sustain: 0.25, release: 0.5 },
+      envelope: { attack, decay, sustain, release },
       // filterEnvelope: {
       //   frequency: 100,
       //   attack: 0.1,
@@ -104,7 +107,7 @@ function Synth({
       synth && synth.dispose();
     };
     //eslint-disable-next-line
-  }, [Tone.PolySynth, Tone.Synth, volume]);
+  }, [Tone.PolySynth, Tone.Synth, volume, envelope]);
 
   const toggleActive = (note, row, col) => {
     const _pattern = [...pattern];

@@ -6,7 +6,10 @@
       "@styles/*": ["global-styles/*"],
       "@utils/*": ["utils/*"],
       "@resources/*": ["resources/*"],
-      "@context/*": ["context/*"]
+      "@context/*": ["context/*"],
+      "@panels/*": ["components/panels/*"],
+      "@instruments/*": ["components/instruments/*"],
+      "@effects/*": ["components/effects/*"]
     }
   },
   "include": ["src"]
