@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createArr } from 'utils/index';
 
 import styles from './TransportPosition.module.scss';
 
 function TransportPosition({ Tone, maxBars }) {
   const [activeCol, setActiveCol] = useState(Tone.Transport.position);
+
+  const sequenceRef = useRef(null);
   const tiles = maxBars * 16;
 
   useEffect(() => {
@@ -16,6 +18,7 @@ function TransportPosition({ Tone, maxBars }) {
       `16n`
     );
 
+    sequenceRef.current = sequence;
     sequence.loop = true;
     sequence.start(0);
 

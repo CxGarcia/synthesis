@@ -10,6 +10,40 @@ import Sequencer from '../../Sequencer/Sequencer';
 import styles from './Synth.module.scss';
 import { createArr, createMatrix } from '../../../utils';
 
+const savedPattern = [
+  ['D#2'],
+  [],
+  [],
+  ['C2'],
+  [],
+  [],
+  ['G2'],
+  [],
+  [],
+  [],
+  ['D#2'],
+  [],
+  ['C2'],
+  [],
+  [],
+  [],
+];
+
+const savedMatrix = [
+  [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+];
+
 function Synth({
   Tone,
   dispatch,
@@ -19,14 +53,12 @@ function Synth({
   volume,
   bars,
   subdivisions,
+  pitch,
 }) {
   const [synth, setSynth] = useState(null);
   const [pattern, setPattern] = useState([]);
   const [name, setName] = useState('synth');
   const totalTiles = bars * subdivisions;
-  const [configs, setConfigs] = useState({
-    pitchRange: '3-4',
-  });
 
   // const notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
   const notes = [
@@ -53,16 +85,15 @@ function Synth({
     }).toDestination();
 
     _synth.set({
-      oscillator: { volume: 0, type: 'triangle' },
-      envelope: { attack: 0.5, decay: 0.5, sustain: 0.5, release: 1 },
-      filter: { type: 'lowpass', frequency: 200 },
-      filterEnvelope: {
-        frequency: 200,
-        attack: 0.1,
-        decay: 0,
-        sustain: 0,
-        release: 0,
-      },
+      oscillator: { volume: 12, type: 'sine' },
+      envelope: { attack: 0.1, decay: 0.5, sustain: 0.25, release: 0.5 },
+      // filterEnvelope: {
+      //   frequency: 100,
+      //   attack: 0.1,
+      //   decay: 0.2,
+      //   sustain: 0.1,
+      //   release: 0,
+      // },
     });
 
     setSynth(_synth);
@@ -134,8 +165,8 @@ function Synth({
   }, [Tone.Destination, Tone.destination, effects, synth]);
 
   useLayoutEffect(() => {
-    setPattern(createMatrix(notes.length, totalTiles));
-    setChords(createArr(totalTiles, []));
+    setPattern(savedMatrix || createMatrix(notes.length, totalTiles));
+    setChords(savedPattern || createArr(totalTiles, []));
   }, [notes.length, totalTiles]);
 
   const handleSetActiveInstrument = () =>
@@ -167,6 +198,7 @@ function Synth({
             pattern={pattern}
             toggleActive={toggleActive}
             keyboard={true}
+            pitch={pitch}
           />
         </div>
       </div>

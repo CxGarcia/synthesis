@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import styles from './Slider.module.scss';
 import { useDebounce } from '../../../utils/index';
+import { useEffect } from 'react';
 
 function Slider({
   handleChangeFn,
@@ -9,12 +10,16 @@ function Slider({
   max = 100,
   step = 1,
   label,
-  defaultVal = 50,
+  defaultVal,
 }) {
   const [value, setValue] = useState(defaultVal);
 
-  const debouncedHandleChangeFn = useDebounce(handleChangeFn, 250);
+  //If default val changes (because there is a new active instrument for example), the slider position should change
+  useEffect(() => {
+    setValue(defaultVal);
+  }, [defaultVal]);
 
+  const debouncedHandleChangeFn = useDebounce(handleChangeFn, 250);
   function handleChange(event) {
     event.preventDefault();
 

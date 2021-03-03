@@ -56,6 +56,7 @@ function stateReducer(state, action) {
         volume: -25,
         subdivisions: 16,
         bars: 1,
+        pitch: 4,
       };
 
       const instrument = {
@@ -170,6 +171,22 @@ function stateReducer(state, action) {
         ...state,
         instruments: _instruments,
         maxBars: _bars > maxBars ? _bars : maxBars,
+      };
+    }
+
+    case 'SET_PITCH': {
+      const { pitch } = action;
+      const { instruments, activeInstrumentId } = state;
+
+      const _instruments = instruments.map((_instrument) => {
+        if (_instrument.id !== activeInstrumentId) return _instrument;
+
+        return { ..._instrument, pitch: pitch };
+      });
+
+      return {
+        ...state,
+        instruments: _instruments,
       };
     }
 

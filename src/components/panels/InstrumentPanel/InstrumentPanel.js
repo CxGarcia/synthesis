@@ -15,15 +15,20 @@ function InstrumentPanel({ dispatch, Tone, activeInstrument, effectsList }) {
       </div>
     );
 
-  const { effects, volume, bars } = activeInstrument;
+  const { effects, volume, bars, pitch } = activeInstrument;
+  console.log(activeInstrument);
 
   const handleVolume = (_volume) =>
     dispatch({ type: 'UPDATE_INSTRUMENT_VOLUME', volume: _volume });
 
   const handleMaxTiles = (_bars) => dispatch({ type: 'SET_BARS', bars: _bars });
 
+  const handlePitch = (_pitch) =>
+    dispatch({ type: 'SET_PITCH', pitch: _pitch });
+
   // const barsOptions = createArr(4, 2, (el, idx) => el ** (idx + 2));
   const barsOptions = ['1/4', '1/2', '1', '2'];
+  const pitchOptions = createArr(7, null, (_, idx) => idx + 1);
 
   return (
     <>
@@ -41,13 +46,17 @@ function InstrumentPanel({ dispatch, Tone, activeInstrument, effectsList }) {
         options={barsOptions}
         initialOption={barsOptions[getOptionsIdx(bars)]}
       />
+      <Select
+        onChangeFn={handlePitch}
+        options={pitchOptions}
+        initialOption={pitch}
+      />
       <div className={styles.subPanelContainer}>
         <Slider
           handleChangeFn={handleVolume}
-          volume={volume}
           min={-60}
           max={10}
-          defaultVal={volume}
+          defaultVal={+volume}
           label="VOL"
         />
         {/* <EnvelopePanel /> */}

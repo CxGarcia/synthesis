@@ -39,6 +39,7 @@ function Dashboard() {
         volume,
         bars,
         subdivisions,
+        pitch,
       } = _instrument;
 
       const newInstrument = React.createElement(
@@ -52,6 +53,7 @@ function Dashboard() {
           volume,
           bars,
           subdivisions,
+          pitch,
           active: id === activeInstrumentId,
         }
       );
