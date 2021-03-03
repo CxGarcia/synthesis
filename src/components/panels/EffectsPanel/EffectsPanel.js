@@ -1,36 +1,38 @@
 import React from 'react';
 import styles from './EffectsPanel.module.scss';
-// import Switch from 'react-switch';
 import Switch from '../Switch/Switch';
 
 function EffectsPanel({ activeInstrumentEffects, dispatch, effectsList }) {
-  function handleAddEffect(effect) {
-    const _effect = effectsList.find((_eff) => _eff.name === effect);
-    dispatch({ type: 'ADD_EFFECT_TO_INSTRUMENT', effect: _effect });
+  function handleEffect(effect, active) {
+    active ? handleRemoveEffect(effect) : handleAddEffect(effect);
   }
 
-  const handleRemoveEffect = (effect) => {
-    console.log(effect);
-  };
+  function handleAddEffect(effect) {
+    dispatch({ type: 'ADD_EFFECT_TO_INSTRUMENT', effect });
+  }
+
+  function handleRemoveEffect(effect) {
+    dispatch({ type: 'REMOVE_EFFECT_FROM_INSTRUMENT', effect });
+  }
 
   function renderEffects() {
-    // const effectNames = effectsList.map((_effect) => _effect.name);
-
     return effectsList.map((_effect, idx) => {
       const active =
         activeInstrumentEffects &&
-        activeInstrumentEffects.some((_eff) => _eff.name === _effect.name);
+        activeInstrumentEffects.some((_eff) => _eff.name === _effect);
 
       return (
         <div className={styles.effect} key={idx}>
-          <Switch active={active} handleAddEffect={handleAddEffect} />
+          <Switch
+            active={active}
+            handleEffect={handleEffect}
+            effect={_effect}
+          />
           <h3
-            onClick={() =>
-              active ? handleRemoveEffect(_effect) : handleAddEffect(_effect)
-            }
-            className={active && styles.activeTitle}
+            onClick={() => handleEffect(_effect, active)}
+            className={active ? styles.activeTitle : null}
           >
-            {_effect.name}
+            {_effect}
           </h3>
         </div>
       );

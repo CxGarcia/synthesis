@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import Tile from '../Tile/Tile';
-import { useDebounce } from 'utils/index';
+import Tile from '@components/Tile/Tile';
 
 import styles from './Sequencer.module.scss';
 

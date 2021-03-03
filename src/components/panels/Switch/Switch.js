@@ -3,7 +3,7 @@ import { gsap } from 'gsap';
 
 import styles from './Switch.module.scss';
 
-function Switch({ active, handleAddEffect, effect }) {
+function Switch({ active, handleEffect, effect }) {
   const point = useRef(null);
 
   // useEffect(() => {
@@ -46,7 +46,7 @@ function Switch({ active, handleAddEffect, effect }) {
         id="Icons"
         viewBox="0 0 74 74"
         xmlns="http://www.w3.org/2000/svg"
-        onClick={() => handleAddEffect(effect)}
+        onClick={() => handleEffect(effect, active)}
       >
         <path
           ref={active ? point : null}

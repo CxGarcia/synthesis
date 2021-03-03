@@ -11,19 +11,16 @@ function StateProvider({ children }) {
     instruments: [],
     activeInstrumentId: null,
     maxBars: 1,
-    effectsList: [
-      { name: 'distortion', method: new Tone.Distortion(0.8) },
-      {
-        name: 'phaser',
-        method: new Tone.Phaser({
-          frequency: 15,
-          octaves: 5,
-          baseFrequency: 1000,
-        }),
-      },
-      { name: 'compressor', method: new Tone.Compressor(-30, 3) },
-      { name: 'hipass', method: new Tone.Filter(1500, 'highpass') },
-    ],
+    effectsList: {
+      distortion: new Tone.Distortion(0.8),
+      phaser: new Tone.Phaser({
+        frequency: 1,
+        octaves: '1',
+        baseFrequency: 100,
+      }),
+      compressor: new Tone.Compressor(-30, 3),
+      hipass: new Tone.Filter(1500, 'highpass'),
+    },
   });
 
   const value = [state, dispatch];
@@ -52,7 +49,7 @@ function stateReducer(state, action) {
       const id = uuidv4();
       const { selectedInstrument } = action;
       const defaultSettings = {
-        effects: [{ name: 'distortion', method: new Tone.Distortion(0.8) }],
+        effects: [],
         volume: -25,
         subdivisions: 16,
         bars: 1,
@@ -91,44 +88,6 @@ function stateReducer(state, action) {
         ...state,
         instruments: filteredInstruments,
         activeInstrumentId: state.activeInstrumentId === id && null,
-      };
-    }
-
-    case 'ADD_EFFECT_TO_INSTRUMENT': {
-      const { effect } = action;
-      const { instruments, activeInstrumentId } = state;
-
-      const _instruments = instruments.map((_instrument) => {
-        if (_instrument.id !== activeInstrumentId) return _instrument;
-        const { effects } = _instrument;
-
-        return { ..._instrument, effects: [...effects, effect] };
-      });
-
-      return {
-        ...state,
-        instruments: _instruments,
-      };
-    }
-
-    case 'REMOVE_EFFECT_FROM_INSTRUMENT': {
-      const { effect } = action;
-      const { instruments, activeInstrumentId: id } = state;
-
-      const _instruments = instruments.map((_instrument) => {
-        if (_instrument.id !== id) return _instrument;
-        const { effects } = _instrument;
-
-        const effectObj = state.effectsList.filter(
-          (_effect) => _effect.name === effect
-        );
-
-        return { ..._instrument, effects: [...effects, effectObj] };
-      });
-
-      return {
-        ...state,
-        instruments: _instruments,
       };
     }
 
@@ -199,6 +158,46 @@ function stateReducer(state, action) {
         if (_instrument.id !== activeInstrumentId) return _instrument;
 
         return { ..._instrument, envelope: values };
+      });
+
+      return {
+        ...state,
+        instruments: _instruments,
+      };
+    }
+
+    case 'ADD_EFFECT_TO_INSTRUMENT': {
+      const { effect } = action;
+      const { instruments, activeInstrumentId, effectsList } = state;
+
+      const _effect = { name: effect, method: effectsList[effect] };
+
+      // console.log(_effect);
+
+      const _instruments = instruments.map((_instrument) => {
+        if (_instrument.id !== activeInstrumentId) return _instrument;
+        const { effects } = _instrument;
+
+        return { ..._instrument, effects: [...effects, _effect] };
+      });
+
+      return {
+        ...state,
+        instruments: _instruments,
+      };
+    }
+
+    case 'REMOVE_EFFECT_FROM_INSTRUMENT': {
+      const { effect } = action;
+      const { instruments, activeInstrumentId } = state;
+
+      const _instruments = instruments.map((_instrument) => {
+        if (_instrument.id !== activeInstrumentId) return _instrument;
+        const { effects } = _instrument;
+
+        const _effects = effects.filter((_effect) => _effect.name !== effect);
+
+        return { ..._instrument, effects: _effects };
       });
 
       return {

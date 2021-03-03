@@ -1,0 +1,7 @@
+@import '@styles/variables';
+
+.visualizer {
+  fill: $highlights;
+  stroke: $highlights;
+  stroke-linecap: round;
+}

@@ -2,7 +2,7 @@ import React, {
   useState,
   useEffect,
   useLayoutEffect,
-  useMemo,
+  useRef,
   // useCallback,
 } from 'react';
 
@@ -10,6 +10,8 @@ import Sequencer from '@components/Sequencer/Sequencer';
 import { createArr, createMatrix } from '@utils';
 
 import styles from './Synth.module.scss';
+
+const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
 const savedPattern = [
   ['D#2'],
@@ -63,20 +65,6 @@ function Synth({
   const totalTiles = bars * subdivisions;
 
   // const notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-  const notes = [
-    'C',
-    'C#',
-    'D',
-    'D#',
-    'E',
-    'F',
-    'F#',
-    'G',
-    'G#',
-    'A',
-    'A#',
-    'B',
-  ];
 
   const [chords, setChords] = useState([]);
 
@@ -100,6 +88,10 @@ function Synth({
       // },
     });
 
+    const _effects = effects.map((_effect) => _effect.method);
+
+    _synth.chain(..._effects, Tone.Destination);
+
     setSynth(_synth);
 
     return () => {
@@ -107,31 +99,35 @@ function Synth({
       synth && synth.dispose();
     };
     //eslint-disable-next-line
-  }, [Tone.PolySynth, Tone.Synth, volume, envelope]);
+  }, [Tone.PolySynth, Tone.Synth, volume, envelope, effects]);
 
   const toggleActive = (note, row, col) => {
     const _pattern = [...pattern];
     let _chords;
 
     if (_pattern[row][col] === 0) {
-      _chords = chords.map((chord, idx) => {
-        if (idx !== col) return chord;
-        else return [...chord, note];
-      });
-
+      _chords = addNoteToChord(chords, note, col);
       _pattern[row][col] = 1;
     } else {
-      _chords = chords.map((chord, idx) => {
-        if (idx !== col) return chord;
-        else return chord.filter((_note) => _note !== note);
-      });
-
+      _chords = removeNoteFromChord(chords, note, col);
       _pattern[row][col] = 0;
     }
 
     setPattern(_pattern);
     setChords(_chords);
   };
+
+  const isInitialMount = useRef(true);
+  //TODO: decide if this feature is worth it or not
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else if (chords && !isInitialMount.current) {
+      const _chords = setNewPitchToChords(chords, pitch);
+      console.log(_chords);
+      setChords(_chords);
+    }
+  }, [pitch]);
 
   useEffect(() => {
     const sequence = new Tone.Sequence(
@@ -153,17 +149,14 @@ function Synth({
     };
   }, [Tone.Sequence, chords, pattern, subdivisions, synth, totalTiles]);
 
-  // add effects to synth, if any
-  useEffect(() => {
-    if (!synth) return;
-    const _effects = effects.map((_effect) => _effect.method);
+  // // add effects to synth, if any
+  // useEffect(() => {
+  //   if (!synth) return;
 
-    synth.chain(..._effects, Tone.Destination);
-
-    // return () => {
-    //   _effects.forEach((_effect) => _effect.dispose());
-    // };
-  }, [Tone.Destination, Tone.destination, effects, synth]);
+  //   // return () => {
+  //   //   _effects.forEach((_effect) => _effect.dispose());
+  //   // };
+  // }, [Tone.Destination, Tone.destination, effects, synth]);
 
   useLayoutEffect(() => {
     setPattern(savedMatrix || createMatrix(notes.length, totalTiles));
@@ -208,3 +201,21 @@ function Synth({
 }
 
 export default Synth;
+
+function addNoteToChord(chords, note, col) {
+  return chords.map((chord, idx) => {
+    if (idx !== col) return chord;
+    else return [...chord, note];
+  });
+}
+
+function removeNoteFromChord(chords, note, col) {
+  return chords.map((chord, idx) => {
+    if (idx !== col) return chord;
+    else return chord.filter((_note) => _note !== note);
+  });
+}
+
+function setNewPitchToChords(chords, pitch) {
+  return chords.map((chord) => chord.map((el) => el.replace(/[0-9]/g, pitch)));
+}

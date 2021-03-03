@@ -3,6 +3,7 @@ import { useGlobalState } from '@context/GlobalState';
 
 import instrumentComponents from '@instruments';
 import InstrumentPanel from '@panels/InstrumentPanel/InstrumentPanel';
+import Visualizer from '@panels/Visualizer/Visualizer';
 import TransportPosition from '@panels/TransportPosition/TransportPosition';
 import Select from '@components/Select/Select';
 
@@ -103,6 +104,7 @@ function Dashboard() {
           <div onClick={handleTransport} className={styles.transportButton}>
             {playState === 'stopped' ? <Play /> : <Pause />}
           </div>
+          <Visualizer Tone={Tone} />
           <Select
             onChangeFn={handleCreateInstrument}
             options={Object.keys(instrumentComponents)}
@@ -118,7 +120,7 @@ function Dashboard() {
             Tone={Tone}
             dispatch={dispatch}
             activeInstrument={activeInstrument}
-            effectsList={effectsList}
+            effectsList={Object.keys(effectsList)}
           />
         </div>
       </div>

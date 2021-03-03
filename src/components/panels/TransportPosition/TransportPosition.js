@@ -39,6 +39,7 @@ function TransportPosition({ Tone, maxBars }) {
               className={`${styles.tile} ${
                 idx === activeCol ? styles.active : null
               }`}
+              key={idx}
             >
               {idx + 1}
             </div>

@@ -17,7 +17,6 @@ function InstrumentPanel({ dispatch, Tone, activeInstrument, effectsList }) {
     );
 
   const { effects, volume, bars, pitch, envelope } = activeInstrument;
-
   const handleVolume = (_volume) =>
     dispatch({ type: 'UPDATE_INSTRUMENT_VOLUME', volume: _volume });
 
