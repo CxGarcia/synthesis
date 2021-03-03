@@ -1,10 +1,11 @@
 import React from 'react';
+
 import Slider from '../Slider/Slider';
 import EffectsPanel from '../EffectsPanel/EffectsPanel';
 import EnvelopePanel from '../EnvelopePanel/EnvelopePanel';
-import Select from 'components/Select/Select';
+import Select from '@components/Select/Select';
+import { createArr } from '@utils/';
 
-import { createArr } from 'utils/index';
 import styles from './InstrumentPanel.module.scss';
 
 function InstrumentPanel({ dispatch, Tone, activeInstrument, effectsList }) {

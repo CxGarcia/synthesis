@@ -1,6 +1,6 @@
 import './App.css';
-import Dashboard from './components/Dashboard/Dashboard';
-import { StateProvider } from './context/GlobalState';
+import Dashboard from '@components/Dashboard/Dashboard';
+import { StateProvider } from '@context/GlobalState';
 
 function App() {
   return (

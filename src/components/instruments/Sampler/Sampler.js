@@ -5,10 +5,11 @@ import React, {
   useCallback,
 } from 'react';
 
-import Sequencer from '../../Sequencer/Sequencer';
-import Select from '../../Select/Select';
+import Sequencer from '@components/Sequencer/Sequencer';
+import Select from '@components/Select/Select';
+import { createArr } from '@utils';
+
 import styles from './Sampler.module.scss';
-import { createArr } from '../../../utils';
 
 function Sampler({
   Tone,

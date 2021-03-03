@@ -2,13 +2,14 @@ import React, {
   useState,
   useEffect,
   useLayoutEffect,
-  useCallback,
-  useRef,
+  useMemo,
+  // useCallback,
 } from 'react';
 
-import Sequencer from '../../Sequencer/Sequencer';
+import Sequencer from '@components/Sequencer/Sequencer';
+import { createArr, createMatrix } from '@utils';
+
 import styles from './Synth.module.scss';
-import { createArr, createMatrix } from '../../../utils';
 
 const savedPattern = [
   ['D#2'],
@@ -105,32 +106,29 @@ function Synth({
     //eslint-disable-next-line
   }, [Tone.PolySynth, Tone.Synth, volume]);
 
-  const toggleActive = useCallback(
-    (note, row, col) => {
-      const _pattern = [...pattern];
-      let _chords;
+  const toggleActive = (note, row, col) => {
+    const _pattern = [...pattern];
+    let _chords;
 
-      if (_pattern[row][col] === 0) {
-        _chords = chords.map((chord, idx) => {
-          if (idx !== col) return chord;
-          else return [...chord, note];
-        });
+    if (_pattern[row][col] === 0) {
+      _chords = chords.map((chord, idx) => {
+        if (idx !== col) return chord;
+        else return [...chord, note];
+      });
 
-        _pattern[row][col] = 1;
-      } else {
-        _chords = chords.map((chord, idx) => {
-          if (idx !== col) return chord;
-          else return chord.filter((_note) => _note !== note);
-        });
+      _pattern[row][col] = 1;
+    } else {
+      _chords = chords.map((chord, idx) => {
+        if (idx !== col) return chord;
+        else return chord.filter((_note) => _note !== note);
+      });
 
-        _pattern[row][col] = 0;
-      }
+      _pattern[row][col] = 0;
+    }
 
-      setPattern(_pattern);
-      setChords(_chords);
-    },
-    [pattern, chords]
-  );
+    setPattern(_pattern);
+    setChords(_chords);
+  };
 
   useEffect(() => {
     const sequence = new Tone.Sequence(

@@ -1,12 +1,12 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { useGlobalState } from 'context/GlobalState';
+import { useGlobalState } from '@context/GlobalState';
 
-import instrumentComponents from 'components/instruments/index';
-import Select from 'components/Select/Select';
-import InstrumentPanel from 'components/panels/InstrumentPanel/InstrumentPanel';
-import TransportPosition from 'components/panels/TransportPosition/TransportPosition';
+import instrumentComponents from '@components/instruments';
+import Select from '@components/Select/Select';
+import InstrumentPanel from '@components/panels/InstrumentPanel/InstrumentPanel';
+import TransportPosition from '@components/panels/TransportPosition/TransportPosition';
 
-import { Play, Pause } from '../../resources/icons/index';
+import { Play, Pause } from '@resources/icons';
 
 import styles from './Dashboard.module.scss';
 

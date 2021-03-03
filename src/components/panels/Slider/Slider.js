@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+import { useDebounce } from '@utils';
 
 import styles from './Slider.module.scss';
-import { useDebounce } from '../../../utils/index';
-import { useEffect } from 'react';
 
 function Slider({
   handleChangeFn,

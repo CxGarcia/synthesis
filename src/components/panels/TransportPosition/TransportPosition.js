@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { createArr } from 'utils/index';
+import { createArr } from '@utils';
 
 import styles from './TransportPosition.module.scss';
 

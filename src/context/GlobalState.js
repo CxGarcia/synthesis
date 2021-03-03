@@ -7,9 +7,9 @@ StateContext.displayName = 'StateContext';
 
 function StateProvider({ children }) {
   const [state, dispatch] = useReducer(stateReducer, {
+    Tone: Tone,
     instruments: [],
     activeInstrumentId: null,
-    Tone: Tone,
     maxBars: 1,
     effectsList: [
       { name: 'distortion', method: new Tone.Distortion(0.8) },
