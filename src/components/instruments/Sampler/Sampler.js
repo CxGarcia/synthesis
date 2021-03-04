@@ -88,6 +88,14 @@ function Sampler({
     [pattern]
   );
 
+  function handleSetActiveTiles(step) {
+    setPattern(
+      createArr(totalTiles, null, (_, idx) => {
+        return idx % step === 0 ? 1 : 0;
+      })
+    );
+  }
+
   const handleSetActiveInstrument = () =>
     dispatch({ type: 'SET_ACTIVE_INSTRUMENT', id });
 
@@ -121,6 +129,10 @@ function Sampler({
           >
             FX
           </div>
+          <Select
+            onChangeFn={handleSetActiveTiles}
+            options={[1, 2, 4, 8, 16]}
+          />
         </div>
         <Sequencer
           instrument={sample}

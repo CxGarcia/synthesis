@@ -104,7 +104,7 @@ function Dashboard() {
           <div onClick={handleTransport} className={styles.transportButton}>
             {playState === 'stopped' ? <Play /> : <Pause />}
           </div>
-          <Visualizer Tone={Tone} />
+          {/* <Visualizer Tone={Tone} /> */}
           <Select
             onChangeFn={handleCreateInstrument}
             options={Object.keys(instrumentComponents)}

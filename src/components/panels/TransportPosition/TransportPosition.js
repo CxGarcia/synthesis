@@ -23,7 +23,6 @@ function TransportPosition({ Tone, maxBars }) {
     sequence.start(0);
 
     return () => {
-      console.log(`disposing TransportPosition sequence`);
       sequence.dispose();
     };
   }, [Tone.Sequence, Tone.Transport.position, tiles]);

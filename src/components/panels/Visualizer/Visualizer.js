@@ -9,8 +9,7 @@ function Visualizer({ Tone }) {
   const lineRef = useRef([]);
 
   useEffect(() => {
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.5, paused: true });
-    console.log(Tone.getDraw());
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.5, paused: false });
     tl.staggerTo(
       lineRef.current,
       1,
