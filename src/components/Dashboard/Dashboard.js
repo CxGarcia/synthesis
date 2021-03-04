@@ -33,30 +33,15 @@ function Dashboard() {
   // Create component dynamically, based on the instrument that the user selects
   function renderInstruments() {
     return instruments.map((_instrument) => {
-      const {
-        instrument,
-        id,
-        effects,
-        volume,
-        bars,
-        subdivisions,
-        pitch,
-        envelope,
-      } = _instrument;
+      const { id, instrument } = _instrument;
 
       const newInstrument = React.createElement(
         instrumentComponents[instrument],
         {
-          key: id,
-          id,
           Tone,
-          effects,
           dispatch,
-          volume,
-          bars,
-          subdivisions,
-          pitch,
-          envelope,
+          key: id,
+          properties: _instrument,
           active: id === activeInstrumentId,
         }
       );

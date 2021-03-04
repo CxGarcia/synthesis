@@ -18,13 +18,13 @@ function Tile({
 
   function handleMouseDown() {
     handlePlay();
-    toggleActive(note, row, col);
+    toggleActive(col, row, note);
     handlePainting();
   }
 
   function handleMouseEnter() {
     if (isPainting === false) return;
-    toggleActive(note, row, col);
+    toggleActive(col, row, note);
   }
 
   return (

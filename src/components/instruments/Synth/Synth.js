@@ -1,97 +1,43 @@
-import React, {
-  useState,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  // useCallback,
-} from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 
 import Sequencer from '@components/Sequencer/Sequencer';
 import { createArr, createMatrix } from '@utils';
 
+import synthBuilder from './synthBuilder';
 import styles from './Synth.module.scss';
 
 const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
-const savedPattern = [
-  ['D#2'],
-  [],
-  [],
-  ['C2'],
-  [],
-  [],
-  ['G2'],
-  [],
-  [],
-  [],
-  ['D#2'],
-  [],
-  ['C2'],
-  [],
-  [],
-  [],
-];
+function Synth({ Tone, dispatch, active, properties }) {
+  const {
+    effects,
+    id,
+    volume,
+    bars,
+    subdivisions,
+    pitch,
+    envelope,
+    savedChords = [],
+    savedPattern = [],
+  } = properties;
 
-const savedMatrix = [
-  [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-];
+  const {
+    createSynth,
+    createSynthSequence,
+    addNoteToChord,
+    removeNoteFromChord,
+    setNewPitchToChords,
+  } = synthBuilder(Tone);
 
-function Synth({
-  Tone,
-  dispatch,
-  effects,
-  id,
-  active,
-  volume,
-  bars,
-  subdivisions,
-  pitch,
-  envelope,
-}) {
   const [synth, setSynth] = useState(null);
-  const [pattern, setPattern] = useState([]);
+  const [chords, setChords] = useState(savedChords);
+  const [pattern, setPattern] = useState(savedPattern);
   const [name, setName] = useState('synth');
+
   const totalTiles = bars * subdivisions;
 
-  // const notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
-
-  const [chords, setChords] = useState([]);
-
   useEffect(() => {
-    const [attack, decay, sustain, release] = envelope;
-
-    const _synth = new Tone.PolySynth(Tone.Synth, {
-      volume: volume,
-      portamento: 0.005,
-    }).toDestination();
-
-    _synth.set({
-      oscillator: { volume: 12, type: 'sine' },
-      envelope: { attack, decay, sustain, release },
-      // filterEnvelope: {
-      //   frequency: 100,
-      //   attack: 0.1,
-      //   decay: 0.2,
-      //   sustain: 0.1,
-      //   release: 0,
-      // },
-    });
-
-    const _effects = effects.map((_effect) => _effect.method);
-
-    _synth.chain(..._effects, Tone.Destination);
-
+    const _synth = createSynth(envelope, volume, effects);
     setSynth(_synth);
 
     return () => {
@@ -101,15 +47,15 @@ function Synth({
     //eslint-disable-next-line
   }, [Tone.PolySynth, Tone.Synth, volume, envelope, effects]);
 
-  const toggleActive = (note, row, col) => {
+  const toggleActive = (col, row, note) => {
     const _pattern = [...pattern];
     let _chords;
 
     if (_pattern[row][col] === 0) {
-      _chords = addNoteToChord(chords, note, col);
+      _chords = addNoteToChord(col, row, note);
       _pattern[row][col] = 1;
     } else {
-      _chords = removeNoteFromChord(chords, note, col);
+      _chords = removeNoteFromChord(col, row, note);
       _pattern[row][col] = 0;
     }
 
@@ -117,51 +63,33 @@ function Synth({
     setChords(_chords);
   };
 
-  const isInitialMount = useRef(true);
   //TODO: decide if this feature is worth it or not
+  const isInitialMount = useRef(true);
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
     } else if (chords && !isInitialMount.current) {
       const _chords = setNewPitchToChords(chords, pitch);
-      console.log(_chords);
       setChords(_chords);
     }
+
+    //eslint-disable-next-line
   }, [pitch]);
 
   useEffect(() => {
-    const sequence = new Tone.Sequence(
-      (time, col) => {
-        if (chords[col].length < 1) return;
-        synth.triggerAttackRelease(chords[col], '8n', time);
-      },
-
-      createArr(totalTiles, null, (_, idx) => idx),
-      `${subdivisions}n`
-    );
-
-    sequence.loop = true;
-    sequence.start(0);
+    const sequence = createSynthSequence(synth, chords, bars, subdivisions);
 
     return () => {
       console.log('disposing sequence');
       sequence.dispose();
     };
-  }, [Tone.Sequence, chords, pattern, subdivisions, synth, totalTiles]);
+  }, [Tone, bars, chords, createSynthSequence, subdivisions, synth]);
 
-  // // add effects to synth, if any
-  // useEffect(() => {
-  //   if (!synth) return;
-
-  //   // return () => {
-  //   //   _effects.forEach((_effect) => _effect.dispose());
-  //   // };
-  // }, [Tone.Destination, Tone.destination, effects, synth]);
-
+  //rerender pattern if the amount of bars changes
   useLayoutEffect(() => {
-    setPattern(savedMatrix || createMatrix(notes.length, totalTiles));
-    setChords(savedPattern || createArr(totalTiles, []));
-  }, [notes.length, totalTiles]);
+    setPattern(createMatrix(notes.length, totalTiles));
+    setChords(createArr(totalTiles, []));
+  }, [totalTiles]);
 
   const handleSetActiveInstrument = () =>
     dispatch({ type: 'SET_ACTIVE_INSTRUMENT', id });
@@ -201,21 +129,3 @@ function Synth({
 }
 
 export default Synth;
-
-function addNoteToChord(chords, note, col) {
-  return chords.map((chord, idx) => {
-    if (idx !== col) return chord;
-    else return [...chord, note];
-  });
-}
-
-function removeNoteFromChord(chords, note, col) {
-  return chords.map((chord, idx) => {
-    if (idx !== col) return chord;
-    else return chord.filter((_note) => _note !== note);
-  });
-}
-
-function setNewPitchToChords(chords, pitch) {
-  return chords.map((chord) => chord.map((el) => el.replace(/[0-9]/g, pitch)));
-}

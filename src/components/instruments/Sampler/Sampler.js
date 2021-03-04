@@ -9,91 +9,68 @@ import Sequencer from '@components/Sequencer/Sequencer';
 import Select from '@components/Select/Select';
 import { createArr } from '@utils';
 
+import samplerBuilder from './samplerBuilder';
 import styles from './Sampler.module.scss';
 
-function Sampler({
-  Tone,
-  dispatch,
-  effects,
-  id,
-  active,
-  volume,
-  bars,
-  subdivisions,
-}) {
+function Sampler({ Tone, dispatch, active, properties }) {
+  const {
+    effects,
+    id,
+    volume,
+    bars,
+    subdivisions,
+    savedPattern = [],
+  } = properties;
+
+  const {
+    createSample,
+    createSequence,
+    activeTilesByStep,
+    options,
+  } = samplerBuilder(Tone);
+
   const [instrument, setInstrument] = useState('kick');
   const [sample, setSample] = useState(null);
-  const [pattern, setPattern] = useState([]);
+  const [pattern, setPattern] = useState(savedPattern);
   const [name, setName] = useState('sampler');
 
   const totalTiles = bars * subdivisions;
   const note = 'F1';
-  // const pitch = 1;
 
-  // update and get the sample with the correct instrument
+  // get and update the sample with the correct instrument
   useEffect(() => {
-    const _sample = new Tone.Sampler({
-      urls: {
-        A1: `/assets/samples/${instrument}.wav`,
-      },
-      onload: () => {
-        console.log(`${instrument} loaded`);
-      },
-    });
-
-    _sample.volume.value = volume;
+    const _sample = createSample(instrument, volume, effects);
     setSample(_sample);
 
     return () => _sample.dispose();
-  }, [Tone.Sampler, instrument, volume]);
-
-  // add effects to the sample, if any
-  useEffect(() => {
-    if (sample == null) return;
-    const _effects = effects.map((_effect) => _effect.method);
-
-    sample.chain(..._effects, Tone.Destination);
-  }, [Tone.Destination, Tone.destination, effects, sample]);
-
-  useLayoutEffect(() => {
-    setPattern(createArr(totalTiles));
-  }, [bars, dispatch, id, subdivisions, totalTiles]);
+    //eslint-disable-next-line
+  }, [effects, instrument, volume]);
 
   useEffect(() => {
-    const sequence = new Tone.Sequence(
-      (time, col) => {
-        if (pattern[col] !== 0) sample.triggerAttackRelease(note, '1n', time);
-      },
-      createArr(totalTiles, null, (_, idx) => idx),
-      `${subdivisions}n`
-    );
-
-    sequence.loop = true;
-    sequence.start(0);
+    const sequence = createSequence(sample, pattern, bars, subdivisions);
 
     return () => {
       console.log(`disposing ${instrument} sequence`);
       sequence.dispose();
     };
-    //eslint-disable-next-line
-  }, [Tone.Sequence, bars, subdivisions, pattern, sample]);
+  }, [bars, createSequence, instrument, pattern, sample, subdivisions]);
+
+  useLayoutEffect(() => {
+    setPattern(createArr(totalTiles));
+  }, [totalTiles]);
 
   const toggleActive = useCallback(
-    (note, _, col) => {
+    (col) => {
       const _pattern = [...pattern];
 
-      _pattern[col] = _pattern[col] === 0 ? note : 0;
+      _pattern[col] = _pattern[col] === 0 ? 1 : 0;
       setPattern(_pattern);
     },
     [pattern]
   );
 
-  function handleSetActiveTiles(step) {
-    setPattern(
-      createArr(totalTiles, null, (_, idx) => {
-        return idx % step === 0 ? 1 : 0;
-      })
-    );
+  function setActiveTilesByStep(step) {
+    setPattern(activeTilesByStep(totalTiles, step));
   }
 
   const handleSetActiveInstrument = () =>
@@ -104,15 +81,6 @@ function Sampler({
 
   const handleSelectInstrument = (option) => setInstrument(option);
 
-  const sampleOptions = [
-    'kick',
-    'kick-2',
-    'open-hh',
-    'closed-hh',
-    'combo',
-    'maracas',
-  ];
-
   return (
     <>
       <div className={styles.instrument}>
@@ -122,7 +90,7 @@ function Sampler({
           </h1>
           <p>{name}</p>
           <span>|</span>
-          <Select onChangeFn={handleSelectInstrument} options={sampleOptions} />
+          <Select onChangeFn={handleSelectInstrument} options={options} />
           <div
             className={`${styles.fxButton} ${active && styles.activeButton}`}
             onClick={handleSetActiveInstrument}
@@ -130,7 +98,7 @@ function Sampler({
             FX
           </div>
           <Select
-            onChangeFn={handleSetActiveTiles}
+            onChangeFn={setActiveTilesByStep}
             options={[1, 2, 4, 8, 16]}
           />
         </div>
