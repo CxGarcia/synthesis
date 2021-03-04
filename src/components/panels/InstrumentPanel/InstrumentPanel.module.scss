@@ -24,6 +24,10 @@
   stroke-width: 10;
   transition: all 0.25s ease;
   &:hover {
-    transform: scale(0.97);
+    cursor: pointer;
   }
+}
+
+.title {
+  color: $text;
 }

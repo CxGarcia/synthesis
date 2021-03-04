@@ -1,23 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-import Slider from '../Slider/Slider';
+import panelModules from '@panels/index.PanelModule';
 import PanelModuleContainer from '@panels/PanelModuleContainer/PanelModuleContainer';
-import EffectsPanel from '@panels/EffectsPanel/EffectsPanel';
-import ChartADSR from '@panels/ChartADSR/ChartADSR';
-import Select from '@components/Select/Select';
 import { createArr } from '@utils/';
 
 import { ArrowL, ArrowR } from '@resources/icons';
 
 import styles from './InstrumentPanel.module.scss';
 
-function InstrumentPanel({ dispatch, Tone, activeInstrument, effectsList }) {
+function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
   if (!activeInstrument)
-    return (
-      <div className={styles.subPanelContainer}>
-        <h1>Select your instrument</h1>
-      </div>
-    );
+    return <h1 className={styles.title}>Select your instrument</h1>;
 
   const { effects, volume, bars, pitch, envelope } = activeInstrument;
   const handleVolume = (_volume) =>
@@ -31,43 +24,57 @@ function InstrumentPanel({ dispatch, Tone, activeInstrument, effectsList }) {
   const barsOptions = ['1/4', '1/2', '1', '2'];
   const pitchOptions = createArr(7, null, (_, idx) => idx + 1);
 
-  const panels = [
-    <ChartADSR envelope={envelope} dispatch={dispatch} />,
-    <EffectsPanel
-      Tone={Tone}
-      dispatch={dispatch}
-      activeInstrument={activeInstrument}
-      activeInstrumentEffects={effects}
-      effectsList={effectsList}
-    />,
-    [
-      <Select
-        onChangeFn={handleMaxTiles}
-        options={barsOptions}
-        initialOption={barsOptions[getOptionsIdx(bars)]}
-      />,
-      <Select
-        onChangeFn={handlePitch}
-        options={pitchOptions}
-        initialOption={pitch}
-      />,
-    ],
-    <Slider
-      handleChangeFn={handleVolume}
-      min={-60}
-      max={10}
-      defaultVal={+volume}
-      label="VOL"
-    />,
-  ];
+  const moduleProps = {
+    adsr: {
+      envelope,
+      dispatch,
+    },
+    effects: {
+      activeInstrumentEffects: effects,
+      effectsList,
+      dispatch,
+    },
+    bars: {
+      handleMaxTiles,
+      barsOptions,
+      getOptionsIdx,
+      bars,
+      handlePitch,
+      pitchOptions,
+      pitch,
+    },
+    volume: {
+      handleVolume,
+      volume,
+    },
+  };
 
-  function renderPanels() {
-    return panels.slice(0, 3).map((panel) => {
-      return <PanelModuleContainer>{panel}</PanelModuleContainer>;
-    });
+  function handleLeft() {
+    const _panels = [...panelModules];
+    const _panel = _panels.shift();
+
+    _panels.push(_panel);
+
+    // setPanels(_panels);
   }
 
-  // const barsOptions = createArr(4, 2, (el, idx) => el ** (idx + 2));
+  const panels = ['adsr', 'effects', 'bars'];
+
+  // function renderPanels() {
+  //   return panelModules.slice(0, 3).map((panel) => {
+  //     return <PanelModuleContainer>{panel}</PanelModuleContainer>;
+  //   });
+  // }
+
+  function renderPanels() {
+    return panels.map((_panel, idx) => {
+      const newPanel = React.createElement(panelModules[_panel], {
+        ...moduleProps[_panel],
+      });
+
+      return <PanelModuleContainer>{newPanel}</PanelModuleContainer>;
+    });
+  }
 
   return (
     <div className={styles.container}>
