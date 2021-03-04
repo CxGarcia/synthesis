@@ -32,7 +32,6 @@ function Sampler({ Tone, dispatch, active, properties }) {
   const [instrument, setInstrument] = useState('kick');
   const [sample, setSample] = useState(null);
   const [pattern, setPattern] = useState(savedPattern);
-  const [name, setName] = useState('sampler');
 
   const totalTiles = bars * subdivisions;
   const note = 'F1';
@@ -88,7 +87,7 @@ function Sampler({ Tone, dispatch, active, properties }) {
           <h1 className={styles.delete} onClick={handleDeleteInstrument}>
             X
           </h1>
-          <p>{name}</p>
+          <p>sampler</p>
           <span>|</span>
           <Select onChangeFn={handleSelectInstrument} options={options} />
           <div

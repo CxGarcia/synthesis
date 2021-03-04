@@ -1,13 +1,29 @@
 @import 'global-styles/variables';
 
-.subPanelContainer {
+.container {
   display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  margin: 0 2rem;
-  color: $text;
-  font-family: 'Montserrat';
+  flex-flow: row nowrap;
+  align-items: center;
+
+  height: 100%;
   & > * {
-    margin: 0.25rem 0;
+    flex: 1;
+    margin: 0 2rem;
+    width: 100%;
+  }
+}
+
+.svg {
+  position: absolute;
+  opacity: 0.75;
+  top: 45%;
+  width: 20px;
+  height: 20px;
+  stroke-linecap: round;
+  fill: none;
+  stroke-width: 10;
+  transition: all 0.25s ease;
+  &:hover {
+    transform: scale(0.97);
   }
 }

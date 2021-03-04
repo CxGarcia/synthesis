@@ -35,7 +35,6 @@ function Synth({ Tone, dispatch, active, properties }) {
   const [synth, setSynth] = useState(null);
   const [chords, setChords] = useState(savedChords);
   const [pattern, setPattern] = useState(savedPattern);
-  const [name, setName] = useState('synth');
 
   const totalTiles = bars * subdivisions;
 
@@ -109,7 +108,7 @@ function Synth({ Tone, dispatch, active, properties }) {
           <h1 className={styles.delete} onClick={handleDeleteInstrument}>
             X
           </h1>
-          <p>{name}</p>
+          <p>synth</p>
           <span>|</span>
           <Select onChangeFn={handleSelectInstrument} options={options} />
           <div
