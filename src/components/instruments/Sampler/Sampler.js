@@ -7,8 +7,8 @@ import React, {
 
 import Sequencer from '@components/Sequencer/Sequencer';
 import Select from '@components/Select/Select';
-import { createArr } from '@utils';
 
+import { createArr } from '@utils';
 import samplerBuilder from './samplerBuilder';
 import styles from './Sampler.module.scss';
 

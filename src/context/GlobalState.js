@@ -8,6 +8,10 @@ StateContext.displayName = 'StateContext';
 function StateProvider({ children }) {
   const [state, dispatch] = useReducer(stateReducer, {
     Tone: Tone,
+    master: {
+      effects: [],
+      volume: -25,
+    },
     instruments: [],
     activeInstrumentId: null,
     maxBars: 1,

@@ -1,18 +1,29 @@
 import { createArr } from '@utils';
 
 export default function synthBuilder(Tone) {
+  const synths = [
+    'Synth',
+    'AMSynth',
+    'DuoSynth',
+    'FMSynth',
+    'MembraneSynth',
+    'MetalSynth',
+    'MonoSynth',
+    'PluckSynth',
+  ];
+
   return {
     createSynth,
     createSynthSequence,
     addNoteToChord,
     removeNoteFromChord,
     setNewPitchToChords,
+    options: synths,
   };
 
-  function createSynth(envelope, volume, effects) {
+  function createSynth(instrument, envelope, volume, effects) {
     const [attack, decay, sustain, release] = envelope;
-
-    const _synth = new Tone.PolySynth(Tone.Synth, {
+    const _synth = new Tone.PolySynth(Tone[instrument], {
       volume: volume,
       portamento: 0.005,
     }).toDestination();

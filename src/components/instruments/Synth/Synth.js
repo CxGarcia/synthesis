@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 
 import Sequencer from '@components/Sequencer/Sequencer';
-import { createArr, createMatrix } from '@utils';
+import Select from '@components/Select/Select';
 
+import { createArr, createMatrix } from '@utils';
 import synthBuilder from './synthBuilder';
 import styles from './Synth.module.scss';
 
@@ -27,8 +28,10 @@ function Synth({ Tone, dispatch, active, properties }) {
     addNoteToChord,
     removeNoteFromChord,
     setNewPitchToChords,
+    options,
   } = synthBuilder(Tone);
 
+  const [instrument, setInstrument] = useState('Synth');
   const [synth, setSynth] = useState(null);
   const [chords, setChords] = useState(savedChords);
   const [pattern, setPattern] = useState(savedPattern);
@@ -37,7 +40,7 @@ function Synth({ Tone, dispatch, active, properties }) {
   const totalTiles = bars * subdivisions;
 
   useEffect(() => {
-    const _synth = createSynth(envelope, volume, effects);
+    const _synth = createSynth(instrument, envelope, volume, effects);
     setSynth(_synth);
 
     return () => {
@@ -45,17 +48,17 @@ function Synth({ Tone, dispatch, active, properties }) {
       synth && synth.dispose();
     };
     //eslint-disable-next-line
-  }, [Tone.PolySynth, Tone.Synth, volume, envelope, effects]);
+  }, [Tone.PolySynth, Tone.Synth, volume, envelope, effects, instrument]);
 
   const toggleActive = (col, row, note) => {
     const _pattern = [...pattern];
     let _chords;
 
     if (_pattern[row][col] === 0) {
-      _chords = addNoteToChord(col, row, note);
+      _chords = addNoteToChord(chords, note, col);
       _pattern[row][col] = 1;
     } else {
-      _chords = removeNoteFromChord(col, row, note);
+      _chords = removeNoteFromChord(chords, note, col);
       _pattern[row][col] = 0;
     }
 
@@ -97,6 +100,8 @@ function Synth({ Tone, dispatch, active, properties }) {
   const handleDeleteInstrument = () =>
     dispatch({ type: 'DELETE_INSTRUMENT', id });
 
+  const handleSelectInstrument = (option) => setInstrument(option);
+
   return (
     <>
       <div className={styles.instrument}>
@@ -105,8 +110,8 @@ function Synth({ Tone, dispatch, active, properties }) {
             X
           </h1>
           <p>{name}</p>
-          {/* <span>|</span> */}
-          {/* <Select onChangeFn={handleSelectInstrument} options={sampleOptions} /> */}
+          <span>|</span>
+          <Select onChangeFn={handleSelectInstrument} options={options} />
           <div
             className={`${styles.fxButton} ${active && styles.activeButton}`}
             onClick={handleSetActiveInstrument}
