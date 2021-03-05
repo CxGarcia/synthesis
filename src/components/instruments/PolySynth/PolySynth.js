@@ -4,12 +4,12 @@ import Sequencer from '@components/Sequencer/Sequencer';
 import Select from '@components/Select/Select';
 
 import { createArr, createMatrix, compareChanges } from '@utils';
-import synthBuilder from './synthBuilder';
-import styles from './Synth.module.scss';
+import polySynth from './polySynthBuilder';
+import styles from './PolySynth.module.scss';
 
 const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
-const Synth = React.memo(function Synth({
+const PolySynth = React.memo(function PolySynth({
   Tone,
   dispatch,
   active,
@@ -24,21 +24,23 @@ const Synth = React.memo(function Synth({
     pitch,
     envelope,
     oscillators,
-
+    savedChords = [],
     savedPattern = [],
   } = properties;
 
   const {
     createSynth,
     createSynthSequence,
+    addNoteToChord,
+    removeNoteFromChord,
     setNewPitchToChords,
     options,
-  } = synthBuilder(Tone);
+  } = polySynth(Tone);
 
   const [instrument, setInstrument] = useState('Synth');
   const [synth, setSynth] = useState(null);
+  const [chords, setChords] = useState(savedChords);
   const [pattern, setPattern] = useState(savedPattern);
-  const [progression, setProgression] = useState([]);
 
   const totalTiles = bars * subdivisions;
 
@@ -68,52 +70,47 @@ const Synth = React.memo(function Synth({
   ]);
 
   const toggleActive = (col, row, note) => {
-    const _progression = [...progression];
+    const _pattern = [...pattern];
+    let _chords;
 
-    _progression[col] = note;
+    if (_pattern[row][col] === 0) {
+      _chords = addNoteToChord(chords, note, col);
+      _pattern[row][col] = 1;
+    } else {
+      _chords = removeNoteFromChord(chords, note, col);
+      _pattern[row][col] = 0;
+    }
 
-    const _pattern = pattern.map((patternRow, currRow) => {
-      return patternRow.map((el, idx) => {
-        if (idx !== col) return el;
-        else if (row === currRow && el === 0) return note;
-        else return 0;
-      });
-    });
-
-    setProgression(_progression);
     setPattern(_pattern);
+    setChords(_chords);
   };
 
   //TODO: decide if this feature is worth it or not
-  // const isInitialMount = useRef(true);
-  // useEffect(() => {
-  //   if (isInitialMount.current) {
-  //     isInitialMount.current = false;
-  //   } else if (chords && !isInitialMount.current) {
-  //     // const _chords = setNewPitchToChords(chords, pitch);
-  //   }
+  const isInitialMount = useRef(true);
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else if (chords && !isInitialMount.current) {
+      const _chords = setNewPitchToChords(chords, pitch);
+      setChords(_chords);
+    }
 
-  //   //eslint-disable-next-line
-  // }, [pitch]);
+    //eslint-disable-next-line
+  }, [pitch]);
 
   useEffect(() => {
-    const sequence = createSynthSequence(
-      synth,
-      progression,
-      bars,
-      subdivisions
-    );
+    const sequence = createSynthSequence(synth, chords, bars, subdivisions);
 
     return () => {
       console.log('disposing sequence');
       sequence.dispose();
     };
-  }, [bars, createSynthSequence, progression, subdivisions, synth]);
+  }, [Tone, bars, chords, createSynthSequence, subdivisions, synth]);
 
   //rerender pattern if the amount of bars changes
   useLayoutEffect(() => {
-    setProgression(createArr(totalTiles));
     setPattern(createMatrix(notes.length, totalTiles));
+    setChords(createArr(totalTiles, []));
   }, [totalTiles]);
 
   const handleSetActiveInstrument = () =>
@@ -131,7 +128,7 @@ const Synth = React.memo(function Synth({
           <h1 className={styles.delete} onClick={handleDeleteInstrument}>
             X
           </h1>
-          <p>synth</p>
+          <p>PolySynth</p>
           <span>|</span>
           <Select onChangeFn={handleSelectInstrument} options={options} />
           <div
@@ -156,4 +153,4 @@ const Synth = React.memo(function Synth({
 },
 compareChanges);
 
-export default Synth;
+export default PolySynth;

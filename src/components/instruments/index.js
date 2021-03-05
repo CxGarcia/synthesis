@@ -1,9 +1,11 @@
 import Synth from './Synth/Synth';
 import Sampler from './Sampler/Sampler';
+import PolySynth from './PolySynth/PolySynth';
 
 const instrumentComponents = {
-  synth: Synth,
   sampler: Sampler,
+  synth: Synth,
+  polySynth: PolySynth,
 };
 
 export default instrumentComponents;
