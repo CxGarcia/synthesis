@@ -46,16 +46,16 @@ function EffectsPanel({ activeInstrumentEffects, dispatch, effectsList }) {
 
   function handleUp() {
     const _effects = [...effects];
-    const _effect = _effects.shift();
-    _effects.push(_effect);
+    const _effect = _effects.pop();
+    _effects.unshift(_effect);
 
     setActiveEffects(_effects);
   }
 
   function handleDown() {
     const _effects = [...effects];
-    const _effect = _effects.pop();
-    _effects.unshift(_effect);
+    const _effect = _effects.shift();
+    _effects.push(_effect);
 
     setActiveEffects(_effects);
   }

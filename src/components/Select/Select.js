@@ -1,7 +1,13 @@
 import React, { useRef } from 'react';
 import styles from './Select.module.scss';
 
-function Select({ options, onChangeFn, defaultOption, initialOption }) {
+function Select({
+  options,
+  onChangeFn,
+  defaultOption,
+  initialOption,
+  maxWidth = '80px',
+}) {
   const selectRef = useRef(null);
 
   function renderOptions() {
@@ -28,6 +34,7 @@ function Select({ options, onChangeFn, defaultOption, initialOption }) {
         onChange={handleChange}
         value={initialOption}
         ref={selectRef}
+        style={{ maxWidth }}
       >
         {renderOptions()}
       </select>

@@ -30,10 +30,6 @@ export default function synthBuilder(Tone) {
       envelope: { attack, decay, sustain, release },
     });
 
-    _synth.set({
-      frequency: 10,
-    });
-
     const _effects = mapEffects(effects);
 
     console.log(_synth.frequency);

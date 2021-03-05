@@ -21,11 +21,12 @@
   align-items: center;
   justify-content: center;
   & > * {
-    padding: 0.5rem 0;
+    margin: 1rem 0;
   }
 }
 
 .transportButton {
+  margin-bottom: 1rem;
   & > * {
     //TODO - this css should belong to icons only
     width: 25px;
