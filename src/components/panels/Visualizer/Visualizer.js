@@ -5,11 +5,11 @@ import { createArr } from '@utils';
 
 import styles from './Visualizer.module.scss';
 
-function Visualizer({ Tone }) {
+function Visualizer({ Tone, playing }) {
   const lineRef = useRef([]);
 
   useEffect(() => {
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.5, paused: false });
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.5, paused: playing });
     tl.staggerTo(
       lineRef.current,
       1,
@@ -37,7 +37,7 @@ function Visualizer({ Tone }) {
     );
 
     return () => tl.kill();
-  }, []);
+  }, [playing]);
 
   function renderSvgPaths() {
     return createArr(9, null, (_, idx) => {

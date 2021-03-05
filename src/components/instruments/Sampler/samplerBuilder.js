@@ -5,7 +5,7 @@ export default function samplerBuilder(Tone) {
     createSample,
     createSequence,
     activeTilesByStep,
-    options: ['kick', 'kick-2', 'open-hh', 'closed-hh', 'combo', 'maracas'],
+    options: ['kick', 'kick-2', 'open-hh', 'closed-hh', 'combo', 'maracas', "japanese"],
   };
 
   function createSample(instrument, volume, effects) {

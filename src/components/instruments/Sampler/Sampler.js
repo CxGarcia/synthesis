@@ -34,7 +34,7 @@ function Sampler({ Tone, dispatch, active, properties }) {
   const [pattern, setPattern] = useState(savedPattern);
 
   const totalTiles = bars * subdivisions;
-  const note = 'F1';
+  const note = 'C1';
 
   // get and update the sample with the correct instrument
   useEffect(() => {

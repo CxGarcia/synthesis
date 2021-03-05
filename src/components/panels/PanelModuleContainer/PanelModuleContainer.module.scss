@@ -1,10 +1,11 @@
 @import 'global-styles/variables';
 
 .container {
+  position: relative;
   animation: grow 0.5s;
   display: flex;
-  flex-flow: column nowrap;
   justify-content: center;
+  height: 80%;
 }
 
 @keyframes grow {

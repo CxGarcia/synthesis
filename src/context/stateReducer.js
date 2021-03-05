@@ -165,6 +165,21 @@ export default function stateReducer(state, action) {
       };
     }
 
+    case 'UPDATE_BPM': {
+      const { value } = action;
+      const { master } = state;
+
+      return { ...state, master: { ...master, bpm: value } };
+    }
+    case "UPDATE_MASTER_VOLUME": {
+      const { value } = action;
+      const { master } = state;
+
+      return { ...state, master: { ...master, volume: value } };
+
+    }
+
+
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }

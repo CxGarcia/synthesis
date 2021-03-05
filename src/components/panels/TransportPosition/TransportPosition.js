@@ -11,17 +11,19 @@ function TransportPosition({ Tone, maxBars }) {
   useEffect(() => {
     const sample = new Tone.Sampler({
       urls: {
-        A1: `/assets/samples/metronome.wav`,
+        A1: `assets/samples/metronome.wav`,
       },
       onload: () => {
+        sample.triggerAttackRelease('F1', 0.5);
+
         console.log(`metronome loaded`);
-        sample.triggerAttackRelease('A1', 0.5);
       },
-    });
+      volume: -20,
+    })
 
     const sequence = new Tone.Sequence(
       (_, col) => {
-        sample.triggerAttackRelease('A5', 0.5);
+        // col % 4 === 0 && sample.triggerAttackRelease('F1', 0.5);
         setActiveCol(col);
       },
       createArr(tiles, null, (_, idx) => idx),

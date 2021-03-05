@@ -10,7 +10,10 @@ function StateProvider({ children }) {
     Tone: Tone,
     master: {
       effects: [],
-      volume: -25,
+      volume: -10,
+      bpm: 120,
+      metronome: true,
+      metronomeVol: -20,
     },
     instruments: [],
     activeInstrumentId: null,

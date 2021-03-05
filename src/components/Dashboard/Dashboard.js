@@ -2,25 +2,37 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useGlobalState } from '@context/GlobalState';
 
 import instrumentComponents from '@instruments';
-import InstrumentPanel from '@panels/InstrumentPanel/InstrumentPanel';
-import Visualizer from '@panels/Visualizer/Visualizer';
 import TransportPosition from '@panels/TransportPosition/TransportPosition';
-import Select from '@components/Select/Select';
-
-import { Play, Pause } from '@resources/icons';
+import InstrumentPanel from '@panels/InstrumentPanel/InstrumentPanel';
+import MasterPanel from '@components/MasterPanel/MasterPanel';
 
 import styles from './Dashboard.module.scss';
 
 function Dashboard() {
   const [state, dispatch] = useGlobalState();
-  const { instruments, Tone, activeInstrumentId, effectsList, maxBars } = state;
+  const {
+    instruments,
+    Tone,
+    activeInstrumentId,
+    effectsList,
+    maxBars,
+    master,
+  } = state;
 
+  const { bpm, volume } = master;
   const [playState, setPlayState] = useState(Tone.Transport.state);
 
-  // Tone.Transport.bpm.value = 120;
+  useEffect(() => {
+    Tone.Transport.set({
+      bpm: bpm,
+    });
+  }, [Tone.Transport, Tone.Transport.bpm, bpm]);
 
-  const handleCreateInstrument = (selectedInstrument) =>
-    dispatch({ type: 'CREATE_INSTRUMENT', selectedInstrument });
+  useEffect(() => {
+    Tone.Master.set({
+      volume: volume
+    });
+  }, [Tone.Master, volume]);
 
   // Play/Pause master
   const handleTransport = useCallback(() => {
@@ -86,17 +98,13 @@ function Dashboard() {
           <div className={styles.panelTitle}>
             <h2>Master</h2>
           </div>
-          <div onClick={handleTransport} className={styles.transportButton}>
-            {playState === 'stopped' ? <Play /> : <Pause />}
-          </div>
-          {/* <Visualizer Tone={Tone} /> */}
-          <Select
-            onChangeFn={handleCreateInstrument}
-            options={Object.keys(instrumentComponents)}
-            defaultOption={'add instrument'}
+          <MasterPanel
+            dispatch={dispatch}
+            handleTransport={handleTransport}
+            playState={playState}
+            masterProperties={master}
           />
         </div>
-
         <div className={styles.instrumentsPanel}>
           <div className={styles.panelTitle}>
             <h2>Instrument</h2>

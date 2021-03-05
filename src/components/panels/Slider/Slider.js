@@ -29,7 +29,7 @@ function Slider({
   }
 
   return (
-    <>
+    <div className={styles.container}>
       <label htmlFor="input">
         <h3 className={styles.sliderLabel}>{label}</h3>
       </label>
@@ -43,7 +43,7 @@ function Slider({
         id="myRange"
         onChange={handleChange}
       />
-    </>
+    </div>
   );
 }
 
