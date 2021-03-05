@@ -23,7 +23,6 @@ export default function synthBuilder(Tone) {
 
     const _effects = mapEffects(effects);
 
-    console.log(_synth.frequency);
     // const lfo = new Tone[oscillators]('4n', 400, 4000);
 
     // lfo.connect(_synth.frequency).toDestination();

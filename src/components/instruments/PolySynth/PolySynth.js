@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 
+import InstrumentContainer from '../InstrumentContainer/InstrumentContainer';
 import Sequencer from '@components/Sequencer/Sequencer';
 import Select from '@components/Select/Select';
 
@@ -124,20 +125,14 @@ const PolySynth = React.memo(function PolySynth({
   return (
     <>
       <div className={styles.instrument}>
-        <div className={`${styles.panel} ${active && styles.activePanel}`}>
-          <h1 className={styles.delete} onClick={handleDeleteInstrument}>
-            X
-          </h1>
-          <p>PolySynth</p>
-          <span>|</span>
-          <Select onChangeFn={handleSelectInstrument} options={options} />
-          <div
-            className={`${styles.fxButton} ${active && styles.activeButton}`}
-            onClick={handleSetActiveInstrument}
-          >
-            FX
-          </div>
-        </div>
+        <InstrumentContainer
+          handleSelectInstrument={handleSelectInstrument}
+          handleSetActiveInstrument={handleSetActiveInstrument}
+          handleDeleteInstrument={handleDeleteInstrument}
+          options={options}
+          name="PolySynth"
+          active
+        />
         <div className={styles.keyboard}>
           <Sequencer
             instrument={synth}

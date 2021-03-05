@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 
 import Sequencer from '@components/Sequencer/Sequencer';
-import Select from '@components/Select/Select';
+import InstrumentContainer from '../InstrumentContainer/InstrumentContainer';
 
 import { createArr, createMatrix, compareChanges } from '@utils';
 import synthBuilder from './synthBuilder';
@@ -127,20 +127,14 @@ const Synth = React.memo(function Synth({
   return (
     <>
       <div className={styles.instrument}>
-        <div className={`${styles.panel} ${active && styles.activePanel}`}>
-          <h1 className={styles.delete} onClick={handleDeleteInstrument}>
-            X
-          </h1>
-          <p>synth</p>
-          <span>|</span>
-          <Select onChangeFn={handleSelectInstrument} options={options} />
-          <div
-            className={`${styles.fxButton} ${active && styles.activeButton}`}
-            onClick={handleSetActiveInstrument}
-          >
-            FX
-          </div>
-        </div>
+        <InstrumentContainer
+          handleSelectInstrument={handleSelectInstrument}
+          handleSetActiveInstrument={handleSetActiveInstrument}
+          handleDeleteInstrument={handleDeleteInstrument}
+          options={options}
+          name="Synth"
+          active
+        />
         <div className={styles.keyboard}>
           <Sequencer
             instrument={synth}

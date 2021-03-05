@@ -27,7 +27,7 @@ function MasterPanel({
   return (
     <div className={styles.container}>
       <PanelModuleContainer>
-        <Visualizer playing={playState === 'started' ? false : true} />
+        {/* <Visualizer playing={playState === 'started' ? false : true} /> */}
       </PanelModuleContainer>
       <PanelModuleContainer>
         <div onClick={handleTransport} className={styles.transportButton}>

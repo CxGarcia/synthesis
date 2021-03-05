@@ -6,14 +6,20 @@ import React, {
 } from 'react';
 
 import Sequencer from '@components/Sequencer/Sequencer';
-import Select from '@components/Select/Select';
+import InstrumentContainer from '../InstrumentContainer/InstrumentContainer';
 
+import Select from '@components/Select/Select';
 
 import { createArr, compareChanges } from '@utils';
 import samplerBuilder from './samplerBuilder';
 import styles from './Sampler.module.scss';
 
-const Sampler = React.memo(function Sampler({ Tone, dispatch, active, properties }) {
+const Sampler = React.memo(function Sampler({
+  Tone,
+  dispatch,
+  active,
+  properties,
+}) {
   const {
     effects,
     id,
@@ -84,24 +90,16 @@ const Sampler = React.memo(function Sampler({ Tone, dispatch, active, properties
   return (
     <>
       <div className={styles.instrument}>
-        <div className={`${styles.panel} ${active && styles.activePanel}`}>
-          <h1 className={styles.delete} onClick={handleDeleteInstrument}>
-            X
-          </h1>
-          <p>sampler</p>
-          <span>|</span>
-          <Select onChangeFn={handleSelectInstrument} options={options} />
-          <div
-            className={`${styles.fxButton} ${active && styles.activeButton}`}
-            onClick={handleSetActiveInstrument}
-          >
-            FX
-          </div>
-          <Select
-            onChangeFn={setActiveTilesByStep}
-            options={[1, 2, 4, 8, 16]}
-          />
-        </div>
+        <InstrumentContainer
+          handleSelectInstrument={handleSelectInstrument}
+          handleSetActiveInstrument={handleSetActiveInstrument}
+          handleDeleteInstrument={handleDeleteInstrument}
+          options={options}
+          setActiveTilesByStep={setActiveTilesByStep}
+          name="sampler"
+          active={active}
+        />
+
         <Sequencer
           instrument={sample}
           pattern={pattern}
@@ -111,8 +109,7 @@ const Sampler = React.memo(function Sampler({ Tone, dispatch, active, properties
       </div>
     </>
   );
-}, compareChanges)
-
-
+},
+compareChanges);
 
 export default Sampler;

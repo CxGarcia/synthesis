@@ -1,8 +1,11 @@
-import React, { useReducer } from 'react';
+import React, { createContext, useContext, useReducer } from 'react';
 import stateReducer from './stateReducer';
 import * as Tone from 'tone';
 
-function useGlobalState() {
+const StateContext = createContext(null);
+StateContext.displayName = 'StateContext';
+
+function StateProvider({ children }) {
   const [state, dispatch] = useReducer(stateReducer, {
     Tone: Tone,
     master: {
@@ -33,7 +36,23 @@ function useGlobalState() {
     },
   });
 
-  return [state, dispatch];
+  const value = [state, dispatch];
+
+  return (
+    <StateContext.Provider value={value}>{children}</StateContext.Provider>
+  );
 }
 
-export { useGlobalState };
+function useGlobalState() {
+  const context = useContext(StateContext);
+
+  if (!context) {
+    throw new Error(
+      `useGlobalState must be used within a component in the StateProvider tree`
+    );
+  }
+
+  return context;
+}
+
+export { StateProvider, useGlobalState };
