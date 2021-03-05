@@ -13,6 +13,7 @@ export default function stateReducer(state, action) {
         bars: 1,
         pitch: 4,
         envelope: [0.1, 0.5, 0.25, 0.5],
+        oscillators: 'LFO',
       };
 
       const instrument = {

@@ -18,6 +18,7 @@ function Synth({ Tone, dispatch, active, properties }) {
     subdivisions,
     pitch,
     envelope,
+    oscillators,
     savedChords = [],
     savedPattern = [],
   } = properties;
@@ -39,7 +40,13 @@ function Synth({ Tone, dispatch, active, properties }) {
   const totalTiles = bars * subdivisions;
 
   useEffect(() => {
-    const _synth = createSynth(instrument, envelope, volume, effects);
+    const _synth = createSynth(
+      instrument,
+      envelope,
+      volume,
+      effects,
+      oscillators
+    );
     setSynth(_synth);
 
     return () => {
@@ -47,7 +54,15 @@ function Synth({ Tone, dispatch, active, properties }) {
       synth && synth.dispose();
     };
     //eslint-disable-next-line
-  }, [Tone.PolySynth, Tone.Synth, volume, envelope, effects, instrument]);
+  }, [
+    Tone.PolySynth,
+    Tone.Synth,
+    volume,
+    envelope,
+    effects,
+    instrument,
+    pitch,
+  ]);
 
   const toggleActive = (col, row, note) => {
     const _pattern = [...pattern];

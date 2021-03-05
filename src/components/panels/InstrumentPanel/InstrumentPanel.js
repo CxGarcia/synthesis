@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import panelModules from '@panels/index.PanelModule';
 import PanelModuleContainer from '@panels/PanelModuleContainer/PanelModuleContainer';
@@ -9,8 +9,9 @@ import { ArrowL, ArrowR } from '@resources/icons';
 import styles from './InstrumentPanel.module.scss';
 
 function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
-  if (!activeInstrument)
-    return <h1 className={styles.title}>Select your instrument</h1>;
+  const panels = ['adsr', 'bars', 'effects', 'volume'];
+
+  const [activePanels, setActivePanels] = useState(panels);
 
   const { effects, volume, bars, pitch, envelope } = activeInstrument;
   const handleVolume = (_volume) =>
@@ -49,27 +50,27 @@ function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
     },
   };
 
-  function handleLeft() {
-    const _panels = [...panelModules];
+  function handleRight() {
+    const _panels = [...activePanels];
     const _panel = _panels.shift();
-
     _panels.push(_panel);
 
-    // setPanels(_panels);
+    setActivePanels(_panels);
   }
 
-  const panels = ['adsr', 'effects', 'bars'];
+  function handleLeft() {
+    const _panels = [...activePanels];
+    const _panel = _panels.pop();
+    _panels.unshift(_panel);
 
-  // function renderPanels() {
-  //   return panelModules.slice(0, 3).map((panel) => {
-  //     return <PanelModuleContainer>{panel}</PanelModuleContainer>;
-  //   });
-  // }
+    setActivePanels(_panels);
+  }
 
   function renderPanels() {
-    return panels.map((_panel, idx) => {
+    return activePanels.slice(0, 3).map((_panel, idx) => {
       const newPanel = React.createElement(panelModules[_panel], {
         ...moduleProps[_panel],
+        key: _panel,
       });
 
       return <PanelModuleContainer>{newPanel}</PanelModuleContainer>;
@@ -78,9 +79,18 @@ function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
 
   return (
     <div className={styles.container}>
-      <ArrowL className={styles.svg} style={{ left: 0, marginLeft: '5%' }} />
+      <ArrowL
+        className={styles.svg}
+        style={{ left: 0, marginLeft: '5%' }}
+        onClick={handleLeft}
+      />
+
       {renderPanels()}
-      <ArrowR className={styles.svg} style={{ right: 0, marginRight: '1%' }} />
+      <ArrowR
+        className={styles.svg}
+        style={{ right: 0, marginRight: '1%' }}
+        onClick={handleRight}
+      />
     </div>
   );
 }

@@ -13,20 +13,20 @@ function BarsPanelModule({
   pitch,
 }) {
   return (
-    <>
+    <div className={styles.container}>
+      <label className={styles.label}>Bars</label>
       <Select
         onChangeFn={handleMaxTiles}
         options={barsOptions}
         initialOption={barsOptions[getOptionsIdx(bars)]}
       />
-      ,
+      <label className={styles.label}>Pitch</label>
       <Select
         onChangeFn={handlePitch}
         options={pitchOptions}
         initialOption={pitch}
       />
-      ,
-    </>
+    </div>
   );
 }
 

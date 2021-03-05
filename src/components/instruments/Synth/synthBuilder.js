@@ -21,26 +21,25 @@ export default function synthBuilder(Tone) {
     options: synths,
   };
 
-  function createSynth(instrument, envelope, volume, effects) {
+  function createSynth(instrument, envelope, volume, effects, oscillators) {
     const [attack, decay, sustain, release] = envelope;
     const _synth = new Tone.PolySynth(Tone[instrument], {
       volume: volume,
       portamento: 0.005,
-    }).toDestination();
-
-    _synth.set({
       oscillator: { volume: 12, type: 'sine' },
       envelope: { attack, decay, sustain, release },
-      // filterEnvelope: {
-      //   frequency: 100,
-      //   attack: 0.1,
-      //   decay: 0.2,
-      //   sustain: 0.1,
-      //   release: 0,
-      // },
+    });
+
+    _synth.set({
+      frequency: 10,
     });
 
     const _effects = mapEffects(effects);
+
+    console.log(_synth.frequency);
+    // const lfo = new Tone[oscillators]('4n', 400, 4000);
+
+    // lfo.connect(_synth.frequency).toDestination();
 
     _synth.chain(..._effects, Tone.Destination);
 

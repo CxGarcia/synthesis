@@ -101,12 +101,16 @@ function Dashboard() {
           <div className={styles.panelTitle}>
             <h2>Instrument</h2>
           </div>
-          <InstrumentPanel
-            Tone={Tone}
-            dispatch={dispatch}
-            activeInstrument={activeInstrument}
-            effectsList={Object.keys(effectsList)}
-          />
+          {activeInstrumentId ? (
+            <InstrumentPanel
+              Tone={Tone}
+              dispatch={dispatch}
+              activeInstrument={activeInstrument}
+              effectsList={Object.keys(effectsList)}
+            />
+          ) : (
+            <h1 className={styles.title}>Select your instrument</h1>
+          )}
         </div>
       </div>
       {instruments.length > 0 && (

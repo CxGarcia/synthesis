@@ -1,0 +1,18 @@
+@import '@styles/variables';
+
+.container {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  & > * {
+    width: 40px;
+  }
+}
+
+.label {
+  color: $text;
+  &:not(:first-child) {
+    margin-left: 1rem;
+  }
+}

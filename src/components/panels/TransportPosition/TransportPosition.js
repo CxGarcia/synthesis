@@ -6,45 +6,58 @@ import styles from './TransportPosition.module.scss';
 function TransportPosition({ Tone, maxBars }) {
   const [activeCol, setActiveCol] = useState(Tone.Transport.position);
 
-  const sequenceRef = useRef(null);
   const tiles = maxBars * 16;
 
   useEffect(() => {
+    const sample = new Tone.Sampler({
+      urls: {
+        A1: `/assets/samples/metronome.wav`,
+      },
+      onload: () => {
+        console.log(`metronome loaded`);
+        sample.triggerAttackRelease('A1', 0.5);
+      },
+    });
+
     const sequence = new Tone.Sequence(
       (_, col) => {
+        sample.triggerAttackRelease('A5', 0.5);
         setActiveCol(col);
       },
       createArr(tiles, null, (_, idx) => idx),
       `16n`
     );
 
-    sequenceRef.current = sequence;
     sequence.loop = true;
     sequence.start(0);
 
     return () => {
       sequence.dispose();
+      sample.dispose();
+      console.log(`metronome disposed`);
     };
-  }, [Tone.Sequence, Tone.Transport.position, tiles]);
+  }, [Tone.Sampler, Tone.Sequence, tiles]);
+
+  function renderTiles() {
+    return createArr(tiles, null, (_, idx) => {
+      return (
+        <div
+          className={`${styles.tile} ${
+            idx === activeCol ? styles.active : null
+          }`}
+          key={idx}
+        >
+          {idx + 1}
+        </div>
+      );
+    });
+  }
 
   return (
     <div className={styles.container}>
       <div className={styles.separator}></div>
       <div className={styles.noteSeparator}></div>
-      <div className={styles.sequence}>
-        {createArr(tiles, null, (_, idx) => {
-          return (
-            <div
-              className={`${styles.tile} ${
-                idx === activeCol ? styles.active : null
-              }`}
-              key={idx}
-            >
-              {idx + 1}
-            </div>
-          );
-        })}
-      </div>
+      <div className={styles.sequence}>{renderTiles()}</div>
     </div>
   );
 }

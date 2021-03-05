@@ -1,4 +1,4 @@
-@import 'global-styles/variables';
+@import '@styles/variables';
 
 .select {
   font-size: $base-size;
@@ -7,7 +7,7 @@
   border: none;
   outline: none;
   width: fit-content;
-  max-width: 25%;
+  max-width: 200px;
   text-overflow: ellipsis;
   color: $text;
   &:hover {
