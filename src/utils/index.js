@@ -23,4 +23,11 @@ function createMatrix(row, col) {
   return matrix;
 }
 
-export { createArr, useDebounce, createMatrix };
+function compareChanges(prevProps, newProps) {
+  return (
+    prevProps.active === newProps.active &&
+    prevProps.properties === newProps.properties
+  );
+}
+
+export { createArr, useDebounce, createMatrix,compareChanges };

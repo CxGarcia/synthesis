@@ -8,11 +8,12 @@ import React, {
 import Sequencer from '@components/Sequencer/Sequencer';
 import Select from '@components/Select/Select';
 
-import { createArr } from '@utils';
+
+import { createArr, compareChanges } from '@utils';
 import samplerBuilder from './samplerBuilder';
 import styles from './Sampler.module.scss';
 
-function Sampler({ Tone, dispatch, active, properties }) {
+const Sampler = React.memo(function Sampler({ Tone, dispatch, active, properties }) {
   const {
     effects,
     id,
@@ -110,6 +111,8 @@ function Sampler({ Tone, dispatch, active, properties }) {
       </div>
     </>
   );
-}
+}, compareChanges)
+
+
 
 export default Sampler;

@@ -1,0 +1,14 @@
+@import '@styles/variables';
+
+@mixin svg {
+  opacity: 0.75;
+  width: 20px;
+  height: 20px;
+  stroke-linecap: round;
+  fill: $secondary;
+  transition: all 0.25s ease;
+  stroke: #f5ffb7;
+  &:hover {
+    cursor: pointer;
+  }
+}

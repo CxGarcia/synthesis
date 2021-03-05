@@ -3,13 +3,13 @@ import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import Sequencer from '@components/Sequencer/Sequencer';
 import Select from '@components/Select/Select';
 
-import { createArr, createMatrix } from '@utils';
+import { createArr, createMatrix, compareChanges } from '@utils';
 import synthBuilder from './synthBuilder';
 import styles from './Synth.module.scss';
 
 const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
-function Synth({ Tone, dispatch, active, properties }) {
+const Synth = React.memo(function Synth({ Tone, dispatch, active, properties }) {
   const {
     effects,
     id,
@@ -145,6 +145,6 @@ function Synth({ Tone, dispatch, active, properties }) {
       </div>
     </>
   );
-}
+}, compareChanges);
 
 export default Synth;
