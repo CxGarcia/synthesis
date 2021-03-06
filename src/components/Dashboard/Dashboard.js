@@ -1,10 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useGlobalState } from '@context/GlobalState';
 
-import instrumentComponents from '@instruments';
-import TransportPosition from '@panels/TransportPosition/TransportPosition';
-import InstrumentPanel from '@panels/InstrumentPanel/InstrumentPanel';
+import Playground from '@components/Playground/Playground';
 import MasterPanel from '@components/MasterPanel/MasterPanel';
+import InstrumentPanel from '@panels/InstrumentPanel/InstrumentPanel';
 
 import styles from './Dashboard.module.scss';
 
@@ -21,7 +20,6 @@ function Dashboard() {
 
   const { bpm, volume } = master;
   const [playState, setPlayState] = useState(Tone.Transport.state);
-  // const [activeInstrumentId, setActiveInstrument] = useState(null);
 
   useEffect(() => {
     Tone.Transport.set({
@@ -42,29 +40,6 @@ function Dashboard() {
 
     setPlayState(Tone.Transport.state);
   }, [Tone.Transport, playState]);
-
-  // const handleActiveInstrument = (id) => setActiveInstrument(id);
-
-  // Create component dynamically, based on the instrument that the user selects
-  function renderInstruments() {
-    return instruments.map((_instrument) => {
-      const { id, instrument } = _instrument;
-
-      const newInstrument = React.createElement(
-        instrumentComponents[instrument],
-        {
-          Tone,
-          dispatch,
-          // handleActiveInstrument,
-          key: id,
-          properties: _instrument,
-          active: id === activeInstrumentId,
-        }
-      );
-
-      return newInstrument;
-    });
-  }
 
   const activeInstrument =
     activeInstrumentId && getActiveInstrument(instruments, activeInstrumentId);
@@ -125,10 +100,13 @@ function Dashboard() {
           )}
         </div>
       </div>
-      {instruments.length > 0 && (
-        <TransportPosition Tone={Tone} maxBars={maxBars} />
-      )}
-      <div className={styles.instruments}>{renderInstruments()}</div>
+      <Playground
+        Tone={Tone}
+        instruments={instruments}
+        dispatch={dispatch}
+        activeInstrumentId={activeInstrumentId}
+        maxBars={maxBars}
+      />
     </div>
   );
 }
