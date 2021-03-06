@@ -5,13 +5,22 @@ export default function samplerBuilder(Tone) {
     createSample,
     createSequence,
     activeTilesByStep,
-    options: ['kick', 'kick-2', 'open-hh', 'closed-hh', 'combo', 'maracas', "japanese"],
+    options: [
+      'kick',
+      'kick-2',
+      'open-hh',
+      'closed-hh',
+      'combo',
+      'maracas',
+      'japanese',
+    ],
   };
 
   function createSample(instrument, volume, effects) {
     const _sample = new Tone.Sampler({
       urls: {
-        A1: `/assets/samples/${instrument}.wav`,
+        // A1: `/assets/samples/${instrument}.wav`,
+        A1: `http://localhost:3000/samples`,
       },
       onload: () => {
         console.log(`${instrument} loaded`);
