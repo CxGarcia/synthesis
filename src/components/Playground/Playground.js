@@ -35,7 +35,7 @@ function Playground({
 
   return (
     <div className={styles.playground}>
-      <SelectionPanel />
+      <SelectionPanel dispatch={dispatch} />
       <div className={styles.playgroundSub}>
         {instruments.length > 0 && (
           <TransportPosition Tone={Tone} maxBars={maxBars} />

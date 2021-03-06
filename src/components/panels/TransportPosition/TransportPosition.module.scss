@@ -6,15 +6,18 @@
   align-items: center;
 }
 
-.separator {
+.logo {
   margin: 0.5rem;
 
   border-radius: 5px;
-  padding: 0.5rem 0;
-  // margin: 0.5rem 0;
+  padding: 0.25rem 0;
   max-height: 5vh;
   min-width: 20vw;
   max-width: 20vw;
+  color: $highlights;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Montserrat';
 }
 
 .noteSeparator {

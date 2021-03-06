@@ -46,7 +46,10 @@ const Sampler = React.memo(function Sampler({
     const _sample = createSample(instrument, volume, effects);
     setSample(_sample);
 
-    return () => _sample.dispose();
+    return () => {
+      console.log('disposing sample');
+      sample?.dispose();
+    };
     //eslint-disable-next-line
   }, [effects, instrument, volume]);
 

@@ -19,7 +19,7 @@ function TransportPosition({ Tone, maxBars }) {
         console.log(`metronome loaded`);
       },
       volume: -20,
-    })
+    });
 
     const sequence = new Tone.Sequence(
       (_, col) => {
@@ -57,7 +57,7 @@ function TransportPosition({ Tone, maxBars }) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.separator}></div>
+      <div className={styles.logo}>SYNTHESIS</div>
       <div className={styles.noteSeparator}></div>
       <div className={styles.sequence}>{renderTiles()}</div>
     </div>

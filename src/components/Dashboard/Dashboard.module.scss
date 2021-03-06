@@ -1,4 +1,5 @@
 @import '@styles/variables';
+@import '@styles/mixins';
 
 .container {
   height: 100vh;
@@ -31,23 +32,14 @@
 }
 
 .panelTitle {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 2.5rem;
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
-  justify-content: center;
-  background-color: $secondary;
-  text-transform: uppercase;
+  @include panel-title;
 
-  color: $primary;
-  font-weight: 600;
+  top: 0;
+  left: 0;
+  width: 2.5rem;
+  height: 100%;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
-  font-family: 'Montserrat';
   & > * {
     // margin-top: 2vh;
     font-weight: 600;

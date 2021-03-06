@@ -31,7 +31,7 @@ const Synth = React.memo(function Synth({
   const {
     createSynth,
     createSynthSequence,
-    setNewPitchToChords,
+    setNewPitchToPattern,
     options,
   } = synthBuilder(Tone);
 
@@ -70,7 +70,7 @@ const Synth = React.memo(function Synth({
   const toggleActive = (col, row, note) => {
     const _progression = [...progression];
 
-    _progression[col] = note;
+    _progression[col] = progression[col] !== note ? note : 0;
 
     const _pattern = pattern.map((patternRow, currRow) => {
       return patternRow.map((el, idx) => {

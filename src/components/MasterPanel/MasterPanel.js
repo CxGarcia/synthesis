@@ -1,9 +1,7 @@
 import React from 'react';
 
 import PanelModuleContainer from '@panels/PanelModuleContainer/PanelModuleContainer';
-import instrumentComponents from '@instruments';
 import Visualizer from '@panels/Visualizer/Visualizer';
-import Select from '@components/Select/Select';
 import Slider from '@panels/Slider/Slider';
 
 import { Play, Pause } from '@resources/icons';
@@ -21,9 +19,6 @@ function MasterPanel({
   const handleVolume = (value) =>
     dispatch({ type: 'UPDATE_MASTER_VOLUME', value });
 
-  const handleCreateInstrument = (selectedInstrument) =>
-    dispatch({ type: 'CREATE_INSTRUMENT', selectedInstrument });
-
   return (
     <div className={styles.container}>
       <PanelModuleContainer>
@@ -33,12 +28,6 @@ function MasterPanel({
         <div onClick={handleTransport} className={styles.transportButton}>
           {playState === 'stopped' ? <Play /> : <Pause />}
         </div>
-        <Select
-          onChangeFn={handleCreateInstrument}
-          options={Object.keys(instrumentComponents)}
-          defaultOption={'add instrument'}
-          maxWidth="200px"
-        />
       </PanelModuleContainer>
       <PanelModuleContainer flex="row">
         <Slider
