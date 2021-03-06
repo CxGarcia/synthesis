@@ -9,7 +9,8 @@
       "@context/*": ["context/*"],
       "@panels/*": ["components/panels/*"],
       "@instruments/*": ["components/instruments/*"],
-      "@effects/*": ["components/effects/*"]
+      "@effects/*": ["components/effects/*"],
+      "@api/*": ["api/*"]
     }
   },
   "include": ["src"]

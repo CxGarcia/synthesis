@@ -18,4 +18,11 @@
 
 .selection {
   margin-top: 3rem;
+  padding: 1rem;
+}
+
+.options {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
 }

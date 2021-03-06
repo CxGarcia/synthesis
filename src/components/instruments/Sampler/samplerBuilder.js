@@ -19,8 +19,8 @@ export default function samplerBuilder(Tone) {
   function createSample(instrument, volume, effects) {
     const _sample = new Tone.Sampler({
       urls: {
-        // A1: `/assets/samples/${instrument}.wav`,
-        A1: `http://localhost:3000/samples`,
+        A1: `/assets/samples/${instrument}.wav`,
+        // A1: `http://localhost:3000/samples`,
       },
       onload: () => {
         console.log(`${instrument} loaded`);
