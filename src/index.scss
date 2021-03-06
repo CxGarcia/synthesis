@@ -1,17 +1,17 @@
-@import './global-styles/variables';
+@import '@styles/variables';
 
 h1 {
-  font-size: $h1;
+  font-size: $h-1;
   font-weight: 700;
 }
 
 h2 {
-  font-size: $h2;
+  font-size: $h-2;
   font-weight: 600;
 }
 
 h3 {
-  font-size: $h3;
+  font-size: $h-3;
   font-weight: 600;
 }
 

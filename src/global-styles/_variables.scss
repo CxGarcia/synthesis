@@ -14,8 +14,8 @@ $bg: #282a36;
 /* FONT STYLES*/
 $base-size: 1rem;
 $type-scale: 1.33;
-$h3: calc($base-size * $type-scale);
-$h2: calc($h3 * $type-scale);
-$h1: calc($h2 * $type-scale);
+$h-3: calc($base-size * $type-scale);
+$h-2: calc($h-3 * $type-scale);
+$h-1: calc($h-2 * $type-scale);
 $text-sm: calc($base-size / $type-scale);
 $header-margin: 0 0 1rem 2rem;

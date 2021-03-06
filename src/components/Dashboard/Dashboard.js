@@ -21,6 +21,7 @@ function Dashboard() {
 
   const { bpm, volume } = master;
   const [playState, setPlayState] = useState(Tone.Transport.state);
+  // const [activeInstrumentId, setActiveInstrument] = useState(null);
 
   useEffect(() => {
     Tone.Transport.set({
@@ -30,7 +31,7 @@ function Dashboard() {
 
   useEffect(() => {
     Tone.Master.set({
-      volume: volume
+      volume: volume,
     });
   }, [Tone.Master, volume]);
 
@@ -42,6 +43,8 @@ function Dashboard() {
     setPlayState(Tone.Transport.state);
   }, [Tone.Transport, playState]);
 
+  // const handleActiveInstrument = (id) => setActiveInstrument(id);
+
   // Create component dynamically, based on the instrument that the user selects
   function renderInstruments() {
     return instruments.map((_instrument) => {
@@ -52,6 +55,7 @@ function Dashboard() {
         {
           Tone,
           dispatch,
+          // handleActiveInstrument,
           key: id,
           properties: _instrument,
           active: id === activeInstrumentId,
@@ -133,6 +137,8 @@ export default Dashboard;
 
 //Helper functions
 function getActiveInstrument(instruments, activeInstrumentId) {
+  console.log('hiya');
+
   const instrument = instruments.find((_instrument) => {
     return _instrument.id === activeInstrumentId;
   });

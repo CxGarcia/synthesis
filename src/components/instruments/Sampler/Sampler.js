@@ -14,11 +14,12 @@ import { createArr, compareChanges } from '@utils';
 import samplerBuilder from './samplerBuilder';
 import styles from './Sampler.module.scss';
 
-const Sampler = React.memo(function Sampler({
+function Sampler({
   Tone,
   dispatch,
   active,
   properties,
+  handleActiveInstrument,
 }) {
   const {
     effects,
@@ -109,7 +110,6 @@ const Sampler = React.memo(function Sampler({
       </div>
     </>
   );
-},
-compareChanges);
+}
 
 export default Sampler;
