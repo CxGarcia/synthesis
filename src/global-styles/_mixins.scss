@@ -9,3 +9,44 @@
   color: $primary;
   font-family: 'Montserrat';
 }
+
+@mixin panel-style {
+  border: 1px solid $secondary;
+  border-radius: 7px;
+  user-select: none;
+}
+
+@mixin main-panels {
+  @include panel-style;
+  box-shadow: inset 0px 4px 22px 14px #222430;
+  height: 25vh;
+  width: 49.5%;
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  & > * {
+    width: 200px;
+    max-width: 220px;
+  }
+}
+
+@mixin main-panel-title {
+  @include panel-title;
+  top: 0;
+  left: 0;
+  width: 2.5rem;
+  height: 100%;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  & > * {
+    // margin-top: 2vh;
+    font-weight: 600;
+    height: fit-content;
+    width: fit-content;
+    transform: rotate(270deg);
+  }
+}

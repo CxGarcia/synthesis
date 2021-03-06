@@ -10,10 +10,20 @@ import styles from './InstrumentPanel.module.scss';
 
 function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
   const panels = ['adsr', 'bars', 'effects', 'volume'];
-
   const [activePanels, setActivePanels] = useState(panels);
 
+  if (!activeInstrument) {
+    return (
+      <div className={styles.container}>
+        <h1 className={styles.title} style={{ alignSelf: 'center' }}>
+          Select your instrument
+        </h1>
+      </div>
+    );
+  }
+
   const { effects, volume, bars, pitch, envelope } = activeInstrument;
+
   const handleVolume = (_volume) =>
     dispatch({ type: 'UPDATE_INSTRUMENT_VOLUME', volume: _volume });
 
@@ -79,12 +89,14 @@ function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
 
   return (
     <div className={styles.container}>
+      <div className={styles.panelTitle}>
+        <h2>Instrument</h2>
+      </div>
       <ArrowL
         className={styles.svg}
         style={{ left: 0, marginLeft: '5%' }}
         onClick={handleLeft}
       />
-
       {renderPanels()}
       <ArrowR
         className={styles.svg}

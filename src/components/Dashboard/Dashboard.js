@@ -71,35 +71,23 @@ function Dashboard() {
   }, [handleKeyPress]);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.panel}>
-        <div className={styles.masterPanel}>
-          <div className={styles.panelTitle}>
-            <h2>Master</h2>
-          </div>
-          <MasterPanel
-            dispatch={dispatch}
-            handleTransport={handleTransport}
-            playState={playState}
-            masterProperties={master}
-          />
-        </div>
-        <div className={styles.instrumentsPanel}>
-          <div className={styles.panelTitle}>
-            <h2>Instrument</h2>
-          </div>
-          {activeInstrumentId ? (
-            <InstrumentPanel
-              Tone={Tone}
-              dispatch={dispatch}
-              activeInstrument={activeInstrument}
-              effectsList={effectsList}
-            />
-          ) : (
-            <h1 className={styles.title}>Select your instrument</h1>
-          )}
-        </div>
+    <>
+      <div className={styles.panels}>
+        <MasterPanel
+          dispatch={dispatch}
+          handleTransport={handleTransport}
+          playState={playState}
+          masterProperties={master}
+        />
+
+        <InstrumentPanel
+          Tone={Tone}
+          dispatch={dispatch}
+          activeInstrument={activeInstrument}
+          effectsList={effectsList}
+        />
       </div>
+
       <Playground
         Tone={Tone}
         instruments={instruments}
@@ -107,7 +95,7 @@ function Dashboard() {
         activeInstrumentId={activeInstrumentId}
         maxBars={maxBars}
       />
-    </div>
+    </>
   );
 }
 
@@ -115,8 +103,6 @@ export default Dashboard;
 
 //Helper functions
 function getActiveInstrument(instruments, activeInstrumentId) {
-  console.log('hiya');
-
   const instrument = instruments.find((_instrument) => {
     return _instrument.id === activeInstrumentId;
   });

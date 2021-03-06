@@ -21,6 +21,9 @@ function MasterPanel({
 
   return (
     <div className={styles.container}>
+      <div className={styles.panelTitle}>
+        <h2>Master</h2>
+      </div>
       <PanelModuleContainer>
         {/* <Visualizer playing={playState === 'started' ? false : true} /> */}
       </PanelModuleContainer>

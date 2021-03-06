@@ -1,19 +1,27 @@
 @import '@styles/variables';
+@import '@styles/mixins';
 @import '@styles/svg';
 
 .container {
-  margin-left: 2rem;
+  @include main-panels;
+}
+
+.panel {
+  box-shadow: inset 0px 4px 22px 14px #222430;
+  height: 25vh;
+  position: relative;
   display: flex;
   flex-flow: row nowrap;
-  align-items: center;
-  justify-content: space-evenly;
-  width: 100%;
-
-  height: 100%;
+  overflow: hidden;
+  margin-bottom: 2rem;
   & > * {
-    width: 200px;
-    max-width: 220px;
+    flex: 1;
+    padding: 1rem;
   }
+}
+
+.panelTitle {
+  @include main-panel-title;
 }
 
 .svg {

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Switch from '../Switch/Switch';
 
 import { ArrowU, ArrowD } from '@resources/icons';
 
@@ -22,17 +21,13 @@ function EffectsPanel({ activeInstrumentEffects, dispatch, effectsList }) {
 
   function renderEffects() {
     return effects.slice(0, 4).map((_effect, idx) => {
+      //check if effect is included in the effects of the active instrument and if so set it to active
       const active =
         activeInstrumentEffects &&
         activeInstrumentEffects.some((_eff) => _eff.name === _effect);
 
       return (
-        <div className={styles.effect} key={idx}>
-          {/* <Switch
-            active={active}
-            handleEffect={handleEffect}
-            effect={_effect}
-          /> */}
+        <div className={styles.effect} key={_effect.name}>
           <p
             onClick={() => handleEffect(_effect, active)}
             className={active ? styles.activeTitle : null}
@@ -64,7 +59,6 @@ function EffectsPanel({ activeInstrumentEffects, dispatch, effectsList }) {
     <>
       <ArrowU className={styles.svg} onClick={handleUp} style={{ top: -15 }} />
       {renderEffects()}
-
       <ArrowD
         className={styles.svg}
         onClick={handleDown}
