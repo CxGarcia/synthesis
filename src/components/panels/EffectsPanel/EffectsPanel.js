@@ -33,12 +33,12 @@ function EffectsPanel({ activeInstrumentEffects, dispatch, effectsList }) {
             handleEffect={handleEffect}
             effect={_effect}
           /> */}
-          <h3
+          <p
             onClick={() => handleEffect(_effect, active)}
             className={active ? styles.activeTitle : null}
           >
             {_effect}
-          </h3>
+          </p>
         </div>
       );
     });
