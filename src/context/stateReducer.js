@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
+import effectsList from '@effects';
 
 export default function stateReducer(state, action) {
   switch (action.type) {
     case 'CREATE_INSTRUMENT': {
-      //TODO replace with DB _id to get the configs, etc.
       const id = uuidv4();
       const { selectedInstrument } = action;
       const defaultSettings = {
@@ -127,9 +127,12 @@ export default function stateReducer(state, action) {
 
     case 'ADD_EFFECT_TO_INSTRUMENT': {
       const { effect } = action;
-      const { instruments, activeInstrumentId, effectsList } = state;
+      const { instruments, activeInstrumentId, Tone } = state;
 
-      const _effect = { name: effect, method: effectsList[effect] };
+      const _effect = {
+        name: effect,
+        method: new Tone[effect](...effectsList[effect]),
+      };
 
       // console.log(_effect);
 
@@ -171,14 +174,12 @@ export default function stateReducer(state, action) {
 
       return { ...state, master: { ...master, bpm: value } };
     }
-    case "UPDATE_MASTER_VOLUME": {
+    case 'UPDATE_MASTER_VOLUME': {
       const { value } = action;
       const { master } = state;
 
       return { ...state, master: { ...master, volume: value } };
-
     }
-
 
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);

@@ -133,7 +133,7 @@ const Synth = React.memo(function Synth({
           handleDeleteInstrument={handleDeleteInstrument}
           options={options}
           name="Synth"
-          active
+          active={active}
         />
         <div className={styles.keyboard}>
           <Sequencer

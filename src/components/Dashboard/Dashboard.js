@@ -118,7 +118,7 @@ function Dashboard() {
               Tone={Tone}
               dispatch={dispatch}
               activeInstrument={activeInstrument}
-              effectsList={Object.keys(effectsList)}
+              effectsList={effectsList}
             />
           ) : (
             <h1 className={styles.title}>Select your instrument</h1>
