@@ -3,7 +3,7 @@ import { useGlobalState } from '@context/GlobalState';
 
 import Playground from '@components/Playground/Playground';
 import MasterPanel from '@components/MasterPanel/MasterPanel';
-import InstrumentPanel from '@panels/InstrumentPanel/InstrumentPanel';
+import InstrumentPanel from '@components/InstrumentPanel/InstrumentPanel';
 
 import styles from './Dashboard.module.scss';
 

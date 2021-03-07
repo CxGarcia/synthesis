@@ -1,0 +1,13 @@
+@import '@styles/variables';
+
+.title {
+  position: absolute;
+  left: -50px;
+  transform: rotateZ(90deg);
+  font-size: 0.75rem;
+  max-width: 60px;
+  min-width: 60px;
+  text-transform: uppercase;
+  color: $text;
+  font-weight: 600;
+}

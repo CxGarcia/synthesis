@@ -19,12 +19,14 @@ export default function synthBuilder(Tone) {
     options: synths,
   };
 
-  function createSynth(instrument, envelope, volume, effects, oscillators) {
+  function createSynth(instrument, envelope, volume, effects, oscillator) {
     const [attack, decay, sustain, release] = envelope;
+    const { oscVol, oscType } = oscillator;
+
     const _synth = new Tone[instrument]({
       volume: volume,
       portamento: 0.005,
-      oscillator: { volume: 12, type: 'sine' },
+      oscillator: oscType ? { volume: oscVol, type: oscType } : null,
       envelope: { attack, decay, sustain, release },
     });
 

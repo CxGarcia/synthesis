@@ -13,7 +13,7 @@ export default function stateReducer(state, action) {
         bars: 1,
         pitch: 4,
         envelope: [0.1, 0.5, 0.25, 0.5],
-        oscillators: 'LFO',
+        oscillator: { oscType: 'sine', oscVol: 10 },
       };
 
       const newInstrument = {
@@ -143,6 +143,26 @@ export default function stateReducer(state, action) {
         const { effects } = _instrument;
 
         return { ..._instrument, effects: [...effects, _effect] };
+      });
+
+      return {
+        ...state,
+        instruments: _instruments,
+      };
+    }
+
+    case 'UPDATE_OSCILLATOR': {
+      const { type, ...oscProps } = action;
+      const { activeInstrumentId, instruments } = state;
+
+      const _instruments = instruments.map((_instrument) => {
+        if (_instrument.id !== activeInstrumentId) return _instrument;
+        const { oscillator } = _instrument;
+
+        return {
+          ..._instrument,
+          oscillator: { ...oscillator, ...oscProps },
+        };
       });
 
       return {

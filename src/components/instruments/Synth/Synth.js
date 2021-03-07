@@ -25,7 +25,7 @@ const Synth = React.memo(function Synth({
     subdivisions,
     pitch,
     envelope,
-    oscillators,
+    oscillator,
 
     savedPattern = [],
   } = properties;
@@ -50,7 +50,7 @@ const Synth = React.memo(function Synth({
       envelope,
       volume,
       effects,
-      oscillators
+      oscillator
     );
     setSynth(_synth);
 
@@ -62,10 +62,11 @@ const Synth = React.memo(function Synth({
   }, [
     Tone.PolySynth,
     Tone.Synth,
-    volume,
-    envelope,
-    effects,
     instrument,
+    volume,
+    effects,
+    envelope,
+    oscillator,
     pitch,
   ]);
 

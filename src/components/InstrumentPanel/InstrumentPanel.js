@@ -9,7 +9,7 @@ import { ArrowL, ArrowR } from '@resources/icons';
 import styles from './InstrumentPanel.module.scss';
 
 function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
-  const panels = ['adsr', 'bars', 'effects', 'volume'];
+  const panels = ['adsr', 'bars', 'effects', 'volume', 'oscillator'];
   const [activePanels, setActivePanels] = useState(panels);
 
   if (!activeInstrument) {
@@ -60,6 +60,9 @@ function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
     volume: {
       handleVolume,
       volume,
+    },
+    oscillator: {
+      dispatch,
     },
   };
 
