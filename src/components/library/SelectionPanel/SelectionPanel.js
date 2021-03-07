@@ -1,23 +1,36 @@
 import React, { useEffect, useState } from 'react';
 
 import instrumentComponents from '@instruments';
-import SelectionItems from '@components/SelectionItems/SelectionItems';
+
+import CategoryItems from '@library/CategoryItems/CategoryItems';
+import SelectionItems from '@library/SelectionItems/SelectionItems';
 import Select from '@components/Select/Select';
 
 import { getSampleNames } from '@api';
 import styles from './SelectionPanel.module.scss';
 
 function SelectionPanel({ dispatch, Tone }) {
-  const [samples, setSamples] = useState(null);
+  const [samples, setSamples] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    getSampleNames().then((_samples) => {
+    getSampleNames().then((res) => {
+      const _samples = Object.values(res).flat(1);
+      const _categories = Object.keys(res);
+
       setSamples(_samples);
+      setCategories(_categories);
     });
   }, []);
 
-  function renderOptions() {
-    return samples.map((sample, idx) => {
+  function renderCategories() {
+    return categories.map((category, idx) => {
+      return <CategoryItems name={category} key={category} Tone={Tone} />;
+    });
+  }
+
+  function renderOptions(cb = (_) => true) {
+    return samples.filter(cb).map((sample, idx) => {
       const { category, name } = sample;
       if (name.length < 1 || name == null) return null;
       return (
@@ -46,7 +59,10 @@ function SelectionPanel({ dispatch, Tone }) {
           defaultOption={'add instrument'}
           maxWidth="200px"
         />
-        <div className={styles.options}>{samples && renderOptions()}</div>
+        <div className={styles.options}>
+          {renderCategories()}
+          {renderOptions()}
+        </div>
       </div>
     </div>
   );

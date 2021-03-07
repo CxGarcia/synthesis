@@ -1,14 +1,20 @@
 @import '@styles/variables';
 
 .container {
+  width: fit-content;
   max-height: 20px;
   max-width: 30%;
-  color: $text;
   background-color: $secondary;
   font-size: 0.8rem;
   margin: 0.25rem 0;
   border-radius: 10px;
   padding: 0.25rem;
+  // flex: 0 0 33.333333%;
+}
+
+.name {
+  overflow: hidden;
+  color: $text;
+  white-space: nowrap;
   text-overflow: ellipsis;
-  flex: 0 0 33.333333%;
 }

@@ -20,7 +20,7 @@ function SelectionItems({ Tone, name, category }) {
 
   return (
     <div className={styles.container} onClick={handleClick}>
-      <p>{name.replace('.wav', '')}</p>
+      <p className={styles.name}>{name.replace('.wav', '')}</p>
     </div>
   );
 }

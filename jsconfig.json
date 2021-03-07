@@ -3,13 +3,14 @@
     "baseUrl": "src/",
     "paths": {
       "@components/*": ["components/*"],
+      "@panels/*": ["components/panels/*"],
+      "@instruments/*": ["components/instruments/*"],
+      "@effects/*": ["components/effects/*"],
+      "@library/*": ["components/library/*"],
       "@styles/*": ["global-styles/*"],
       "@utils/*": ["utils/*"],
       "@resources/*": ["resources/*"],
       "@context/*": ["context/*"],
-      "@panels/*": ["components/panels/*"],
-      "@instruments/*": ["components/instruments/*"],
-      "@effects/*": ["components/effects/*"],
       "@api/*": ["api/*"]
     }
   },

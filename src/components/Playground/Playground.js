@@ -1,7 +1,7 @@
 import React from 'react';
 
 import instrumentComponents from '@instruments';
-import SelectionPanel from '@panels/SelectionPanel/SelectionPanel';
+import SelectionPanel from '@library/SelectionPanel/SelectionPanel';
 import TransportPosition from '@panels/TransportPosition/TransportPosition';
 
 import styles from './Playground.module.scss';
@@ -36,12 +36,12 @@ function Playground({
   return (
     <div className={styles.playground}>
       <SelectionPanel Tone={Tone} dispatch={dispatch} />
-      <div className={styles.playgroundSub}>
-        {instruments.length > 0 && (
+      {instruments.length > 0 && (
+        <div className={styles.playgroundSub}>
           <TransportPosition Tone={Tone} maxBars={maxBars} />
-        )}
-        <div className={styles.instruments}>{renderInstruments()}</div>
-      </div>
+          <div className={styles.instruments}>{renderInstruments()}</div>
+        </div>
+      )}
     </div>
   );
 }

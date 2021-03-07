@@ -5,8 +5,9 @@
   @include panel-style;
   position: relative;
   height: 60vh;
-  margin-right: 0.5rem;
   width: 20%;
+  margin-right: 0.5rem;
+  overflow: hidden;
 }
 .panelTitle {
   @include panel-title;
@@ -17,8 +18,10 @@
 }
 
 .selection {
+  height: 100%;
   margin-top: 3rem;
   padding: 1rem;
+  overflow: scroll;
 }
 
 .options {

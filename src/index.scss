@@ -32,6 +32,21 @@ p {
   }
 }
 
+::-webkit-scrollbar {
+  width: 4px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-track {
+  background: #383838c2;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba($secondary, 0.5);
+  border-radius: 10px;
+}
+
 body {
   background-color: $bg;
   height: 100vh;
