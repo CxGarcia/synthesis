@@ -6,6 +6,7 @@ import Select from '@components/Select/Select';
 
 import { createArr, createMatrix, compareChanges } from '@utils';
 import polySynth from './polySynthBuilder';
+
 import styles from './PolySynth.module.scss';
 
 const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
@@ -15,6 +16,8 @@ const PolySynth = React.memo(function PolySynth({
   dispatch,
   active,
   properties,
+  instrument: _instrument,
+  subCategory,
 }) {
   const {
     effects,
@@ -38,7 +41,7 @@ const PolySynth = React.memo(function PolySynth({
     options,
   } = polySynth(Tone);
 
-  const [instrument, setInstrument] = useState('Synth');
+  const [instrument, setInstrument] = useState(_instrument);
   const [synth, setSynth] = useState(null);
   const [chords, setChords] = useState(savedChords);
   const [pattern, setPattern] = useState(savedPattern);
@@ -130,7 +133,7 @@ const PolySynth = React.memo(function PolySynth({
           handleSetActiveInstrument={handleSetActiveInstrument}
           handleDeleteInstrument={handleDeleteInstrument}
           options={options}
-          name="PolySynth"
+          name={`${subCategory} | ${_instrument}`}
           active={active}
         />
         <div className={styles.keyboard}>

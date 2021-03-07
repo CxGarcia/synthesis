@@ -15,6 +15,7 @@ const Synth = React.memo(function Synth({
   active,
   properties,
   instrument: _instrument,
+  subCategory,
 }) {
   const {
     effects,
@@ -133,7 +134,7 @@ const Synth = React.memo(function Synth({
           handleSetActiveInstrument={handleSetActiveInstrument}
           handleDeleteInstrument={handleDeleteInstrument}
           options={options}
-          name={instrument}
+          name={`${subCategory} | ${_instrument}`}
           active={active}
         />
         <div className={styles.keyboard}>

@@ -12,7 +12,10 @@ function InstrumentContainer({
   name,
 }) {
   return (
-    <div className={`${styles.panel} ${active && styles.activePanel}`}>
+    <div
+      className={`${styles.panel} ${active && styles.activePanel}`}
+      onClick={handleSetActiveInstrument}
+    >
       <h1 className={styles.delete} onClick={handleDeleteInstrument}>
         X
       </h1>
@@ -22,10 +25,7 @@ function InstrumentContainer({
         <Select onChangeFn={setActiveTilesByStep} options={[1, 2, 4, 8, 16]} />
       )}
 
-      <div
-        className={`${styles.fxButton} ${active && styles.activeButton}`}
-        onClick={handleSetActiveInstrument}
-      >
+      <div className={`${styles.fxButton} ${active && styles.activeButton}`}>
         +
       </div>
     </div>
