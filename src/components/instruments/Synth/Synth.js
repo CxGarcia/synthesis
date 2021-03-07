@@ -14,6 +14,7 @@ const Synth = React.memo(function Synth({
   dispatch,
   active,
   properties,
+  instrument: _instrument,
 }) {
   const {
     effects,
@@ -35,7 +36,7 @@ const Synth = React.memo(function Synth({
     options,
   } = synthBuilder(Tone);
 
-  const [instrument, setInstrument] = useState('Synth');
+  const [instrument, setInstrument] = useState(_instrument);
   const [synth, setSynth] = useState(null);
   const [pattern, setPattern] = useState(savedPattern);
   const [progression, setProgression] = useState([]);
@@ -132,7 +133,7 @@ const Synth = React.memo(function Synth({
           handleSetActiveInstrument={handleSetActiveInstrument}
           handleDeleteInstrument={handleDeleteInstrument}
           options={options}
-          name="Synth"
+          name={instrument}
           active={active}
         />
         <div className={styles.keyboard}>

@@ -10,7 +10,7 @@ import styles from './SelectionPanel.module.scss';
 
 function SelectionPanel({ Tone, dispatch }) {
   const [instruments, setInstruments] = useState([...synths, ...polySynths]);
-  const [subCategories, setSubCategories] = useState(['synth', 'polysynth']);
+  const [subCategories, setSubCategories] = useState(['synth', 'polySynth']);
   const [activeSubCategory, setActiveSubCategory] = useState(null);
   const [search, setSearch] = useState('');
 
@@ -35,17 +35,16 @@ function SelectionPanel({ Tone, dispatch }) {
   }
 
   function renderCategories() {
-    return subCategories
-      .sort((a, b) => b - a)
-      .map((subCategory) => {
-        return (
-          <CategoryItems
-            category={subCategory}
-            handleSubCategory={handleSubCategory}
-            key={subCategory}
-          />
-        );
-      });
+    return subCategories.map((subCategory) => {
+      return (
+        <CategoryItems
+          category={subCategory}
+          active={subCategory === activeSubCategory}
+          handleSubCategory={handleSubCategory}
+          key={subCategory}
+        />
+      );
+    });
   }
 
   const handleCreateInstrument = (category, subCategory, instrument) =>
@@ -66,6 +65,7 @@ function SelectionPanel({ Tone, dispatch }) {
           return instrument?.instrument.toLowerCase().includes(search);
         } else return false;
       })
+      .slice(0, 250)
       .map((_instrument, idx) => {
         const { category, subCategory, instrument } = _instrument;
         if (instrument.length < 1 || instrument == null) return null;

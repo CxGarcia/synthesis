@@ -3,8 +3,15 @@
 
 .container {
   @include library-items;
+  padding: 0.25rem 0rem;
   text-transform: uppercase;
   font-weight: 600;
   color: $primary;
-  flex: 0 0 33.33333%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.active {
+  background-color: $highlights;
 }
