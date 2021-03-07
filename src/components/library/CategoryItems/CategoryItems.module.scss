@@ -1,0 +1,10 @@
+@import '@styles/variables';
+@import '@styles/mixins';
+
+.container {
+  @include library-items;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: $primary;
+  flex: 0 0 33.33333%;
+}

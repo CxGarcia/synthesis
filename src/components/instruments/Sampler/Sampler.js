@@ -19,8 +19,10 @@ const Sampler = React.memo(function Sampler({
   properties,
 }) {
   const {
-    effects,
     id,
+    effects,
+    subCategory,
+    instrument,
     volume,
     bars,
     subdivisions,
@@ -34,7 +36,7 @@ const Sampler = React.memo(function Sampler({
     options,
   } = samplerBuilder(Tone);
 
-  const [instrument, setInstrument] = useState('kick');
+  // const [instrument, setInstrument] = useState(instrument);
   const [sample, setSample] = useState(null);
   const [pattern, setPattern] = useState(savedPattern);
 
@@ -43,7 +45,7 @@ const Sampler = React.memo(function Sampler({
 
   // get and update the sample with the correct instrument
   useEffect(() => {
-    const _sample = createSample(instrument, volume, effects);
+    const _sample = createSample(instrument, subCategory, volume, effects);
     setSample(_sample);
 
     return () => {
@@ -86,18 +88,17 @@ const Sampler = React.memo(function Sampler({
   const handleDeleteInstrument = () =>
     dispatch({ type: 'DELETE_INSTRUMENT', id });
 
-  const handleSelectInstrument = (option) => setInstrument(option);
+  // const handleSelectInstrument = (option) => setInstrument(option);
 
   return (
     <>
       <div className={styles.instrument}>
         <InstrumentContainer
-          handleSelectInstrument={handleSelectInstrument}
           handleSetActiveInstrument={handleSetActiveInstrument}
           handleDeleteInstrument={handleDeleteInstrument}
           options={options}
           setActiveTilesByStep={setActiveTilesByStep}
-          name="sampler"
+          name={instrument}
           active={active}
         />
 

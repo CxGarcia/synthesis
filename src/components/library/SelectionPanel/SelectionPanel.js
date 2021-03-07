@@ -1,51 +1,101 @@
 import React, { useEffect, useState } from 'react';
 
-import instrumentComponents from '@instruments';
-
+import { synths, polySynths } from '@instruments';
 import CategoryItems from '@library/CategoryItems/CategoryItems';
 import SelectionItems from '@library/SelectionItems/SelectionItems';
-import Select from '@components/Select/Select';
+import { useDebounce } from '@utils';
 
 import { getSampleNames } from '@api';
 import styles from './SelectionPanel.module.scss';
 
-function SelectionPanel({ dispatch, Tone }) {
-  const [samples, setSamples] = useState([]);
-  const [categories, setCategories] = useState([]);
+function SelectionPanel({ Tone, dispatch }) {
+  const [instruments, setInstruments] = useState([...synths, ...polySynths]);
+  const [subCategories, setSubCategories] = useState(['synth', 'polysynth']);
+  const [activeSubCategory, setActiveSubCategory] = useState(null);
+  const [search, setSearch] = useState('');
+
+  //handle the volume to test the samples
+  const [volume, setVolume] = useState(-15);
 
   useEffect(() => {
     getSampleNames().then((res) => {
       const _samples = Object.values(res).flat(1);
-      const _categories = Object.keys(res);
+      const _subCategories = Object.keys(res);
 
-      setSamples(_samples);
-      setCategories(_categories);
+      setInstruments([...instruments, ..._samples]);
+      setSubCategories([...subCategories, ..._subCategories]);
     });
+    //eslint-disable-next-line
   }, []);
 
+  function handleSubCategory(subCategory) {
+    setActiveSubCategory(
+      activeSubCategory !== subCategory ? subCategory : null
+    );
+  }
+
   function renderCategories() {
-    return categories.map((category, idx) => {
-      return <CategoryItems name={category} key={category} Tone={Tone} />;
-    });
+    return subCategories
+      .sort((a, b) => b - a)
+      .map((subCategory) => {
+        return (
+          <CategoryItems
+            category={subCategory}
+            handleSubCategory={handleSubCategory}
+            key={subCategory}
+          />
+        );
+      });
   }
 
-  function renderOptions(cb = (_) => true) {
-    return samples.filter(cb).map((sample, idx) => {
-      const { category, name } = sample;
-      if (name.length < 1 || name == null) return null;
-      return (
-        <SelectionItems
-          category={category}
-          name={name}
-          key={name + idx}
-          Tone={Tone}
-        />
-      );
-    });
+  const handleCreateInstrument = (category, subCategory, instrument) =>
+    dispatch({ type: 'CREATE_INSTRUMENT', category, subCategory, instrument });
+
+  function renderOptions() {
+    return instruments
+      .filter((instrument) => {
+        if (!activeSubCategory && !search) return true;
+        else if (activeSubCategory && search) {
+          return (
+            instrument?.subCategory === activeSubCategory &&
+            instrument?.instrument.toLowerCase().includes(search)
+          );
+        } else if (activeSubCategory) {
+          return instrument?.subCategory === activeSubCategory;
+        } else if (search) {
+          return instrument?.instrument.toLowerCase().includes(search);
+        } else return false;
+      })
+      .map((_instrument, idx) => {
+        const { category, subCategory, instrument } = _instrument;
+        if (instrument.length < 1 || instrument == null) return null;
+        return (
+          <SelectionItems
+            Tone={Tone}
+            category={category}
+            subCategory={subCategory}
+            instrument={instrument}
+            handleCreateInstrument={handleCreateInstrument}
+            key={instrument + idx}
+            volume={volume}
+          />
+        );
+      });
   }
 
-  const handleCreateInstrument = (selectedInstrument) =>
-    dispatch({ type: 'CREATE_INSTRUMENT', selectedInstrument });
+  const handleSearch = useDebounce(function (event) {
+    event.preventDefault();
+
+    const { value } = event.target;
+    setSearch(value);
+  }, 500);
+
+  const debouncedHandleChangeFn = useDebounce(setVolume, 250);
+
+  function handleVolume(event) {
+    const volume = event.target.value;
+    debouncedHandleChangeFn(volume);
+  }
 
   return (
     <div className={styles.container}>
@@ -53,16 +103,21 @@ function SelectionPanel({ dispatch, Tone }) {
         <h2>Library</h2>
       </div>
       <div className={styles.selection}>
-        <Select
-          onChangeFn={handleCreateInstrument}
-          options={Object.keys(instrumentComponents)}
-          defaultOption={'add instrument'}
-          maxWidth="200px"
+        <input type="text" className={styles.input} onChange={handleSearch} />
+        <div className={styles.categories}>{renderCategories()}</div>
+        <div className={styles.options}>{renderOptions()}</div>
+      </div>
+      <div className={styles.volume}>
+        <input
+          type="range"
+          min={-60}
+          max={10}
+          value={volume}
+          step={2.5}
+          id="myRange"
+          className={styles.slider}
+          onChange={handleVolume}
         />
-        <div className={styles.options}>
-          {renderCategories()}
-          {renderOptions()}
-        </div>
       </div>
     </div>
   );

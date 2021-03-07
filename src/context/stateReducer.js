@@ -5,7 +5,7 @@ export default function stateReducer(state, action) {
   switch (action.type) {
     case 'CREATE_INSTRUMENT': {
       const id = uuidv4();
-      const { selectedInstrument } = action;
+      const { category, subCategory, instrument } = action;
       const defaultSettings = {
         effects: [],
         volume: -25,
@@ -16,15 +16,17 @@ export default function stateReducer(state, action) {
         oscillators: 'LFO',
       };
 
-      const instrument = {
-        instrument: selectedInstrument,
+      const newInstrument = {
+        category,
+        subCategory,
+        instrument,
         id,
         ...defaultSettings,
       };
 
       return {
         ...state,
-        instruments: [...state.instruments, instrument],
+        instruments: [...state.instruments, newInstrument],
       };
     }
 

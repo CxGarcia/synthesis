@@ -131,7 +131,7 @@ const PolySynth = React.memo(function PolySynth({
           handleDeleteInstrument={handleDeleteInstrument}
           options={options}
           name="PolySynth"
-          active
+          active={active}
         />
         <div className={styles.keyboard}>
           <Sequencer

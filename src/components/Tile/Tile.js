@@ -13,7 +13,7 @@ function Tile({
 }) {
   function handlePlay() {
     if (active) return;
-    instrument.triggerAttackRelease(note, '8n');
+    instrument.triggerAttackRelease(note, 0.5);
   }
 
   function handleMouseDown() {

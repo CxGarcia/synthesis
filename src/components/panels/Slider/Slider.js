@@ -11,6 +11,7 @@ function Slider({
   step = 1,
   label,
   defaultVal,
+  noRotate = false,
 }) {
   const [value, setValue] = useState(defaultVal);
 
@@ -31,7 +32,12 @@ function Slider({
   return (
     <div className={styles.container}>
       <label htmlFor="input">
-        <h3 className={styles.sliderLabel}>{label}</h3>
+        <h3
+          className={styles.sliderLabel}
+          style={{ transform: noRotate && 'rotate(0deg)' }}
+        >
+          {label}
+        </h3>
       </label>
       <input
         type="range"
@@ -42,6 +48,7 @@ function Slider({
         className={styles.slider}
         id="myRange"
         onChange={handleChange}
+        style={{ transform: noRotate && 'rotate(0deg)' }}
       />
     </div>
   );

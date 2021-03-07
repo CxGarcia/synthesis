@@ -5,12 +5,10 @@ import Select from '@components/Select/Select';
 import styles from './InstrumentContainer.module.scss';
 
 function InstrumentContainer({
-  handleSelectInstrument,
   handleSetActiveInstrument,
   handleDeleteInstrument,
   setActiveTilesByStep,
   active,
-  options,
   name,
 }) {
   return (
@@ -18,10 +16,9 @@ function InstrumentContainer({
       <h1 className={styles.delete} onClick={handleDeleteInstrument}>
         X
       </h1>
-      <p>{name}</p>
-      <span>|</span>
-      <Select onChangeFn={handleSelectInstrument} options={options} />
-      {name === 'sampler' && (
+      <p>{name.replace('.wav', '')}</p>
+
+      {setActiveTilesByStep && (
         <Select onChangeFn={setActiveTilesByStep} options={[1, 2, 4, 8, 16]} />
       )}
 

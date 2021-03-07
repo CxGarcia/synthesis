@@ -15,6 +15,9 @@ function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
   if (!activeInstrument) {
     return (
       <div className={styles.container}>
+        <div className={styles.panelTitle}>
+          <h2>Instrument</h2>
+        </div>
         <h1 className={styles.title} style={{ alignSelf: 'center' }}>
           Select your instrument
         </h1>
