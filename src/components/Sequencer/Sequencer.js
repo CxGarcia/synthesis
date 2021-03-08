@@ -11,7 +11,7 @@ const Sequencer = React.memo(function Sequencer({
   toggleActive,
   note,
   keyboard,
-  pitch = 4,
+  octave = 4,
 }) {
   const [isPainting, setIsPainting] = useState(false);
 
@@ -22,7 +22,7 @@ const Sequencer = React.memo(function Sequencer({
   function renderKeyboard() {
     const length = notes.length;
     return pattern.map((_pattern, row) => {
-      const note = notes[row % length] + String(pitch);
+      const note = notes[row % length] + String(octave);
       return renderSequence(_pattern, note, row);
     });
   }

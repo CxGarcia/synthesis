@@ -8,9 +8,9 @@ function BarsPanelModule({
   barsOptions,
   getOptionsIdx,
   bars,
-  handlePitch,
-  pitchOptions,
-  pitch,
+  handleOctave,
+  octaveOptions,
+  octave,
 }) {
   return (
     <div className={styles.container}>
@@ -20,11 +20,11 @@ function BarsPanelModule({
         options={barsOptions}
         initialOption={barsOptions[getOptionsIdx(bars)]}
       />
-      <label className={styles.label}>Pitch</label>
+      <label className={styles.label}>Octave</label>
       <Select
-        onChangeFn={handlePitch}
-        options={pitchOptions}
-        initialOption={pitch}
+        onChangeFn={handleOctave}
+        options={octaveOptions}
+        initialOption={octave}
       />
     </div>
   );

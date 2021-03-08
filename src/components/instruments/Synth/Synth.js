@@ -23,7 +23,7 @@ const Synth = React.memo(function Synth({
     volume,
     bars,
     subdivisions,
-    pitch,
+    octave,
     envelope,
     oscillator,
 
@@ -33,12 +33,13 @@ const Synth = React.memo(function Synth({
   const {
     createSynth,
     createSynthSequence,
-    setNewPitchToPattern,
+    setNewOctaveToPattern,
     options,
   } = synthBuilder(Tone);
 
-  const [instrument, setInstrument] = useState(_instrument);
   const [synth, setSynth] = useState(null);
+  const [instrument, setInstrument] = useState(_instrument);
+
   const [pattern, setPattern] = useState(savedPattern);
   const [progression, setProgression] = useState([]);
 
@@ -67,7 +68,7 @@ const Synth = React.memo(function Synth({
     effects,
     envelope,
     oscillator,
-    pitch,
+    octave,
   ]);
 
   const toggleActive = (col, row, note) => {
@@ -93,11 +94,11 @@ const Synth = React.memo(function Synth({
   //   if (isInitialMount.current) {
   //     isInitialMount.current = false;
   //   } else if (chords && !isInitialMount.current) {
-  //     // const _chords = setNewPitchToChords(chords, pitch);
+  //     // const _chords = setNewOctaveToChords(chords, octave);
   //   }
 
   //   //eslint-disable-next-line
-  // }, [pitch]);
+  // }, [octave]);
 
   useEffect(() => {
     const sequence = createSynthSequence(
@@ -144,7 +145,7 @@ const Synth = React.memo(function Synth({
             pattern={pattern}
             toggleActive={toggleActive}
             keyboard={true}
-            pitch={pitch}
+            octave={octave}
           />
         </div>
       </div>

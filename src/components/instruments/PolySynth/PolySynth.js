@@ -25,7 +25,7 @@ const PolySynth = React.memo(function PolySynth({
     volume,
     bars,
     subdivisions,
-    pitch,
+    octave,
     envelope,
     oscillators,
     savedChords = [],
@@ -37,7 +37,7 @@ const PolySynth = React.memo(function PolySynth({
     createSynthSequence,
     addNoteToChord,
     removeNoteFromChord,
-    setNewPitchToChords,
+    setNewOctaveToChords,
     options,
   } = polySynth(Tone);
 
@@ -70,7 +70,7 @@ const PolySynth = React.memo(function PolySynth({
     envelope,
     effects,
     instrument,
-    pitch,
+    octave,
   ]);
 
   const toggleActive = (col, row, note) => {
@@ -95,12 +95,12 @@ const PolySynth = React.memo(function PolySynth({
     if (isInitialMount.current) {
       isInitialMount.current = false;
     } else if (chords && !isInitialMount.current) {
-      const _chords = setNewPitchToChords(chords, pitch);
+      const _chords = setNewOctaveToChords(chords, octave);
       setChords(_chords);
     }
 
     //eslint-disable-next-line
-  }, [pitch]);
+  }, [octave]);
 
   useEffect(() => {
     const sequence = createSynthSequence(synth, chords, bars, subdivisions);
@@ -142,7 +142,7 @@ const PolySynth = React.memo(function PolySynth({
             pattern={pattern}
             toggleActive={toggleActive}
             keyboard={true}
-            pitch={pitch}
+            octave={octave}
           />
         </div>
       </div>

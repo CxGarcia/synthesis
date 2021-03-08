@@ -15,7 +15,7 @@ export default function synthBuilder(Tone) {
   return {
     createSynth,
     createSynthSequence,
-    setNewPitchToChords,
+    setNewOctaveToChords,
     options: synths,
   };
 
@@ -56,9 +56,24 @@ export default function synthBuilder(Tone) {
     return sequence;
   }
 
-  function setNewPitchToChords(chords, pitch) {
+  function arpeggiator(synth, progression) {
+    const sequence = new Tone.Sequence(
+      (time, note) => {
+        synth.triggerAttackRelease(note, '8n', time);
+      },
+
+      progression
+    );
+
+    sequence.loop = true;
+    sequence.start(0);
+
+    return sequence;
+  }
+
+  function setNewOctaveToChords(chords, octave) {
     return chords.map((chord) =>
-      chord.map((el) => el.replace(/[0-9]/g, pitch))
+      chord.map((el) => el.replace(/[0-9]/g, octave))
     );
   }
 
@@ -66,37 +81,3 @@ export default function synthBuilder(Tone) {
     return effects.map((_effect) => _effect.method);
   }
 }
-
-// const savedPattern = [
-//   ['D#2'],
-//   [],
-//   [],
-//   ['C2'],
-//   [],
-//   [],
-//   ['G2'],
-//   [],
-//   [],
-//   [],
-//   ['D#2'],
-//   [],
-//   ['C2'],
-//   [],
-//   [],
-//   [],
-// ];
-
-// const savedMatrix = [
-//   [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//   [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-// ];

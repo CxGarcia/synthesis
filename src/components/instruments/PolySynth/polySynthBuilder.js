@@ -8,7 +8,7 @@ export default function synthBuilder(Tone) {
     createSynthSequence,
     addNoteToChord,
     removeNoteFromChord,
-    setNewPitchToChords,
+    setNewOctaveToChords,
     options: synths,
   };
 
@@ -64,9 +64,9 @@ export default function synthBuilder(Tone) {
     });
   }
 
-  function setNewPitchToChords(chords, pitch) {
+  function setNewOctaveToChords(chords, octave) {
     return chords.map((chord) =>
-      chord.map((el) => el.replace(/[0-9]/g, pitch))
+      chord.map((el) => el.replace(/[0-9]/g, octave))
     );
   }
 
@@ -75,24 +75,24 @@ export default function synthBuilder(Tone) {
   }
 }
 
-// const savedPattern = [
-//   ['D#2'],
-//   [],
-//   [],
-//   ['C2'],
-//   [],
-//   [],
-//   ['G2'],
-//   [],
-//   [],
-//   [],
-//   ['D#2'],
-//   [],
-//   ['C2'],
-//   [],
-//   [],
-//   [],
-// ];
+const savedPattern = [
+  ['C5', 'G5'],
+  [],
+  [],
+  [],
+  ['D5', 'F#5', 'A5'],
+  [],
+  [],
+  [],
+  ['E5', 'G#5', 'B5', 'C#5'],
+  [],
+  [],
+  [],
+  ['G5', 'A5', 'D5'],
+  [],
+  [],
+  [],
+];
 
 // const savedMatrix = [
 //   [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],

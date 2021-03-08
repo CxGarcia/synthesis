@@ -11,7 +11,7 @@ export default function stateReducer(state, action) {
         volume: -25,
         subdivisions: 16,
         bars: 1,
-        pitch: 4,
+        octave: 4,
         envelope: [0.1, 0.5, 0.25, 0.5],
         oscillator: { oscType: 'sine', oscVol: 10 },
       };
@@ -95,14 +95,14 @@ export default function stateReducer(state, action) {
       };
     }
 
-    case 'SET_PITCH': {
-      const { pitch } = action;
+    case 'SET_OCTAVE': {
+      const { octave } = action;
       const { instruments, activeInstrumentId } = state;
 
       const _instruments = instruments.map((_instrument) => {
         if (_instrument.id !== activeInstrumentId) return _instrument;
 
-        return { ..._instrument, pitch: pitch };
+        return { ..._instrument, octave: octave };
       });
 
       return {

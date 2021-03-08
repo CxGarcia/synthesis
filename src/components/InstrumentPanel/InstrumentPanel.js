@@ -25,18 +25,18 @@ function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
     );
   }
 
-  const { effects, volume, bars, pitch, envelope } = activeInstrument;
+  const { effects, volume, bars, octave, envelope } = activeInstrument;
 
   const handleVolume = (_volume) =>
     dispatch({ type: 'UPDATE_INSTRUMENT_VOLUME', volume: _volume });
 
   const handleMaxTiles = (_bars) => dispatch({ type: 'SET_BARS', bars: _bars });
 
-  const handlePitch = (_pitch) =>
-    dispatch({ type: 'SET_PITCH', pitch: _pitch });
+  const handleOctave = (_octave) =>
+    dispatch({ type: 'SET_OCTAVE', octave: _octave });
 
   const barsOptions = ['1/4', '1/2', '1', '2'];
-  const pitchOptions = createArr(7, null, (_, idx) => idx + 1);
+  const octaveOptions = createArr(7, null, (_, idx) => idx + 1);
 
   const moduleProps = {
     adsr: {
@@ -53,9 +53,9 @@ function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
       barsOptions,
       getOptionsIdx,
       bars,
-      handlePitch,
-      pitchOptions,
-      pitch,
+      handleOctave,
+      octaveOptions,
+      octave,
     },
     volume: {
       handleVolume,
