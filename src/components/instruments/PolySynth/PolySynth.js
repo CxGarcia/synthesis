@@ -125,6 +125,8 @@ const PolySynth = React.memo(function PolySynth({
 
   const handleSelectInstrument = (option) => setInstrument(option);
 
+  const menuOptions = [];
+
   return (
     <>
       <div className={styles.instrument}>
@@ -132,6 +134,7 @@ const PolySynth = React.memo(function PolySynth({
           handleSelectInstrument={handleSelectInstrument}
           handleSetActiveInstrument={handleSetActiveInstrument}
           handleDeleteInstrument={handleDeleteInstrument}
+          menuOptions={menuOptions}
           options={options}
           name={`${subCategory} | ${_instrument}`}
           active={active}

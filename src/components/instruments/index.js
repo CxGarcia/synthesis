@@ -16,7 +16,8 @@ const synths = [
   { category: 'synth', subCategory: 'synth', instrument: 'MembraneSynth' },
   { category: 'synth', subCategory: 'synth', instrument: 'MetalSynth' },
   { category: 'synth', subCategory: 'synth', instrument: 'MonoSynth' },
-  { category: 'synth', subCategory: 'synth', instrument: 'PluckSynth' },
+  //getting a weird bug with the pluck synth so will leave it out until it is resolved
+  // { category: 'synth', subCategory: 'synth', instrument: 'PluckSynth' },
 ];
 
 const polySynths = [

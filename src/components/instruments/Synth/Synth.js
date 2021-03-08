@@ -31,7 +31,6 @@ const Synth = React.memo(function Synth({
     subdivisions,
     envelope,
     oscillator,
-    arpeggiator = true,
     savedPattern = [],
   } = properties;
 
@@ -45,6 +44,7 @@ const Synth = React.memo(function Synth({
 
   const [synth, setSynth] = useState(null);
   const [instrument, setInstrument] = useState(_instrument);
+  const [arpeggiator, setArpeggiator] = useState(false);
   const [mute, setMute] = useState(false);
 
   const [pattern, setPattern] = useState(savedPattern);
@@ -131,8 +131,7 @@ const Synth = React.memo(function Synth({
 
   //rerender pattern if the amount of bars changes
   useLayoutEffect(() => {
-    setProgression(createArr(totalTiles));
-    setPattern(createMatrix(notes.length, totalTiles));
+    setInitialPattern();
   }, [totalTiles]);
 
   const handleSetActiveInstrument = () =>
@@ -146,28 +145,37 @@ const Synth = React.memo(function Synth({
   const handleMute = () => setMute(!mute);
 
   function handleRandomProgression() {
-    const _progression = randomChordProgression('E', octave, 'minor blues');
+    const _progression = randomChordProgression('D', octave, 'blues');
     const _indexOfNotes = getIndexOfNotes(_progression);
+
     const _pattern = createMatrixWithPattern(
       notes.length,
       totalTiles,
       _indexOfNotes
     );
-    // const _pattern =
 
-    // const cb = createArr(totalTiles, null, (el, idx) => {
-
-    // })
-
+    setArpeggiator(true);
     setPattern(_pattern);
     setProgression(_progression);
   }
+
+  function setInitialPattern() {
+    setArpeggiator(false);
+    setProgression(createArr(totalTiles, []));
+    setPattern(createMatrix(notes.length, totalTiles));
+  }
+
+  const menuOptions = [
+    { name: 'Random Progression', method: handleRandomProgression },
+    { name: 'Reset Pattern', method: setInitialPattern },
+  ];
 
   return (
     <>
       <div className={styles.instrument}>
         <div>
           <InstrumentContainer
+            menuOptions={menuOptions}
             handleMute={handleMute}
             mute={mute}
             handleSelectInstrument={handleSelectInstrument}
@@ -177,7 +185,6 @@ const Synth = React.memo(function Synth({
             name={`${subCategory} | ${_instrument}`}
             active={active}
           />
-          <button onClick={handleRandomProgression}>XXX</button>
         </div>
         <div className={styles.keyboard}>
           <Sequencer

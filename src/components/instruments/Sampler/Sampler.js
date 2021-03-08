@@ -72,7 +72,7 @@ const Sampler = React.memo(function Sampler({
   }, [bars, createSequence, instrument, pattern, sample, subdivisions]);
 
   useLayoutEffect(() => {
-    setPattern(createArr(totalTiles));
+    setInitialPattern();
   }, [totalTiles]);
 
   const toggleActive = useCallback(
@@ -106,12 +106,42 @@ const Sampler = React.memo(function Sampler({
     setPattern(_pattern);
   }
 
+  const setInitialPattern = () => setPattern(createArr(totalTiles));
+
   const handleMute = () => setMute(!mute);
 
   const menuOptions = [
     { name: 'Shift Pattern Left', method: shiftPatternLeft },
     { name: 'Shift Pattern Right', method: shiftPatternRight },
-    { name: 'Set Active Tiles by Step', method: setActiveTilesByStep },
+    {
+      name: 'Set Every 1 Tile',
+      method: setActiveTilesByStep,
+      args: [1],
+    },
+    {
+      name: 'Set Every 2 Tiles',
+      method: setActiveTilesByStep,
+      args: [2],
+    },
+    {
+      name: 'Set Every 4 Tiles',
+      method: setActiveTilesByStep,
+      args: [4],
+    },
+    {
+      name: 'Set Every 4 Tiles',
+      method: setActiveTilesByStep,
+      args: [8],
+    },
+    {
+      name: 'Set Every 16 Tiles',
+      method: setActiveTilesByStep,
+      args: [16],
+    },
+    {
+      name: 'Reset Pattern',
+      method: setInitialPattern,
+    },
   ];
 
   return (

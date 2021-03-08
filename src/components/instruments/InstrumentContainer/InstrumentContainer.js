@@ -21,10 +21,11 @@ function InstrumentContainer({
 
   function renderMenu() {
     return menuOptions.map((option, idx) => {
+      const { name, method, args = [] } = option;
       return (
         <>
-          <div className={styles.menuOption} onClick={option.method}>
-            <p className={styles.menuOptionName}>{option.name}</p>
+          <div className={styles.menuOption} onClick={() => method(...args)}>
+            <p className={styles.menuOptionName}>{name}</p>
           </div>
         </>
       );
@@ -81,7 +82,15 @@ function InstrumentContainer({
           +
         </div>
       </div>
-      {menu && <div className={styles.menu}>{renderMenu()}</div>}
+
+      {menu && (
+        <div className={styles.menu}>
+          <h1 className={styles.closePanel} onClick={() => setMenu(false)}>
+            X
+          </h1>
+          {renderMenu()}
+        </div>
+      )}
     </div>
   );
 }

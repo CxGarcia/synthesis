@@ -24,15 +24,16 @@ export default function synthBuilder(Tone) {
       portamento: 0.1,
       oscillator: oscType ? { volume: oscVol, type: oscType } : null,
       envelope: { attack, decay, sustain, release },
-      swing: 1,
     });
 
-    const _effects = mapEffects(effects);
+    let _effects = mapEffects(effects);
 
     if (mute) {
+      console.log('hiya');
+
       const vol = new Tone.Volume();
       vol.mute = true;
-      _effects.push(vol);
+      _effects = [vol];
     }
 
     _synth.chain(..._effects, Tone.Destination);

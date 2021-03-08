@@ -102,6 +102,27 @@
   }
 }
 
+.closePanel {
+  color: $text;
+  position: absolute;
+  right: 3px;
+  top: 3px;
+  padding: 0.25rem;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  z-index: 2;
+  font-size: 0.8rem;
+  user-select: none;
+
+  font-weight: 600;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+}
+
 .effectsPanel {
   position: relative;
   height: 5vh;
@@ -139,7 +160,7 @@
 }
 
 .menuOptionName {
-  transition: all 0.5s ease;
+  transition: all 0.3s ease;
 
   &:hover {
     cursor: pointer;
