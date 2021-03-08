@@ -28,10 +28,10 @@ function randomChordProgression(root = 'C', octave = 5, scale) {
     // });
   }
 
-  return progression;
+  // return progression;
   // return progression;
 
-  // return shuffle(progression);
+  return shuffle(progression);
   // return [...new Set(progression)];
   // return scaleNotes;
 }

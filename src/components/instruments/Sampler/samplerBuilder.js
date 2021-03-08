@@ -16,7 +16,7 @@ export default function samplerBuilder(Tone) {
     ],
   };
 
-  function createSample(instrument, subCategory, volume, effects) {
+  function createSample(instrument, subCategory, volume, effects, mute) {
     const _sample = new Tone.Sampler({
       urls: {
         A1: `http://localhost:3000/samples/${subCategory}/${instrument}`,
@@ -29,6 +29,12 @@ export default function samplerBuilder(Tone) {
 
     //add effects to sample, if any
     const _effects = effects.map((_effect) => _effect.method);
+
+    if (mute) {
+      const vol = new Tone.Volume();
+      vol.mute = true;
+      _effects.push(vol);
+    }
     _sample.chain(..._effects, Tone.Destination);
 
     return _sample;

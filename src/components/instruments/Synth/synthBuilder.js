@@ -8,7 +8,14 @@ export default function synthBuilder(Tone) {
     setNewOctaveToChords,
   };
 
-  function createSynth(instrument, envelope, volume, effects, oscillator) {
+  function createSynth(
+    instrument,
+    envelope,
+    volume,
+    effects,
+    oscillator,
+    mute
+  ) {
     const [attack, decay, sustain, release] = envelope;
     const { oscVol, oscType } = oscillator;
 
@@ -21,6 +28,12 @@ export default function synthBuilder(Tone) {
     });
 
     const _effects = mapEffects(effects);
+
+    if (mute) {
+      const vol = new Tone.Volume();
+      vol.mute = true;
+      _effects.push(vol);
+    }
 
     _synth.chain(..._effects, Tone.Destination);
 
@@ -67,7 +80,7 @@ export default function synthBuilder(Tone) {
       synth.triggerAttackRelease(note, '8n', time);
     }, progression);
 
-    // sequence.playbackRate = 4;
+    // sequence.playbackRate = 2;
     sequence.loop = true;
     sequence.start(0);
 

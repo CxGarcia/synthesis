@@ -39,13 +39,20 @@ const Sampler = React.memo(function Sampler({
   // const [instrument, setInstrument] = useState(instrument);
   const [sample, setSample] = useState(null);
   const [pattern, setPattern] = useState(savedPattern);
+  const [mute, setMute] = useState(false);
 
   const totalTiles = bars * subdivisions;
   const note = 'C1';
 
   // get and update the sample with the correct instrument
   useEffect(() => {
-    const _sample = createSample(instrument, subCategory, volume, effects);
+    const _sample = createSample(
+      instrument,
+      subCategory,
+      volume,
+      effects,
+      mute
+    );
     setSample(_sample);
 
     return () => {
@@ -53,7 +60,7 @@ const Sampler = React.memo(function Sampler({
       sample?.dispose();
     };
     //eslint-disable-next-line
-  }, [effects, instrument, volume]);
+  }, [effects, instrument, volume, mute]);
 
   useEffect(() => {
     const sequence = createSequence(sample, pattern, bars, subdivisions);
@@ -89,19 +96,38 @@ const Sampler = React.memo(function Sampler({
     dispatch({ type: 'DELETE_INSTRUMENT', id });
 
   // const handleSelectInstrument = (option) => setInstrument(option);
+  function shiftPatternRight() {
+    const _pattern = _shiftPatternRight(pattern);
+    setPattern(_pattern);
+  }
+
+  function shiftPatternLeft() {
+    const _pattern = _shiftPatternLeft(pattern);
+    setPattern(_pattern);
+  }
+
+  const handleMute = () => setMute(!mute);
+
+  const menuOptions = [
+    { name: 'Shift Pattern Left', method: shiftPatternLeft },
+    { name: 'Shift Pattern Right', method: shiftPatternRight },
+    { name: 'Set Active Tiles by Step', method: setActiveTilesByStep },
+  ];
 
   return (
     <>
       <div className={styles.instrument}>
         <InstrumentContainer
-          handleSetActiveInstrument={handleSetActiveInstrument}
+          handleMute={handleMute}
+          mute={mute}
           handleDeleteInstrument={handleDeleteInstrument}
+          handleSetActiveInstrument={handleSetActiveInstrument}
           options={options}
           setActiveTilesByStep={setActiveTilesByStep}
           name={instrument}
           active={active}
+          menuOptions={menuOptions}
         />
-
         <Sequencer
           instrument={sample}
           pattern={pattern}
@@ -115,3 +141,23 @@ const Sampler = React.memo(function Sampler({
 compareChanges);
 
 export default Sampler;
+
+function _shiftPatternRight(pattern) {
+  const _pattern = [...pattern];
+
+  const lastEl = _pattern.pop();
+
+  _pattern.unshift(lastEl);
+
+  return _pattern;
+}
+
+function _shiftPatternLeft(pattern) {
+  const _pattern = [...pattern];
+
+  const firstEl = _pattern.shift();
+
+  _pattern.push(firstEl);
+
+  return _pattern;
+}

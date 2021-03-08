@@ -45,6 +45,7 @@ const Synth = React.memo(function Synth({
 
   const [synth, setSynth] = useState(null);
   const [instrument, setInstrument] = useState(_instrument);
+  const [mute, setMute] = useState(false);
 
   const [pattern, setPattern] = useState(savedPattern);
   const [progression, setProgression] = useState([]);
@@ -57,8 +58,10 @@ const Synth = React.memo(function Synth({
       envelope,
       volume,
       effects,
-      oscillator
+      oscillator,
+      mute
     );
+
     setSynth(_synth);
 
     return () => {
@@ -75,6 +78,7 @@ const Synth = React.memo(function Synth({
     envelope,
     oscillator,
     octave,
+    mute,
   ]);
 
   const toggleActive = (col, row, note) => {
@@ -139,8 +143,10 @@ const Synth = React.memo(function Synth({
 
   const handleSelectInstrument = (option) => setInstrument(option);
 
+  const handleMute = () => setMute(!mute);
+
   function handleRandomProgression() {
-    const _progression = randomChordProgression('E', octave, 'aeolian');
+    const _progression = randomChordProgression('E', octave, 'minor blues');
     const _indexOfNotes = getIndexOfNotes(_progression);
     const _pattern = createMatrixWithPattern(
       notes.length,
@@ -162,6 +168,8 @@ const Synth = React.memo(function Synth({
       <div className={styles.instrument}>
         <div>
           <InstrumentContainer
+            handleMute={handleMute}
+            mute={mute}
             handleSelectInstrument={handleSelectInstrument}
             handleSetActiveInstrument={handleSetActiveInstrument}
             handleDeleteInstrument={handleDeleteInstrument}
