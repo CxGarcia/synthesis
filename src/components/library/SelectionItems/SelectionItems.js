@@ -6,11 +6,11 @@ import styles from './SelectionItems.module.scss';
 
 function SelectionItems({
   Tone,
+  volume,
   category,
   subCategory,
   instrument,
-  handleCreateInstrument,
-  volume,
+  handleSelectInstrument,
 }) {
   const prevSample = useRef(null);
 
@@ -20,7 +20,7 @@ function SelectionItems({
   );
 
   function handleDoubleClick() {
-    handleCreateInstrument(category, subCategory, instrument);
+    handleSelectInstrument(category, subCategory, instrument);
   }
 
   function handleSample() {

@@ -30,11 +30,26 @@ export default function stateReducer(state, action) {
       };
     }
 
-    case 'UPDATE_INSTRUMENT': {
-      return {
-        ...state,
-        instruments: [...state.intruments, action.intruments],
-      };
+    case 'UPDATE_ACTIVE_INSTRUMENT': {
+      const { type, category, ...otherProperties } = action;
+      const { instruments, activeInstrumentId } = state;
+      let categoryErrorFlag = false;
+
+      const _instruments = instruments.map((_instrument) => {
+        if (_instrument.id !== activeInstrumentId) return _instrument;
+        if (_instrument.category !== category) {
+          categoryErrorFlag = true;
+          return _instrument;
+        } else return { ..._instrument, ...otherProperties };
+      });
+
+      if (categoryErrorFlag) {
+        return { ...state, categoryErrorFlag: true };
+      } else
+        return {
+          ...state,
+          instruments: _instruments,
+        };
     }
 
     case 'DELETE_INSTRUMENT': {

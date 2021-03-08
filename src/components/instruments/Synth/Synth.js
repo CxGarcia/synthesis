@@ -135,8 +135,11 @@ const Synth = React.memo(function Synth({
     setInitialPattern();
   }, [totalTiles]);
 
-  const handleSetActiveInstrument = () =>
-    dispatch({ type: 'SET_ACTIVE_INSTRUMENT', id });
+  function handleActiveInstrument() {
+    active
+      ? dispatch({ type: 'REMOVE_ACTIVE_INSTRUMENT' })
+      : dispatch({ type: 'SET_ACTIVE_INSTRUMENT', id });
+  }
 
   const handleDeleteInstrument = () =>
     dispatch({ type: 'DELETE_INSTRUMENT', id });
@@ -183,7 +186,7 @@ const Synth = React.memo(function Synth({
             handleMute={handleMute}
             mute={mute}
             handleSelectInstrument={handleSelectInstrument}
-            handleSetActiveInstrument={handleSetActiveInstrument}
+            handleActiveInstrument={handleActiveInstrument}
             handleDeleteInstrument={handleDeleteInstrument}
             options={options}
             name={`${subCategory} | ${_instrument}`}

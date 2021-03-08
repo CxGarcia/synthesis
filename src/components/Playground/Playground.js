@@ -8,10 +8,11 @@ import styles from './Playground.module.scss';
 
 function Playground({
   Tone,
-  instruments,
-  dispatch,
-  activeInstrumentId,
   maxBars,
+  dispatch,
+  instruments,
+  categoryErrorFlag,
+  activeInstrumentId,
 }) {
   // Create component dynamically, based on the instrument that the user selects
   function renderInstruments() {
@@ -37,7 +38,12 @@ function Playground({
 
   return (
     <div className={styles.playground}>
-      <SelectionPanel Tone={Tone} dispatch={dispatch} />
+      <SelectionPanel
+        Tone={Tone}
+        dispatch={dispatch}
+        categoryErrorFlag={categoryErrorFlag}
+        activeInstrumentId={activeInstrumentId}
+      />
       {instruments.length > 0 && (
         <div className={styles.playgroundSub}>
           <TransportPosition Tone={Tone} maxBars={maxBars} />

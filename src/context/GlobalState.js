@@ -20,6 +20,7 @@ function useGlobalState() {
     activeInstrumentId: null,
     maxBars: 1,
     effectsList: keys,
+    categoryErrorFlag: false,
   });
 
   return [state, dispatch];

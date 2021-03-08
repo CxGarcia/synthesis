@@ -112,3 +112,27 @@
   background: $primary;
   cursor: pointer;
 }
+
+.categoryError {
+  transform-origin: center top;
+  position: absolute;
+  top: 35px;
+  width: 100%;
+  color: $highlights;
+  background-color: rgba($secondary, 0.25);
+  backdrop-filter: blur(3px);
+  padding: 0.5rem;
+  z-index: 1;
+  transition: all 0.25s ease;
+  animation: grow 0.25s;
+  font-size: 0.75rem;
+}
+
+@keyframes grow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

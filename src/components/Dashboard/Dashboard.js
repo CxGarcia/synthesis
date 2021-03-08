@@ -10,12 +10,13 @@ import styles from './Dashboard.module.scss';
 function Dashboard() {
   const [state, dispatch] = useGlobalState();
   const {
-    instruments,
     Tone,
-    activeInstrumentId,
-    effectsList,
     maxBars,
     master,
+    effectsList,
+    instruments,
+    categoryErrorFlag,
+    activeInstrumentId,
   } = state;
 
   const { bpm, volume } = master;
@@ -94,6 +95,7 @@ function Dashboard() {
         dispatch={dispatch}
         activeInstrumentId={activeInstrumentId}
         maxBars={maxBars}
+        categoryErrorFlag={categoryErrorFlag}
       />
     </>
   );
