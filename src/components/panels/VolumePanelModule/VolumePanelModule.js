@@ -5,7 +5,7 @@ import styles from './VolumePanelModule.module.scss';
 
 function VolumePanelModule({ handleVolume, volume }) {
   return (
-    <>
+    <div className={styles.container}>
       <Slider
         handleChangeFn={handleVolume}
         min={-60}
@@ -13,7 +13,14 @@ function VolumePanelModule({ handleVolume, volume }) {
         defaultVal={+volume}
         label="VOL"
       />
-    </>
+      <Slider
+        // handleChangeFn={handleVolume}
+        min={-60}
+        max={10}
+        defaultVal={+volume}
+        label="PORTAMENTO"
+      />
+    </div>
   );
 }
 

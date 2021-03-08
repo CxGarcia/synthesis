@@ -1,22 +1,11 @@
 import { createArr } from '@utils';
 
 export default function synthBuilder(Tone) {
-  const synths = [
-    'Synth',
-    'AMSynth',
-    'DuoSynth',
-    'FMSynth',
-    'MembraneSynth',
-    'MetalSynth',
-    'MonoSynth',
-    'PluckSynth',
-  ];
-
   return {
     createSynth,
     createSynthSequence,
+    createArpeggiatorSequence,
     setNewOctaveToChords,
-    options: synths,
   };
 
   function createSynth(instrument, envelope, volume, effects, oscillator) {
@@ -25,9 +14,10 @@ export default function synthBuilder(Tone) {
 
     const _synth = new Tone[instrument]({
       volume: volume,
-      portamento: 0.005,
+      portamento: 0.1,
       oscillator: oscType ? { volume: oscVol, type: oscType } : null,
       envelope: { attack, decay, sustain, release },
+      swing: 1,
     });
 
     const _effects = mapEffects(effects);
@@ -56,15 +46,28 @@ export default function synthBuilder(Tone) {
     return sequence;
   }
 
-  function arpeggiator(synth, progression) {
-    const sequence = new Tone.Sequence(
-      (time, note) => {
-        synth.triggerAttackRelease(note, '8n', time);
-      },
+  // function createArpeggiatorSequence(synth, progression) {
+  //   const sequence = new Tone.Pattern(
+  //     (time, note) => {
+  //       synth.triggerAttackRelease(note, '8n', time);
+  //     },
+  //     progression,
+  //     'upDown'
+  //   );
 
-      progression
-    );
+  //   sequence.playbackRate = 4;
+  //   sequence.loop = true;
+  //   sequence.start(0);
 
+  //   return sequence;
+  // }
+
+  function createArpeggiatorSequence(synth, progression) {
+    const sequence = new Tone.Sequence((time, note) => {
+      synth.triggerAttackRelease(note, '8n', time);
+    }, progression);
+
+    // sequence.playbackRate = 4;
     sequence.loop = true;
     sequence.start(0);
 

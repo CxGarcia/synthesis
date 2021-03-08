@@ -3,7 +3,12 @@ import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import Sequencer from '@components/Sequencer/Sequencer';
 import InstrumentContainer from '../InstrumentContainer/InstrumentContainer';
 
-import { createArr, createMatrix, compareChanges } from '@utils';
+import {
+  createArr,
+  createMatrix,
+  compareChanges,
+  randomChordProgression,
+} from '@utils';
 import synthBuilder from './synthBuilder';
 import styles from './Synth.module.scss';
 
@@ -20,19 +25,20 @@ const Synth = React.memo(function Synth({
   const {
     effects,
     id,
+    octave,
     volume,
     bars,
     subdivisions,
-    octave,
     envelope,
     oscillator,
-
+    arpeggiator = true,
     savedPattern = [],
   } = properties;
 
   const {
     createSynth,
     createSynthSequence,
+    createArpeggiatorSequence,
     setNewOctaveToPattern,
     options,
   } = synthBuilder(Tone);
@@ -101,18 +107,23 @@ const Synth = React.memo(function Synth({
   // }, [octave]);
 
   useEffect(() => {
-    const sequence = createSynthSequence(
-      synth,
-      progression,
-      bars,
-      subdivisions
-    );
+    const sequence = arpeggiator
+      ? createArpeggiatorSequence(synth, progression)
+      : createSynthSequence(synth, progression, bars, subdivisions);
 
     return () => {
       console.log('disposing sequence');
       sequence.dispose();
     };
-  }, [bars, createSynthSequence, progression, subdivisions, synth]);
+  }, [
+    arpeggiator,
+    bars,
+    createArpeggiatorSequence,
+    createSynthSequence,
+    progression,
+    subdivisions,
+    synth,
+  ]);
 
   //rerender pattern if the amount of bars changes
   useLayoutEffect(() => {
@@ -128,17 +139,38 @@ const Synth = React.memo(function Synth({
 
   const handleSelectInstrument = (option) => setInstrument(option);
 
+  function handleRandomProgression() {
+    const _progression = randomChordProgression('E', octave, 'aeolian');
+    const _indexOfNotes = getIndexOfNotes(_progression);
+    const _pattern = createMatrixWithPattern(
+      notes.length,
+      totalTiles,
+      _indexOfNotes
+    );
+    // const _pattern =
+
+    // const cb = createArr(totalTiles, null, (el, idx) => {
+
+    // })
+
+    setPattern(_pattern);
+    setProgression(_progression);
+  }
+
   return (
     <>
       <div className={styles.instrument}>
-        <InstrumentContainer
-          handleSelectInstrument={handleSelectInstrument}
-          handleSetActiveInstrument={handleSetActiveInstrument}
-          handleDeleteInstrument={handleDeleteInstrument}
-          options={options}
-          name={`${subCategory} | ${_instrument}`}
-          active={active}
-        />
+        <div>
+          <InstrumentContainer
+            handleSelectInstrument={handleSelectInstrument}
+            handleSetActiveInstrument={handleSetActiveInstrument}
+            handleDeleteInstrument={handleDeleteInstrument}
+            options={options}
+            name={`${subCategory} | ${_instrument}`}
+            active={active}
+          />
+          <button onClick={handleRandomProgression}>XXX</button>
+        </div>
         <div className={styles.keyboard}>
           <Sequencer
             instrument={synth}
@@ -155,3 +187,22 @@ const Synth = React.memo(function Synth({
 compareChanges);
 
 export default Synth;
+
+function getIndexOfNotes(progression) {
+  return progression.map((note, i) => {
+    return notes.indexOf(note.replace(/[0-9]/g, ''));
+  });
+}
+
+function createMatrixWithPattern(rows, cols, indexes) {
+  return Array(rows)
+    .fill(null)
+    .map((_, row) => {
+      return Array(cols)
+        .fill(null)
+        .map((_, col) => {
+          if (row === indexes[col]) return 1;
+          else return 0;
+        });
+    });
+}
