@@ -55,13 +55,15 @@ function InstrumentContainer({
       onMouseLeave={handleCloseMenu}
       onMouseEnter={handleMenuTimeout}
     >
+      <div className={styles.deleteContainer}>
+        <h1 className={styles.delete} onClick={handleDeleteInstrument}>
+          X
+        </h1>
+      </div>
       <div
         className={`${styles.instrumentContainer}`}
         onClick={handleActiveInstrument}
       >
-        <h1 className={styles.delete} onClick={handleDeleteInstrument}>
-          X
-        </h1>
         <p>{name.replace('.wav', '')}</p>
       </div>
       <div
