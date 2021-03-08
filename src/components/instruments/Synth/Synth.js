@@ -105,7 +105,7 @@ const Synth = React.memo(function Synth({
       isInitialMount.current = false;
     } else if (progression && !isInitialMount.current) {
       const _progression = setNewOctaveToProgression(progression, octave);
-      setProgression(_progression)
+      setProgression(_progression);
     }
 
     //eslint-disable-next-line
@@ -146,7 +146,7 @@ const Synth = React.memo(function Synth({
   const handleMute = () => setMute(!mute);
 
   function handleRandomProgression() {
-    const _progression = randomChordProgression('C', octave, 'minor pentatonic');
+    const _progression = randomChordProgression('E', octave, 'minor blues');
     const _indexOfNotes = getIndexOfNotes(_progression);
 
     const _pattern = createMatrixWithPattern(

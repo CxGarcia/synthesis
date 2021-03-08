@@ -77,6 +77,13 @@ export default function stateReducer(state, action) {
       };
     }
 
+    case 'REMOVE_ACTIVE_INSTRUMENT': {
+      return {
+        ...state,
+        activeInstrumentId: null,
+      };
+    }
+
     case 'SET_BARS': {
       const { bars } = action;
       const { instruments, activeInstrumentId, maxBars } = state;

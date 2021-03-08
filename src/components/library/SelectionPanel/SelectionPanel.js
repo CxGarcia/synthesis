@@ -74,7 +74,7 @@ const SelectionPanel = React.memo(
         .slice(0, 250)
         .map((_instrument, idx) => {
           const { category, subCategory, instrument } = _instrument;
-          if (instrument.length < 1 || instrument == null) return null;
+          // if (instrument.length < 1 || instrument == null) return null;
           return (
             <SelectionItems
               Tone={Tone}

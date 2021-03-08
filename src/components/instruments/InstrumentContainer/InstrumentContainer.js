@@ -6,9 +6,8 @@ import { Mute, Sound } from '@resources/icons';
 import styles from './InstrumentContainer.module.scss';
 
 function InstrumentContainer({
-  handleSetActiveInstrument,
+  handleActiveInstrument,
   handleDeleteInstrument,
-  setActiveTilesByStep,
   menuOptions,
   handleMute,
   active,
@@ -32,6 +31,12 @@ function InstrumentContainer({
     });
   }
 
+  function handleOpenMenu() {
+    timeoutRef.current = setTimeout(() => {
+      setMenu(true);
+    }, 200);
+  }
+
   //Wait for some time before closing the menu to prevent closing on accidentally leaving the container
   function handleCloseMenu() {
     timeoutRef.current = setTimeout(() => {
@@ -45,42 +50,37 @@ function InstrumentContainer({
 
   return (
     <div
-      className={styles.instrumentContainer}
+      // className={styles.instrumentContainer}
+      className={`${styles.panel} ${active && styles.activePanel}`}
       onMouseLeave={handleCloseMenu}
       onMouseEnter={handleMenuTimeout}
     >
       <div
-        className={`${styles.panel} ${active && styles.activePanel}`}
-        onClick={handleSetActiveInstrument}
+        className={`${styles.instrumentContainer}`}
+        onClick={handleActiveInstrument}
       >
         <h1 className={styles.delete} onClick={handleDeleteInstrument}>
           X
         </h1>
         <p>{name.replace('.wav', '')}</p>
-
-        {setActiveTilesByStep && (
-          <Select
-            onChangeFn={setActiveTilesByStep}
-            options={[1, 2, 4, 8, 16]}
-          />
+      </div>
+      <div
+        onClick={handleMute}
+        className={`${styles.muteButton} ${active && styles.activeButton}`}
+      >
+        {mute === true ? (
+          <Mute className={styles.svg} />
+        ) : (
+          <Sound className={styles.svg} />
         )}
-
-        <div
-          onClick={handleMute}
-          className={`${styles.muteButton} ${active && styles.activeButton}`}
-        >
-          {mute === true ? (
-            <Mute className={styles.svg} />
-          ) : (
-            <Sound className={styles.svg} />
-          )}
-        </div>
-        <div
-          className={`${styles.fxButton} ${active && styles.activeButton}`}
-          onClick={() => setMenu(!menu)}
-        >
-          +
-        </div>
+      </div>
+      <div
+        className={`${styles.fxButton} ${active && styles.activeButton}`}
+        onClick={() => setMenu(true)}
+        onMouseEnter={handleOpenMenu}
+        onMouseLeave={handleMenuTimeout}
+      >
+        +
       </div>
 
       {menu && (

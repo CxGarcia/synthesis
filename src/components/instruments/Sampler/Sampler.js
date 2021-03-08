@@ -89,8 +89,11 @@ const Sampler = React.memo(function Sampler({
     setPattern(activeTilesByStep(totalTiles, step));
   }
 
-  const handleSetActiveInstrument = () =>
-    dispatch({ type: 'SET_ACTIVE_INSTRUMENT', id });
+  function handleActiveInstrument() {
+    active
+      ? dispatch({ type: 'REMOVE_ACTIVE_INSTRUMENT', id })
+      : dispatch({ type: 'SET_ACTIVE_INSTRUMENT', id });
+  }
 
   const handleDeleteInstrument = () =>
     dispatch({ type: 'DELETE_INSTRUMENT', id });
@@ -129,7 +132,7 @@ const Sampler = React.memo(function Sampler({
       args: [4],
     },
     {
-      name: 'Set Every 4 Tiles',
+      name: 'Set Every 8 Tiles',
       method: setActiveTilesByStep,
       args: [8],
     },
@@ -151,7 +154,7 @@ const Sampler = React.memo(function Sampler({
           handleMute={handleMute}
           mute={mute}
           handleDeleteInstrument={handleDeleteInstrument}
-          handleSetActiveInstrument={handleSetActiveInstrument}
+          handleActiveInstrument={handleActiveInstrument}
           options={options}
           setActiveTilesByStep={setActiveTilesByStep}
           name={instrument}
