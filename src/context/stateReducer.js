@@ -11,7 +11,7 @@ export default function stateReducer(state, action) {
         volume: -25,
         subdivisions: 16,
         bars: 1,
-        octave: 4,
+        octave: 2,
         envelope: [0.1, 0.5, 0.25, 0.5],
         oscillator: { oscType: 'sine', oscVol: 10 },
       };

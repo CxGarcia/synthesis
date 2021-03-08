@@ -38,7 +38,7 @@ const Synth = React.memo(function Synth({
     createSynth,
     createSynthSequence,
     createArpeggiatorSequence,
-    setNewOctaveToPattern,
+    setNewOctaveToProgression,
     options,
   } = synthBuilder(Tone);
 
@@ -99,16 +99,17 @@ const Synth = React.memo(function Synth({
   };
 
   //TODO: decide if this feature is worth it or not
-  // const isInitialMount = useRef(true);
-  // useEffect(() => {
-  //   if (isInitialMount.current) {
-  //     isInitialMount.current = false;
-  //   } else if (chords && !isInitialMount.current) {
-  //     // const _chords = setNewOctaveToChords(chords, octave);
-  //   }
+  const isInitialMount = useRef(true);
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else if (progression && !isInitialMount.current) {
+      const _progression = setNewOctaveToProgression(progression, octave);
+      setProgression(_progression)
+    }
 
-  //   //eslint-disable-next-line
-  // }, [octave]);
+    //eslint-disable-next-line
+  }, [octave]);
 
   useEffect(() => {
     const sequence = arpeggiator
@@ -145,7 +146,7 @@ const Synth = React.memo(function Synth({
   const handleMute = () => setMute(!mute);
 
   function handleRandomProgression() {
-    const _progression = randomChordProgression('D', octave, 'blues');
+    const _progression = randomChordProgression('C', octave, 'minor pentatonic');
     const _indexOfNotes = getIndexOfNotes(_progression);
 
     const _pattern = createMatrixWithPattern(
@@ -153,14 +154,13 @@ const Synth = React.memo(function Synth({
       totalTiles,
       _indexOfNotes
     );
-
-    setArpeggiator(true);
     setPattern(_pattern);
     setProgression(_progression);
   }
 
+  const toggleArpeggiator = () => setArpeggiator(!arpeggiator);
+
   function setInitialPattern() {
-    setArpeggiator(false);
     setProgression(createArr(totalTiles, []));
     setPattern(createMatrix(notes.length, totalTiles));
   }
@@ -168,6 +168,10 @@ const Synth = React.memo(function Synth({
   const menuOptions = [
     { name: 'Random Progression', method: handleRandomProgression },
     { name: 'Reset Pattern', method: setInitialPattern },
+    {
+      name: `Turn Arpeggiator ${arpeggiator ? 'Off' : 'On'}`,
+      method: toggleArpeggiator,
+    },
   ];
 
   return (

@@ -5,7 +5,7 @@ export default function synthBuilder(Tone) {
     createSynth,
     createSynthSequence,
     createArpeggiatorSequence,
-    setNewOctaveToChords,
+    setNewOctaveToProgression,
   };
 
   function createSynth(
@@ -54,6 +54,25 @@ export default function synthBuilder(Tone) {
       `${subdivisions}n`
     );
 
+    sequence.playbackRate = 0.5;
+
+    sequence.loop = true;
+    sequence.start(0);
+
+    return sequence;
+  }
+
+  function createArpeggiatorSequence(synth, progression) {
+    const sequence = new Tone.Pattern(
+      (time, note) => {
+        synth.triggerAttackRelease(note, '8n', time);
+      },
+      progression,
+      'alternateUp'
+    );
+    console.log(progression)
+
+    sequence.playbackRate = 2;
     sequence.loop = true;
     sequence.start(0);
 
@@ -61,37 +80,19 @@ export default function synthBuilder(Tone) {
   }
 
   // function createArpeggiatorSequence(synth, progression) {
-  //   const sequence = new Tone.Pattern(
-  //     (time, note) => {
-  //       synth.triggerAttackRelease(note, '8n', time);
-  //     },
-  //     progression,
-  //     'upDown'
-  //   );
+  //   const sequence = new Tone.Sequence((time, note) => {
+  //     synth.triggerAttackRelease(note, '8n', time);
+  //   }, progression);
 
-  //   sequence.playbackRate = 4;
+  //   sequence.playbackRate = 2;
   //   sequence.loop = true;
   //   sequence.start(0);
 
   //   return sequence;
   // }
 
-  function createArpeggiatorSequence(synth, progression) {
-    const sequence = new Tone.Sequence((time, note) => {
-      synth.triggerAttackRelease(note, '8n', time);
-    }, progression);
-
-    // sequence.playbackRate = 2;
-    sequence.loop = true;
-    sequence.start(0);
-
-    return sequence;
-  }
-
-  function setNewOctaveToChords(chords, octave) {
-    return chords.map((chord) =>
-      chord.map((el) => el.replace(/[0-9]/g, octave))
-    );
+  function setNewOctaveToProgression(progression, octave) {
+    return progression.map((note) => note.replace(/[0-9]/g, octave));
   }
 
   function mapEffects(effects) {
