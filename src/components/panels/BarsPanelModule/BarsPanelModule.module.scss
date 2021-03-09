@@ -2,9 +2,8 @@
 
 .container {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   align-items: center;
-  justify-content: center;
   & > * {
     width: 40px;
   }
@@ -13,6 +12,7 @@
 .label {
   color: $text;
   &:not(:first-child) {
-    margin-left: 1rem;
+    margin-top: 1rem;
+    // margin-left: 1rem;
   }
 }

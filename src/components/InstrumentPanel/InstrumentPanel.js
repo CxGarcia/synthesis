@@ -90,7 +90,9 @@ function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
       });
 
       return (
-        <PanelModuleContainer key={_panel}>{newPanel}</PanelModuleContainer>
+        <PanelModuleContainer name={_panel} key={_panel} border={true}>
+          {newPanel}
+        </PanelModuleContainer>
       );
     });
   }

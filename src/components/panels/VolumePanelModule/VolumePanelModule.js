@@ -14,11 +14,18 @@ function VolumePanelModule({ handleVolume, volume }) {
         label="VOL"
       />
       <Slider
+        handleChangeFn={() => null}
+        min={-60}
+        max={10}
+        defaultVal={-25}
+        label="GAIN"
+      />
+      <Slider
         // handleChangeFn={handleVolume}
         min={-60}
         max={10}
         defaultVal={+volume}
-        label="PORTAMENTO"
+        label="SURPRISE"
       />
     </div>
   );

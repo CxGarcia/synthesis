@@ -3,34 +3,53 @@ const { Scale, Chord, Note } = require('@tonaljs/tonal');
 
 function randomChordProgression(root = 'C', octave = 4, scale) {
   const scaleName = `${root} ${scale}`;
-  const scaleNotes = shuffle(Scale.get(scaleName).notes).slice(0,4)
-  const scaleChords = shuffle(Scale.scaleChords(scaleName)
-    .filter((chord) => chord.length <= 2))
-    .slice(0, 4);
 
-  const progression = [];
+  const scaleNotes = Scale.get(scaleName).notes;
 
-  for (let i = 0; i < 16; i++) {
+  const chordGen = scaleNotes.concat(scaleNotes);
+
+  const newChord = [];
+
+  for (let i = 0; i < scaleNotes.length; i++) {
     const noteIdx = randomNumberGenerator(scaleNotes.length - 1);
-    const chordIdx = randomNumberGenerator(scaleChords.length - 1);
-
-    const chord = scaleNotes[noteIdx] + scaleChords[chordIdx];
-    const notes = Chord.get(chord).notes;
-    // const _note = scaleNotes[noteIdx];
-
-    // const note = Note.simplify(_note);
-    // progression.push(note + octave);
-
-    // progression.push(notes.map((note) => note + octave));
-
-    // scaleNotes.forEach((note) => progression.push(note + octave));
-    notes.forEach((_note) => {
-      const note = Note.simplify(_note);
-      progression.push(note + octave);
-    });
+    newChord.push(
+      chordGen[noteIdx] + octave,
+      chordGen[noteIdx + 2] + octave,
+      chordGen[noteIdx + 4] + octave
+    );
   }
 
-  return progression.slice(0, 16);
+  console.log(newChord);
+  return newChord.slice(0, 16);
+  // const scaleName = `${root} ${scale}`;
+  // const scaleNotes = shuffle(Scale.get(scaleName).notes).slice(0,4)
+  // const scaleChords = shuffle(Scale.scaleChords(scaleName)
+  //   .filter((chord) => chord.length <= 2))
+  //   .slice(0, 4);
+
+  // const progression = [];
+
+  // for (let i = 0; i < 16; i++) {
+  //   const noteIdx = randomNumberGenerator(scaleNotes.length - 1);
+  //   const chordIdx = randomNumberGenerator(scaleChords.length - 1);
+
+  //   const chord = scaleNotes[noteIdx] + scaleChords[chordIdx];
+  //   const notes = Chord.get(chord).notes;
+  // const _note = scaleNotes[noteIdx];
+
+  // const note = Note.simplify(_note);
+  // progression.push(note + octave);
+
+  // progression.push(notes.map((note) => note + octave));
+
+  // scaleNotes.forEach((note) => progression.push(note + octave));
+  //   notes.forEach((_note) => {
+  //     const note = Note.simplify(_note);
+  //     progression.push(note + octave);
+  //   });
+  // }
+
+  // return progression.slice(0, 16);
 }
 
 function randomNumberGenerator(max) {

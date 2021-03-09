@@ -38,6 +38,11 @@ function ChartADSR({ envelope, dispatch }) {
 
   const options = {
     legend: { display: false },
+    layout: {
+      margin: {
+        right: 500,
+      },
+    },
     scales: {
       gridLines: {
         lineWidth: 2,
@@ -55,12 +60,13 @@ function ChartADSR({ envelope, dispatch }) {
       yAxes: [
         {
           ticks: {
+            none: true,
             beginAtZero: true,
             stepSize: 0.5,
             maxTicksLimit: 5,
             suggestedMax: 5,
             fontFamily: 'Montserrat',
-            fontSize: 11,
+            fontSize: 8,
             fontColor: 'rgb(170, 170, 170)',
             fontWeight: 700,
           },
@@ -72,7 +78,7 @@ function ChartADSR({ envelope, dispatch }) {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <Line data={data} options={options} />
     </div>
   );

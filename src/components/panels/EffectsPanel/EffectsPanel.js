@@ -58,12 +58,12 @@ function EffectsPanel({ activeInstrumentEffects, dispatch, effectsList }) {
 
   return (
     <>
-      <ArrowU className={styles.svg} onClick={handleUp} style={{ top: -15 }} />
+      <ArrowU className={styles.svg} onClick={handleUp} style={{ top: 5 }} />
       {renderEffects()}
       <ArrowD
         className={styles.svg}
         onClick={handleDown}
-        style={{ bottom: -15 }}
+        style={{ bottom: 5 }}
       />
     </>
   );

@@ -1,11 +1,30 @@
 @import 'global-styles/variables';
 
+.name {
+  color: $text;
+  text-transform: uppercase;
+  position: absolute;
+  right: -50px;
+  transform: rotateZ(90deg);
+  background-color: $primary;
+  // backdrop-filter: blur(3px);
+  // border-bottom: 1px solid $text;
+  z-index: 1;
+  width: 50%;
+  margin: 10px 0;
+}
+
 .container {
   position: relative;
   animation: grow 0.5s;
   display: flex;
   justify-content: center;
   height: 80%;
+  border-radius: 5px;
+  // padding-right: 1rem;
+
+  & > * {
+  }
 }
 
 @keyframes grow {
