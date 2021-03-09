@@ -29,40 +29,38 @@ function MasterPanel({
       <div className={styles.panelTitle}>
         <h2>Master</h2>
       </div>
-      <PanelModuleContainer>
-        {/* <Visualizer playing={playState === 'started' ? false : true} /> */}
-      </PanelModuleContainer>
-      <PanelModuleContainer>
-        <div onClick={handleTransport} className={styles.transportButton}>
-          {playState === 'stopped' ? <Play /> : <Pause />}
-        </div>
-      </PanelModuleContainer>
-      <PanelModuleContainer flex="row">
-        <Slider
-          handleChangeFn={handleVolume}
-          min={-60}
-          max={10}
-          step={1}
-          label={`MST VOL`}
-          defaultVal={volume}
-        />
-        <Slider
-          handleChangeFn={handleBPM}
-          min={60}
-          max={240}
-          step={5}
-          label={`BPM-${bpm}`}
-          defaultVal={bpm}
-        />
-        <Slider
-          handleChangeFn={handleBPMVol}
-          min={-60}
-          max={10}
-          step={1}
-          label={`BPM VOL`}
-          defaultVal={metronomeVol}
-        />
-      </PanelModuleContainer>
+
+      <div onClick={handleTransport} className={styles.transportButton}>
+        {playState === 'stopped' ? <Play /> : <Pause />}
+      </div>
+
+      <Slider
+        handleChangeFn={handleVolume}
+        min={-60}
+        max={10}
+        step={1}
+        label={`MST VOL`}
+        defaultVal={volume}
+        noRotate={true}
+      />
+      <Slider
+        handleChangeFn={handleBPM}
+        min={60}
+        max={240}
+        step={5}
+        label={`BPM-${bpm}`}
+        defaultVal={bpm}
+        noRotate={true}
+      />
+      <Slider
+        handleChangeFn={handleBPMVol}
+        min={-60}
+        max={10}
+        step={1}
+        label={`BPM VOL`}
+        defaultVal={metronomeVol}
+        noRotate={true}
+      />
     </div>
   );
 }

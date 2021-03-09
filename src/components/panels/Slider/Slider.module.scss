@@ -2,15 +2,16 @@
 
 .container {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   width: fit-content;
   min-width: 70px;
   max-width: 70px;
-  min-height: 100%;
-  max-height: 100%;
+  // min-height: 100%;
+  // max-height: 100%;
   position: relative;
+  // border: 1px solid red;
 }
 
 .slider {
@@ -22,20 +23,17 @@
   background: $text;
   outline: none;
   opacity: 0.7;
-  position: absolute;
+  // position: absolute;
 
-  transform: rotate(270deg);
   // margin-left: 20px;
 }
 
 .sliderLabel {
-  transform: rotateZ(90deg);
   font-size: 0.75rem;
   max-width: 60px;
   min-width: 60px;
-  // position: absolute;
+  margin-top: 5px;
   color: $text;
-  // border: 1px solid red;
 }
 
 .slider::-webkit-slider-thumb {

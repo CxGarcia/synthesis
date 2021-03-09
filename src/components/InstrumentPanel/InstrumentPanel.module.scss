@@ -3,31 +3,52 @@
 @import '@styles/svg';
 
 .container {
-  @include main-panels;
-}
-
-.panel {
-  box-shadow: inset 0px 4px 22px 14px #222430;
-  height: 25vh;
+  min-height: 20vh;
+  max-height: 20vh;
+  flex-flow: row nowrap;
   position: relative;
   display: flex;
-  flex-flow: row nowrap;
-  overflow: hidden;
-  margin-bottom: 2rem;
+  justify-content: space-evenly;
+  border-radius: 5px;
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+
   & > * {
     flex: 1;
-    padding: 1rem;
+    margin: 0 1rem;
   }
 }
 
-.panelTitle {
-  @include main-panel-title;
+.emptyContainer {
+  @include panel-border;
+  min-height: 20vh;
+  max-height: 20vh;
+  flex-flow: row nowrap;
+  position: relative;
+  display: flex;
+  justify-content: space-evenly;
+  border-radius: 5px;
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+  width: 95%;
+  margin: 0 2rem 1rem 2rem;
 }
 
 .svg {
   @include svg;
-  position: absolute;
   top: 45%;
+}
+
+.arrow {
+  position: absolute;
+  // box-shadow: 0px 4px 10px 10px #222430;
+  top: 45%;
+  border-radius: 5px;
+  // height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
 }
 
 .title {

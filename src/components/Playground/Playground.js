@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { instrumentComponents } from '@instruments';
-import SelectionPanel from '@library/SelectionPanel/SelectionPanel';
 import TransportPosition from '@panels/TransportPosition/TransportPosition';
 
 import styles from './Playground.module.scss';
@@ -12,7 +11,6 @@ function Playground({
   dispatch,
   instruments,
   metronomeVol,
-  categoryErrorFlag,
   activeInstrumentId,
 }) {
   // Create component dynamically, based on the instrument that the user selects
@@ -39,12 +37,6 @@ function Playground({
 
   return (
     <div className={styles.playground}>
-      <SelectionPanel
-        Tone={Tone}
-        dispatch={dispatch}
-        categoryErrorFlag={categoryErrorFlag}
-        activeInstrumentId={activeInstrumentId}
-      />
       {instruments.length > 0 && (
         <div className={styles.playgroundSub}>
           <TransportPosition

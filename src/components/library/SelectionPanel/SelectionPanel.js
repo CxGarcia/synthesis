@@ -122,11 +122,7 @@ const SelectionPanel = React.memo(function SelectionPanel({
         <h2>Library</h2>
       </div>
       {/* TODO - make banner disappear */}
-      {categoryErrorFlag && (
-        <div className={styles.categoryError}>
-          Please select an instrument in the same category
-        </div>
-      )}
+
       <div className={styles.selection}>
         <input type="text" className={styles.input} onChange={handleSearch} />
         <div className={styles.categories}>{renderCategories()}</div>
@@ -144,6 +140,11 @@ const SelectionPanel = React.memo(function SelectionPanel({
           onChange={handleVolume}
         />
       </div>
+      {categoryErrorFlag && (
+        <div className={styles.categoryError}>
+          Please select an instrument in the same category
+        </div>
+      )}
     </div>
   );
 },

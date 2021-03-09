@@ -14,13 +14,13 @@
   // border: 1px solid $secondary;
   border-radius: 7px;
   user-select: none;
-  box-shadow: 0px 4px 10px 10px #222430;
+  background-color: $primary;
 }
 
 @mixin main-panels {
   @include panel-style;
-  height: 25vh;
-  width: 49.5%;
+  height: 15vh;
+  width: 100%;
   position: relative;
   display: flex;
   flex-flow: row nowrap;
@@ -67,4 +67,20 @@
     cursor: pointer;
     transform: scale(0.975);
   }
+}
+
+@mixin tiles {
+  background: rgba($secondary, 0.5);
+  height: 2.5rem;
+  width: 2.5rem;
+  border: 1px solid $primary;
+  border-radius: 5px;
+}
+
+@mixin panel-border {
+  // border: 1px solid $secondary;
+  box-shadow: 0px 0px 2px 0px $secondary;
+  box-shadow: 0px 0px 2px 0px #53566480;
+  // color: #53566480;
+  border-radius: 2px;
 }

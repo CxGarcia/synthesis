@@ -31,14 +31,6 @@ function Slider({
 
   return (
     <div className={styles.container}>
-      <label htmlFor="input">
-        <h3
-          className={styles.sliderLabel}
-          style={{ transform: noRotate && 'rotate(0deg)' }}
-        >
-          {label}
-        </h3>
-      </label>
       <input
         type="range"
         min={min}
@@ -50,6 +42,14 @@ function Slider({
         onChange={handleChange}
         style={{ transform: noRotate && 'rotate(0deg)' }}
       />
+      <label htmlFor="input">
+        <h3
+          className={styles.sliderLabel}
+          style={{ transform: noRotate && 'rotate(0deg)' }}
+        >
+          {label}
+        </h3>
+      </label>
     </div>
   );
 }

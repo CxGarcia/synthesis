@@ -4,8 +4,7 @@
 .instruments {
   display: flex;
   flex-flow: column nowrap;
-  // height: 100vh;
-  // overflow: scroll;
+  height: 100%;
 }
 
 .title {
@@ -13,12 +12,16 @@
 }
 
 .playground {
+  @include panel-border;
   display: flex;
   flex-flow: row nowrap;
-  width: 100%;
+  width: 95%;
   align-items: flex-start;
-  justify-content: flex-start;
-  margin-bottom: 4rem;
+  justify-content: space-evenly;
+  margin-left: 2rem;
+  padding: 1rem 2rem 0 2rem;
+  height: 100%;
+  overflow: scroll;
 }
 
 .playgroundSub {

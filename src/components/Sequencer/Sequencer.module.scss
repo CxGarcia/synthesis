@@ -1,4 +1,5 @@
 @import 'global-styles/variables';
+@import 'global-styles/mixins';
 
 .sequencer {
   display: flex;
@@ -17,15 +18,13 @@
 }
 
 .noteTile {
-  width: 2rem;
-  padding: 0.25rem;
-  height: fit-content;
-  background-color: $secondary;
-  border-radius: 5px;
+  @include tiles;
+  padding: 0.75rem;
+  // height: fit-content;
   transform: rotate(270deg);
   color: $primary;
   font-weight: 600;
-  border: 1px solid $primary;
+
   &:hover {
     cursor: pointer;
   }

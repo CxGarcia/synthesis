@@ -14,10 +14,7 @@ function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
 
   if (!activeInstrument) {
     return (
-      <div className={styles.container}>
-        <div className={styles.panelTitle}>
-          <h2>Instrument</h2>
-        </div>
+      <div className={styles.emptyContainer}>
         <h1 className={styles.title} style={{ alignSelf: 'center' }}>
           Select your instrument
         </h1>
@@ -83,7 +80,7 @@ function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
   }
 
   function renderPanels() {
-    return activePanels.slice(0, 3).map((_panel, idx) => {
+    return activePanels.slice(0, 4).map((_panel, idx) => {
       const newPanel = React.createElement(panelModules[_panel], {
         ...moduleProps[_panel],
         key: _panel,
@@ -99,20 +96,17 @@ function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.panelTitle}>
-        <h2>Instrument</h2>
+      <div className={styles.arrow} style={{ left: -15 }} onClick={handleLeft}>
+        <ArrowL className={styles.svg} />
       </div>
-      <ArrowL
-        className={styles.svg}
-        style={{ left: 0, marginLeft: '5%' }}
-        onClick={handleLeft}
-      />
       {renderPanels()}
-      <ArrowR
-        className={styles.svg}
-        style={{ right: 0, marginRight: '1%' }}
+      <div
+        className={styles.arrow}
+        style={{ right: -15 }}
         onClick={handleRight}
-      />
+      >
+        <ArrowR className={styles.svg} />
+      </div>
     </div>
   );
 }

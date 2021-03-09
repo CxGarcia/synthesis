@@ -9,7 +9,6 @@ function PanelModuleContainer({ name, border, children, flex = 'column' }) {
       className={styles.container}
       style={{
         flexFlow: `${flex} nowrap`,
-        border: border ? '1px solid rgb(170, 170, 170)' : null,
       }}
     >
       {name && <h3 className={styles.name}>{name}</h3>}

@@ -20,7 +20,7 @@ function EffectsPanel({ activeInstrumentEffects, dispatch, effectsList }) {
   }
 
   function renderEffects() {
-    return effects.slice(0, 4).map((_effect, idx) => {
+    return effects.slice(0, 3).map((_effect, idx) => {
       //check if effect is included in the effects of the active instrument and if so set it to active
       const active =
         activeInstrumentEffects &&

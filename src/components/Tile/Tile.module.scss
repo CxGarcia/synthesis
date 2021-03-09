@@ -1,11 +1,8 @@
 @import 'global-styles/variables';
+@import 'global-styles/mixins';
 
 .tile {
-  background: $secondary;
-  height: 2rem;
-  width: 2rem;
-  border: 1px solid $primary;
-  border-radius: 5px;
+  @include tiles;
 }
 
 .active {

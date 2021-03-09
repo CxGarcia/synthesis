@@ -55,7 +55,7 @@ function TransportPosition({ Tone, maxBars, metronomeVol }) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.logo}>SYNTHESIS</div>
+      <div className={styles.logo}></div>
       <div className={styles.noteSeparator}></div>
       <div className={styles.sequence}>{renderTiles()}</div>
     </div>
