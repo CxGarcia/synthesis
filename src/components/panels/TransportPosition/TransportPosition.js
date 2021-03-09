@@ -3,7 +3,7 @@ import { createArr } from '@utils';
 
 import styles from './TransportPosition.module.scss';
 
-function TransportPosition({ Tone, maxBars }) {
+function TransportPosition({ Tone, maxBars, metronomeVol }) {
   const [activeCol, setActiveCol] = useState(Tone.Transport.position);
 
   const tiles = maxBars * 16;
@@ -14,12 +14,10 @@ function TransportPosition({ Tone, maxBars }) {
         A1: `assets/samples/metronome.wav`,
       },
       onload: () => {
-        sample.triggerAttackRelease('F1', 0.5);
-
         console.log(`metronome loaded`);
       },
-      volume: -20,
-    });
+      volume: metronomeVol,
+    }).toDestination();
 
     const sequence = new Tone.Sequence(
       (_, col) => {
@@ -38,7 +36,7 @@ function TransportPosition({ Tone, maxBars }) {
       sample.dispose();
       console.log(`metronome disposed`);
     };
-  }, [Tone.Sampler, Tone.Sequence, tiles]);
+  }, [Tone.Sampler, Tone.Sequence, tiles, metronomeVol]);
 
   function renderTiles() {
     return createArr(tiles, null, (_, idx) => {

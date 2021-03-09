@@ -16,6 +16,10 @@ function MasterPanel({
   const { metronomeVol, bpm, volume } = masterProperties;
 
   const handleBPM = (value) => dispatch({ type: 'UPDATE_BPM', value });
+
+  const handleBPMVol = (value) =>
+    dispatch({ type: 'UPDATE_METRONOME_VOL', value });
+
   const handleVolume = (value) =>
     dispatch({ type: 'UPDATE_MASTER_VOLUME', value });
 
@@ -50,12 +54,12 @@ function MasterPanel({
           defaultVal={bpm}
         />
         <Slider
-          handleChangeFn={handleBPM}
-          min={60}
-          max={240}
-          step={5}
+          handleChangeFn={handleBPMVol}
+          min={-60}
+          max={10}
+          step={1}
           label={`BPM VOL`}
-          defaultVal={120}
+          defaultVal={metronomeVol}
         />
       </PanelModuleContainer>
     </div>

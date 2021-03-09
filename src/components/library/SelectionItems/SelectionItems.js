@@ -27,7 +27,7 @@ function SelectionItems({
     prevSample.current && prevSample.current.dispose();
     const _sample = new Tone.Sampler({
       urls: {
-        A1: `http://localhost:3000/samples/${subCategory}/${instrument}`,
+        A1: `http://localhost:3001/samples/${subCategory}/${instrument}`,
       },
       onload: () => {
         _sample.triggerAttackRelease('F1', 2.5);

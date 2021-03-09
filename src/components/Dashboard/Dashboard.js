@@ -19,7 +19,7 @@ function Dashboard() {
     activeInstrumentId,
   } = state;
 
-  const { bpm, volume } = master;
+  const { bpm, volume, metronomeVol } = master;
   const [playState, setPlayState] = useState(Tone.Transport.state);
 
   useEffect(() => {
@@ -91,11 +91,12 @@ function Dashboard() {
 
       <Playground
         Tone={Tone}
-        instruments={instruments}
-        dispatch={dispatch}
-        activeInstrumentId={activeInstrumentId}
         maxBars={maxBars}
+        dispatch={dispatch}
+        instruments={instruments}
+        metronomeVol={metronomeVol}
         categoryErrorFlag={categoryErrorFlag}
+        activeInstrumentId={activeInstrumentId}
       />
     </>
   );

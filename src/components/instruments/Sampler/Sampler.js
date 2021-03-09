@@ -29,14 +29,10 @@ const Sampler = React.memo(function Sampler({
     savedPattern = [],
   } = properties;
 
-  const {
-    createSample,
-    createSequence,
-    activeTilesByStep,
-    options,
-  } = samplerBuilder(Tone);
+  const { createSample, createSequence, activeTilesByStep } = samplerBuilder(
+    Tone
+  );
 
-  // const [instrument, setInstrument] = useState(instrument);
   const [sample, setSample] = useState(null);
   const [pattern, setPattern] = useState(savedPattern);
 
@@ -177,7 +173,6 @@ const Sampler = React.memo(function Sampler({
           mute={mute}
           handleDeleteInstrument={handleDeleteInstrument}
           handleActiveInstrument={handleActiveInstrument}
-          options={options}
           setActiveTilesByStep={setActiveTilesByStep}
           name={instrument}
           active={active}

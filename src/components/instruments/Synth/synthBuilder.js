@@ -10,7 +10,7 @@ export default function synthBuilder(Tone) {
 
   function createSynth(
     instrument,
-    envelope,
+    envelope = [],
     volume,
     effects,
     oscillator,

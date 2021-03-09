@@ -227,6 +227,14 @@ export default function stateReducer(state, action) {
 
       return { ...state, master: { ...master, bpm: value } };
     }
+
+    case 'UPDATE_METRONOME_VOL': {
+      const { value } = action;
+      const { master } = state;
+
+      return { ...state, master: { ...master, metronomeVol: value } };
+    }
+
     case 'UPDATE_MASTER_VOLUME': {
       const { value } = action;
       const { master } = state;

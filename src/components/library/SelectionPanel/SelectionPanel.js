@@ -24,6 +24,7 @@ const SelectionPanel = React.memo(function SelectionPanel({
 
   useEffect(() => {
     getSampleNames().then((res) => {
+      console.log(res);
       const _samples = Object.values(res).flat(1);
       const _subCategories = Object.keys(res);
 
@@ -120,6 +121,7 @@ const SelectionPanel = React.memo(function SelectionPanel({
       <div className={styles.panelTitle}>
         <h2>Library</h2>
       </div>
+      {/* TODO - make banner disappear */}
       {categoryErrorFlag && (
         <div className={styles.categoryError}>
           Please select an instrument in the same category

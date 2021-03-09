@@ -5,21 +5,12 @@ export default function samplerBuilder(Tone) {
     createSample,
     createSequence,
     activeTilesByStep,
-    options: [
-      'kick',
-      'kick-2',
-      'open-hh',
-      'closed-hh',
-      'combo',
-      'maracas',
-      'japanese',
-    ],
   };
 
   function createSample(instrument, subCategory, volume, effects, mute) {
     const _sample = new Tone.Sampler({
       urls: {
-        A1: `http://localhost:3000/samples/${subCategory}/${instrument}`,
+        A1: `http://localhost:3001/samples/${subCategory}/${instrument}`,
       },
       onload: () => {
         console.log(`${instrument} loaded`);

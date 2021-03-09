@@ -12,7 +12,13 @@ export default function synthBuilder(Tone) {
     options: synths,
   };
 
-  function createSynth(instrument, envelope, volume, effects, oscillators) {
+  function createSynth(
+    instrument,
+    envelope = [],
+    volume,
+    effects,
+    oscillators
+  ) {
     const [attack, decay, sustain, release] = envelope;
     const _synth = new Tone.PolySynth(Tone[instrument], {
       volume: volume,

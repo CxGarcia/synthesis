@@ -149,7 +149,7 @@ const Synth = React.memo(function Synth({
   const handleMute = () => setMute(!mute);
 
   function handleRandomProgression() {
-    const _progression = randomChordProgression('E', octave, 'minor blues');
+    const _progression = randomChordProgression('C', octave, 'major');
     const _indexOfNotes = getIndexOfNotes(_progression);
 
     const _pattern = createMatrixWithPattern(

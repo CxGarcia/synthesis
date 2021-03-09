@@ -11,6 +11,7 @@ function Playground({
   maxBars,
   dispatch,
   instruments,
+  metronomeVol,
   categoryErrorFlag,
   activeInstrumentId,
 }) {
@@ -46,7 +47,11 @@ function Playground({
       />
       {instruments.length > 0 && (
         <div className={styles.playgroundSub}>
-          <TransportPosition Tone={Tone} maxBars={maxBars} />
+          <TransportPosition
+            Tone={Tone}
+            maxBars={maxBars}
+            metronomeVol={metronomeVol}
+          />
           <div className={styles.instruments}>{renderInstruments()}</div>
         </div>
       )}

@@ -113,12 +113,46 @@ const PolySynth = React.memo(function PolySynth({
 
   //rerender pattern if the amount of bars changes
   useLayoutEffect(() => {
-    setPattern(createMatrix(notes.length, totalTiles));
-    setChords(createArr(totalTiles, []));
+    setPattern([
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    ]);
+    // setChords(createArr(totalTiles, []));
+    setChords([
+      ['D3', 'F3', 'A3'],
+      [],
+      ['D3', 'F3', 'A3'],
+      [],
+      [],
+      ['E3', 'G3', 'B3'],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+    ]);
   }, [totalTiles]);
 
-  const handleSetActiveInstrument = () =>
-    dispatch({ type: 'SET_ACTIVE_INSTRUMENT', id });
+  function handleActiveInstrument() {
+    active
+      ? dispatch({ type: 'REMOVE_ACTIVE_INSTRUMENT' })
+      : dispatch({ type: 'SET_ACTIVE_INSTRUMENT', id });
+  }
 
   const handleDeleteInstrument = () =>
     dispatch({ type: 'DELETE_INSTRUMENT', id });
@@ -132,7 +166,7 @@ const PolySynth = React.memo(function PolySynth({
       <div className={styles.instrument}>
         <InstrumentContainer
           handleSelectInstrument={handleSelectInstrument}
-          handleSetActiveInstrument={handleSetActiveInstrument}
+          handleActiveInstrument={handleActiveInstrument}
           handleDeleteInstrument={handleDeleteInstrument}
           menuOptions={menuOptions}
           options={options}
@@ -155,3 +189,5 @@ const PolySynth = React.memo(function PolySynth({
 compareChanges);
 
 export default PolySynth;
+
+// [["D3","F3","A3"],[],["D3","F3","A3"],[],[],["E3","G3","B3"],[],[],[],[],[],[],[],[],[],[]]
