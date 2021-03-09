@@ -31,6 +31,7 @@ function EffectsPanel({ activeInstrumentEffects, dispatch, effectsList }) {
           <p
             onClick={() => handleEffect(_effect, active)}
             className={active ? styles.activeTitle : null}
+            key={_effect.name}
           >
             {_effect}
           </p>

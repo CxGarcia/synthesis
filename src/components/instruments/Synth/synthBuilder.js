@@ -70,7 +70,6 @@ export default function synthBuilder(Tone) {
       progression,
       'alternateUp'
     );
-    console.log(progression)
 
     sequence.playbackRate = 2;
     sequence.loop = true;
@@ -92,10 +91,171 @@ export default function synthBuilder(Tone) {
   // }
 
   function setNewOctaveToProgression(progression, octave) {
-    return progression.map((note) => note.replace(/[0-9]/g, octave));
+    return progression.map(
+      (note) => typeof note === 'string' && note.replace(/[0-9]/g, octave)
+    );
   }
 
   function mapEffects(effects) {
     return effects.map((_effect) => _effect.method);
   }
 }
+
+/* additional configs
+  Sequencer/Arpeggiator
+  humanize
+  -----
+  Arpeggiator
+  CtrlPattern - options: down, up, upDown, downUp, alternateUp, alternateDown, random, randomWalk, randomOnce
+  -----
+  AMSynth
+  harmonicity : 3 ,
+  detune : 0 ,
+  oscillator : {
+  type : sine
+  } ,
+  envelope : {
+  attack : 0.01 ,
+  decay : 0.01 ,
+  sustain : 1 ,
+  release : 0.5
+  } ,
+  modulation : {
+  type : square
+  } ,
+  modulationEnvelope : {
+  attack : 0.5 ,
+  decay : 0 ,
+  sustain : 1 ,
+  release : 0.5
+  }
+  -----
+  FMSynth
+  {
+  harmonicity : 3 ,
+  modulationIndex : 10 ,
+  detune : 0 ,
+  oscillator : {
+  type : sine
+  } ,
+  envelope : {
+  attack : 0.01 ,
+  decay : 0.01 ,
+  sustain : 1 ,
+  release : 0.5
+  } ,
+  modulation : {
+  type : square
+  } ,
+  modulationEnvelope : {
+  attack : 0.5 ,
+  decay : 0 ,
+  sustain : 1 ,
+  release : 0.5
+  }
+  }
+  -----
+  DuoSynth
+  {
+  vibratoAmount : 0.5 ,
+  vibratoRate : 5 ,
+  harmonicity : 1.5 ,
+  voice0 : {
+  volume : -10 ,
+  portamento : 0 ,
+  oscillator : {
+  type : sine
+  } ,
+  filterEnvelope : {
+  attack : 0.01 ,
+  decay : 0 ,
+  sustain : 1 ,
+  release : 0.5
+  } ,
+  envelope : {
+  attack : 0.01 ,
+  decay : 0 ,
+  sustain : 1 ,
+  release : 0.5
+  }
+  } ,
+  voice1 : {
+  volume : -10 ,
+  portamento : 0 ,
+  oscillator : {
+  type : sine
+  } ,
+  filterEnvelope : {
+  attack : 0.01 ,
+  decay : 0 ,
+  sustain : 1 ,
+  release : 0.5
+  } ,
+  envelope : {
+  attack : 0.01 ,
+  decay : 0 ,
+  sustain : 1 ,
+  release : 0.5
+  }
+  }
+  }
+  -----
+  MembraneSynth
+  {
+  pitchDecay : 0.05 ,
+  octaves : 10 ,
+  oscillator : {
+  type : sine
+  } ,
+  envelope : {
+  attack : 0.001 ,
+  decay : 0.4 ,
+  sustain : 0.01 ,
+  release : 1.4 ,
+  attackCurve : exponential
+  }
+  }
+  -----
+  MetalSynth
+  {
+  frequency : 200 ,
+  envelope : {
+  attack : 0.001 ,
+  decay : 1.4 ,
+  release : 0.2
+  } ,
+  harmonicity : 5.1 ,
+  modulationIndex : 32 ,
+  resonance : 4000 ,
+  octaves : 1.5
+  }
+  -----
+  MonoSynth
+  {
+  frequency : C4 ,
+  detune : 0 ,
+  oscillator : {
+  type : square
+  } ,
+  filter : {
+  Q : 6 ,
+  type : lowpass ,
+  rolloff : -24
+  } ,
+  envelope : {
+  attack : 0.005 ,
+  decay : 0.1 ,
+  sustain : 0.9 ,
+  release : 1
+  } ,
+  filterEnvelope : {
+  attack : 0.06 ,
+  decay : 0.2 ,
+  sustain : 0.5 ,
+  release : 2 ,
+  baseFrequency : 200 ,
+  octaves : 7 ,
+  exponent : 2
+  }
+  }
+*/

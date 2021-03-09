@@ -23,8 +23,14 @@ function InstrumentContainer({
       const { name, method, args = [] } = option;
       return (
         <>
-          <div className={styles.menuOption} onClick={() => method(...args)}>
-            <p className={styles.menuOptionName}>{name}</p>
+          <div
+            className={styles.menuOption}
+            key={name + idx}
+            onClick={() => method(...args)}
+          >
+            <p className={styles.menuOptionName} key={name + idx}>
+              {name}
+            </p>
           </div>
         </>
       );
@@ -60,12 +66,14 @@ function InstrumentContainer({
           X
         </h1>
       </div>
+
       <div
         className={`${styles.instrumentContainer}`}
         onClick={handleActiveInstrument}
       >
         <p>{name.replace('.wav', '')}</p>
       </div>
+
       <div
         onClick={handleMute}
         className={`${styles.muteButton} ${active && styles.activeButton}`}
@@ -76,6 +84,7 @@ function InstrumentContainer({
           <Sound className={styles.svg} />
         )}
       </div>
+
       <div
         className={`${styles.fxButton} ${active && styles.activeButton}`}
         onClick={() => setMenu(true)}
