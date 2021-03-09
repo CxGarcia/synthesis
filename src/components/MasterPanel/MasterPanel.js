@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import PanelModuleContainer from '@panels/PanelModuleContainer/PanelModuleContainer';
 import Visualizer from '@panels/Visualizer/Visualizer';
@@ -8,9 +8,10 @@ import { Play, Pause } from '@resources/icons';
 import styles from './MasterPanel.module.scss';
 
 function MasterPanel({
+  Tone,
   dispatch,
-  handleTransport,
   playState,
+  handleTransport,
   masterProperties,
 }) {
   const { metronomeVol, bpm, volume } = masterProperties;

@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useLayoutEffect,
   useCallback,
+  useRef,
 } from 'react';
 
 import Sequencer from '@components/Sequencer/Sequencer';
@@ -51,8 +52,8 @@ const Sampler = React.memo(function Sampler({
       effects,
       mute
     );
-    setSample(_sample);
 
+    setSample(_sample);
     return () => {
       console.log('disposing sample');
       sample?.dispose();

@@ -179,7 +179,7 @@ const Synth = React.memo(function Synth({
 
   return (
     <>
-      <div className={styles.instrument} key={'a'}>
+      <div className={styles.instrument}>
         <div>
           <InstrumentContainer
             menuOptions={menuOptions}

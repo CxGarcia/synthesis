@@ -75,17 +75,18 @@ function Dashboard() {
     <>
       <div className={styles.panels}>
         <MasterPanel
+          Tone={Tone}
           dispatch={dispatch}
-          handleTransport={handleTransport}
           playState={playState}
           masterProperties={master}
+          handleTransport={handleTransport}
         />
 
         <InstrumentPanel
           Tone={Tone}
           dispatch={dispatch}
-          activeInstrument={activeInstrument}
           effectsList={effectsList}
+          activeInstrument={activeInstrument}
         />
       </div>
 
