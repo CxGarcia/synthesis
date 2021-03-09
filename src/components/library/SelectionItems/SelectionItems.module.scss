@@ -21,6 +21,7 @@
 }
 
 .name {
+  user-select: none;
   overflow: hidden;
   color: $text;
   white-space: nowrap;

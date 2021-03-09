@@ -9,7 +9,11 @@ import { ArrowL, ArrowR } from '@resources/icons';
 import styles from './InstrumentPanel.module.scss';
 
 function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
-  const panels = ['adsr', 'bars', 'effects', 'volume', 'oscillator'];
+  const panels =
+    activeInstrument?.category === 'sampler'
+      ? ['bars', 'effects', 'volume', 'oscillator', 'adsr']
+      : ['adsr', 'oscillator', 'effects', 'volume', 'bars'];
+
   const [activePanels, setActivePanels] = useState(panels);
 
   if (!activeInstrument) {
