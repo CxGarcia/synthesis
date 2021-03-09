@@ -46,7 +46,7 @@ export default function samplerBuilder(Tone) {
     });
   }
 
-  function createSequence(sample, pattern, bars, subdivisions) {
+  function createSequence(sample, pattern, bars, subdivisions, humanize) {
     const totalTiles = bars * subdivisions;
     const note = 'F1';
 
@@ -58,6 +58,7 @@ export default function samplerBuilder(Tone) {
       `${subdivisions}n`
     );
 
+    sequence.humanize = humanize;
     sequence.loop = true;
     sequence.start(0);
 

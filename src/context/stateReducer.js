@@ -1,20 +1,28 @@
 import { v4 as uuidv4 } from 'uuid';
 import effectsList from '@effects';
 
+import synthSubCategoryOptions from '@instruments/Synth/synthOptions';
+
 export default function stateReducer(state, action) {
   switch (action.type) {
     case 'CREATE_INSTRUMENT': {
       const id = uuidv4();
       const { category, subCategory, instrument } = action;
+
       const defaultSettings = {
         effects: [],
         volume: -25,
         subdivisions: 16,
         bars: 1,
         octave: 2,
-        envelope: [0.1, 0.5, 0.25, 0.5],
-        oscillator: { oscType: 'sine', oscVol: 10 },
       };
+
+      const synthOptions =
+        category === 'synth' || category === 'polySynth'
+          ? synthSubCategoryOptions[instrument]
+          : {};
+
+      console.log(synthOptions);
 
       const newInstrument = {
         category,
@@ -22,6 +30,7 @@ export default function stateReducer(state, action) {
         instrument,
         id,
         ...defaultSettings,
+        ...synthOptions,
       };
 
       return {

@@ -39,6 +39,8 @@ const Sampler = React.memo(function Sampler({
   // const [instrument, setInstrument] = useState(instrument);
   const [sample, setSample] = useState(null);
   const [pattern, setPattern] = useState(savedPattern);
+
+  const [humanize, setHumanize] = useState(false);
   const [mute, setMute] = useState(false);
 
   const totalTiles = bars * subdivisions;
@@ -63,13 +65,27 @@ const Sampler = React.memo(function Sampler({
   }, [effects, instrument, volume, mute]);
 
   useEffect(() => {
-    const sequence = createSequence(sample, pattern, bars, subdivisions);
+    const sequence = createSequence(
+      sample,
+      pattern,
+      bars,
+      subdivisions,
+      humanize
+    );
 
     return () => {
       console.log(`disposing ${instrument} sequence`);
       sequence.dispose();
     };
-  }, [bars, createSequence, instrument, pattern, sample, subdivisions]);
+  }, [
+    bars,
+    createSequence,
+    instrument,
+    pattern,
+    sample,
+    subdivisions,
+    humanize,
+  ]);
 
   useLayoutEffect(() => {
     setInitialPattern();
@@ -111,6 +127,8 @@ const Sampler = React.memo(function Sampler({
 
   const setInitialPattern = () => setPattern(createArr(totalTiles));
 
+  const toggleHumanize = () => setHumanize(!humanize);
+
   const handleMute = () => setMute(!mute);
 
   const menuOptions = [
@@ -144,6 +162,10 @@ const Sampler = React.memo(function Sampler({
     {
       name: 'Reset Pattern',
       method: setInitialPattern,
+    },
+    {
+      name: `Turn Humanize ${humanize ? 'Off' : 'On'}`,
+      method: toggleHumanize,
     },
   ];
 

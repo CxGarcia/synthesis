@@ -102,6 +102,10 @@ export default function synthBuilder(Tone) {
 }
 
 /* additional configs
+  -----
+  Synths
+  Scale and Key for random pattern
+  -----
   Sequencer/Arpeggiator
   humanize
   -----
