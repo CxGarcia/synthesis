@@ -70,7 +70,7 @@ function shuffle(arr: (string | number)[]): (string | number)[] {
   return arrCopy;
 }
 
-// Not sure how to refactor--add any to timeoutRef to rm errors
+// TODO: Not sure how to refactor--add any to timeoutRef to rm errors
 function useDebounce<F extends Function>(fn: F, timeout: number = 1000) {
   let timeoutRef: any = useRef<HTMLElement | null>(null);
 
@@ -94,7 +94,7 @@ function createMatrix(row: number, col: number, cb = () => createArr(col)) {
 }
 
 
-// Not sure types going in for prevProps/newProps
+// TODO: Not sure types going in for prevProps/newProps
 function compareChanges(prevProps: any, newProps: any) {
   return (
     prevProps.active === newProps.active &&

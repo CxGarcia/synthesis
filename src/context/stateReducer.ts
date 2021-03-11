@@ -1,12 +1,38 @@
+import { Reducer } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import effectsList from '@effects';
+import effectsList, { EffectsList } from '../components/effects';
+import { IState } from './GlobalState';
 
-import synthSubCategoryOptions from '@instruments/Synth/synthOptions';
+import synthSubCategoryOptions from '../components/instruments/Synth/synthOptions';
 
-export default function stateReducer(state, action) {
+interface IAction {
+  type: string,
+  category: string,
+  subCategory: string,
+  instrument: string
+}
+
+interface IInstrument {
+  category: string,
+  subCategory: string,
+  instrument: string,
+  id: number;
+  defaultSettings: IDefaultSettings,
+  synthOptions: any
+}
+
+interface IDefaultSettings {
+  effects: string[],
+  volume: number,
+  subdivisions: number,
+  bars: number,
+  octave: number,
+}
+
+export default function stateReducer(state: IState, action: IAction) {
   switch (action.type) {
     case 'CREATE_INSTRUMENT': {
-      const id = uuidv4();
+      const id: string = uuidv4();
       const { category, subCategory, instrument } = action;
 
       const defaultSettings = {
@@ -111,7 +137,7 @@ export default function stateReducer(state, action) {
     case 'SET_BARS': {
       const { bars } = action;
       const { instruments, activeInstrumentId, maxBars } = state;
-      const _bars = fractionStrToDecimal(bars);
+      const _bars: number = fractionStrToDecimal(bars);
 
       const _instruments = instruments.map((_instrument) => {
         if (_instrument.id !== activeInstrumentId) return _instrument;
@@ -251,3 +277,5 @@ export default function stateReducer(state, action) {
 function fractionStrToDecimal(str) {
   return str.split('/').reduce((p, c) => p / c);
 }
+
+export { IInstrument };
