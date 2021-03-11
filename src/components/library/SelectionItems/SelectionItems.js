@@ -53,7 +53,7 @@ function SelectionItems({
       onDoubleClick={handleDoubleClick}
       onClick={handleClick}
     >
-      <p className={styles.name}>{instrument.replace('.wav', '')}</p>
+      <p className={styles.name}>{instrument.replace(/(wav|aif)$/, '')}</p>
     </div>
   );
 }
