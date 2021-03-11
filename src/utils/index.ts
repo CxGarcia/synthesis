@@ -1,17 +1,17 @@
 import { useRef } from 'react';
 const { Scale, Chord, Note } = require('@tonaljs/tonal');
 
-function randomChordProgression(root = 'C', octave = 4, scale) {
-  const scaleName = `${root} ${scale}`;
+function randomChordProgression(root: string = 'C', octave: number = 4, scale: string) {
+  const scaleName: string = `${root} ${scale}`;
 
-  const scaleNotes = Scale.get(scaleName).notes;
+  const scaleNotes: string = Scale.get(scaleName).notes;
 
-  const chordGen = scaleNotes.concat(scaleNotes);
+  const chordGen: string = scaleNotes.concat(scaleNotes);
 
-  const newChord = [];
+  const newChord: (string | number)[] = [];
 
   for (let i = 0; i < scaleNotes.length; i++) {
-    const noteIdx = randomNumberGenerator(scaleNotes.length - 1);
+    const noteIdx: number = randomNumberGenerator(scaleNotes.length - 1);
     newChord.push(
       chordGen[noteIdx] + octave,
       chordGen[noteIdx + 2] + octave,
@@ -52,16 +52,16 @@ function randomChordProgression(root = 'C', octave = 4, scale) {
   // return progression.slice(0, 16);
 }
 
-function randomNumberGenerator(max) {
+function randomNumberGenerator(max: number): number {
   return Math.floor(Math.random() * max);
 }
 
-function shuffle(arr) {
-  let arrCopy = [...arr];
+function shuffle(arr: (string | number)[]): (string | number)[] {
+  let arrCopy: (string | number)[] = [...arr];
 
   for (let i = 0; i < arrCopy.length; i++) {
-    const randIdx = randomNumberGenerator(i);
-    const shuffle1 = arrCopy[i];
+    const randIdx: number = randomNumberGenerator(i);
+    const shuffle1: (string | number) = arrCopy[i];
 
     arrCopy[i] = arrCopy[randIdx];
     arrCopy[randIdx] = shuffle1;
@@ -70,10 +70,11 @@ function shuffle(arr) {
   return arrCopy;
 }
 
-function useDebounce(fn, timeout = 1000) {
-  let timeoutRef = useRef(null);
+// Not sure how to refactor--add any to timeoutRef to rm errors
+function useDebounce<F extends Function>(fn: F, timeout: number = 1000) {
+  let timeoutRef: any = useRef<HTMLElement | null>(null);
 
-  return (...args) => {
+  return (...args: any[]) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => {
       return fn(...args);
@@ -81,18 +82,20 @@ function useDebounce(fn, timeout = 1000) {
   };
 }
 
-function createArr(n, fill = 0, cb = (el) => el) {
-  const arr = Array(n).fill(fill).map(cb);
+function createArr(n: number, fill: number = 0, cb = (el: number) => el)  {
+  const arr: number[] = Array(n).fill(fill).map(cb);
   return arr;
 }
 
-function createMatrix(row, col, cb = (_) => createArr(col)) {
-  const matrix = Array(row).fill(0).map(cb);
+function createMatrix(row: number, col: number, cb = () => createArr(col)) {
+  const matrix: any[] = Array(row).fill(0).map(cb);
 
   return matrix;
 }
 
-function compareChanges(prevProps, newProps) {
+
+// Not sure types going in for prevProps/newProps
+function compareChanges(prevProps: any, newProps: any) {
   return (
     prevProps.active === newProps.active &&
     prevProps.properties === newProps.properties
