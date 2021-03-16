@@ -7,15 +7,15 @@
 
 $primary: #282a36;
 $secondary: rgb(83, 86, 100);
-$highlights: #f5ffb7;
+$highlights: rgb(245, 255, 183);
 $text: rgb(170, 170, 170);
 $bg: #282a36;
 
 /* FONT STYLES*/
 $base-size: 1rem;
 $type-scale: 1.33;
-$h-3: calc($base-size * $type-scale);
-$h-2: calc($h-3 * $type-scale);
-$h-1: calc($h-2 * $type-scale);
-$text-sm: calc($base-size / $type-scale);
+$h-3: calc(#{$base-size} * #{$type-scale});
+$h-2: calc(#{$h-3} * #{$type-scale});
+$h-1: calc(#{$h-2} * #{$type-scale});
+$text-sm: calc(#{$base-size} / #{$type-scale});
 $header-margin: 0 0 1rem 2rem;
