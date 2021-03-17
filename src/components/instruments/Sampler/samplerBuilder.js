@@ -1,4 +1,5 @@
 import { createArr } from '@utils';
+import { BASE_URL } from '@api';
 
 export default function samplerBuilder(Tone) {
   return {
@@ -10,7 +11,7 @@ export default function samplerBuilder(Tone) {
   function createSample(instrument, subCategory, volume, effects, mute) {
     const _sample = new Tone.Sampler({
       urls: {
-        A1: `http://localhost:3001/samples/${subCategory}/${instrument}`,
+        A1: `${BASE_URL}/samples/${subCategory}/${instrument}`,
       },
       onload: () => {
         console.log(`${instrument} loaded`);

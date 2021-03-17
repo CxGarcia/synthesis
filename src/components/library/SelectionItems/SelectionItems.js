@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 
+import { BASE_URL } from '@api';
 import { useDebounce } from '@utils';
 
 import styles from './SelectionItems.module.scss';
@@ -8,8 +9,8 @@ function SelectionItems({
   Tone,
   volume,
   category,
-  subCategory,
   instrument,
+  subCategory,
   handleSelectInstrument,
 }) {
   const prevSample = useRef(null);
@@ -27,7 +28,7 @@ function SelectionItems({
     prevSample.current && prevSample.current.dispose();
     const _sample = new Tone.Sampler({
       urls: {
-        A1: `http://localhost:3001/samples/${subCategory}/${instrument}`,
+        A1: `${BASE_URL}/samples/${subCategory}/${instrument}`,
       },
       onload: () => {
         _sample.triggerAttackRelease('F1', 2.5);

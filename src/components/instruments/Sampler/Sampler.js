@@ -3,7 +3,6 @@ import React, {
   useEffect,
   useLayoutEffect,
   useCallback,
-  useRef,
 } from 'react';
 
 import Sequencer from '@components/Sequencer/Sequencer';
