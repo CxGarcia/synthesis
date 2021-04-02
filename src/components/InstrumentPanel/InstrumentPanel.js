@@ -86,7 +86,7 @@ function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
   function renderPanels() {
     const width = window.innerWidth;
     const _activePanels =
-      width > 1500 ? activePanels.slice(0, 4) : activePanels.slice(0, 3);
+      width > 1200 ? activePanels.slice(0, 4) : activePanels.slice(0, 3);
 
     return _activePanels.map((_panel, idx) => {
       const newPanel = React.createElement(panelModules[_panel], {
@@ -104,13 +104,13 @@ function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
 
   return (
     <div className={styles.container}>
-      <div className={styles.arrow} style={{ left: -15 }} onClick={handleLeft}>
+      <div className={styles.arrow} style={{ left: -25 }} onClick={handleLeft}>
         <ArrowL className={styles.svg} />
       </div>
       {renderPanels()}
       <div
         className={styles.arrow}
-        style={{ right: -15 }}
+        style={{ right: -25 }}
         onClick={handleRight}
       >
         <ArrowR className={styles.svg} />

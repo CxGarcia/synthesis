@@ -3,6 +3,8 @@
 
 .container {
   @include panel-border;
+  @include clamp;
+  grid-area: master-panel;
   user-select: none;
   height: 15vh;
   position: relative;
@@ -11,17 +13,12 @@
   justify-content: space-evenly;
   align-items: center;
   overflow: hidden;
-  align-self: center;
-  // margin-bottom: 2rem;
-  width: 95%;
-  margin: 0 2rem 1rem 2rem;
+
   & > * {
     width: 200px;
     max-width: 220px;
   }
 
-  height: 10vh;
-  min-height: 10vh;
   // box-shadow: 0px 0px 10px 5px #222430;
 }
 

@@ -22,22 +22,19 @@ $panels-width: calc(#{$container-width} - #{$library-width});
   display: grid;
   grid-template-columns: 2fr 6fr;
   grid-template-areas: 'selection-panel main-panel';
-  column-gap: 1rem;
+  column-gap: 2rem;
 
   padding: 2rem;
   overflow: hidden;
-
-  & > * {
-    border: 1px solid red;
-  }
 }
 
 .mainPanels {
   @include clamp;
   grid-area: main-panel;
-  border-radius: 5px;
-  display: flex;
-  flex-flow: column nowrap;
+  display: grid;
+  grid-template-rows: 1fr 2fr 6fr;
+  grid-template-areas: 'master-panel' 'instrument-panel' 'playground';
+  row-gap: 1rem;
 }
 
 .title {

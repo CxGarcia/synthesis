@@ -13,15 +13,15 @@
 
 .playground {
   @include panel-border;
+  @include clamp;
+  grid-area: playground;
   display: flex;
   flex-flow: row nowrap;
-  width: 95%;
   align-items: flex-start;
-  justify-content: space-evenly;
-  margin-left: 2rem;
-  padding: 1rem 2rem 0 2rem;
-  height: 100%;
-  overflow: scroll;
+  justify-content: flex-start;
+  padding: 1rem 0.5rem;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .playgroundSub {

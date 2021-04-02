@@ -18,28 +18,26 @@
 }
 
 @mixin panel-style {
-  // border: 1px solid $secondary;
   border-radius: 7px;
   user-select: none;
   background-color: $primary;
 }
 
-@mixin main-panels {
-  @include panel-style;
-  height: 15vh;
-  width: 100%;
-  position: relative;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-evenly;
-  align-items: center;
-  overflow: hidden;
-  margin-bottom: 2rem;
-  & > * {
-    width: 200px;
-    max-width: 220px;
-  }
-}
+// @mixin main-panels {
+//   @include panel-style;
+//   width: 100%;
+//   position: relative;
+//   display: flex;
+//   flex-flow: row nowrap;
+//   justify-content: space-evenly;
+//   align-items: center;
+//   overflow: hidden;
+//   // margin-bottom: 2rem;
+//   & > * {
+//     width: 200px;
+//     max-width: 220px;
+//   }
+// }
 
 @mixin main-panel-title {
   @include panel-title;

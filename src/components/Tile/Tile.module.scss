@@ -9,7 +9,7 @@
   background-color: $highlights;
 }
 
-@media screen and (max-width: 1500px) {
+@media screen and (max-width: 1200px) {
   .tile {
     @include tiles-sm;
   }

@@ -3,35 +3,31 @@
 @import '@styles/svg';
 
 .container {
-  min-height: 20vh;
-  max-height: 20vh;
+  @include clamp;
+  grid-area: instrument-panel;
+
   flex-flow: row nowrap;
   position: relative;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   border-radius: 5px;
-  padding: 0 1rem;
-  margin-bottom: 1rem;
 
   & > * {
     flex: 1;
-    margin: 0 1rem;
+    // margin: 0 1rem;
   }
 }
 
 .emptyContainer {
   @include panel-border;
-  min-height: 20vh;
-  max-height: 20vh;
+  @include clamp;
+  grid-area: instrument-panel;
   flex-flow: row nowrap;
   position: relative;
   display: flex;
   justify-content: space-evenly;
   border-radius: 5px;
   padding: 0 1rem;
-  margin-bottom: 1rem;
-  width: 95%;
-  margin: 0 2rem 1rem 2rem;
 }
 
 .svg {
@@ -41,10 +37,7 @@
 
 .arrow {
   position: absolute;
-  // box-shadow: 0px 4px 10px 10px #222430;
   top: 45%;
-  border-radius: 5px;
-  // height: 100%;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
