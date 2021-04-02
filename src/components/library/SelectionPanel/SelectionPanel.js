@@ -118,9 +118,9 @@ const SelectionPanel = React.memo(function SelectionPanel({
 
   return (
     <div className={styles.container}>
-      <div className={styles.panelTitle}>
-        <h2>Library</h2>
-      </div>
+      <h2 className={styles.appTitle}>SYNTHESIS</h2>
+
+      <h2 className={styles.libraryTitle}>Library</h2>
 
       <div className={styles.selection}>
         <input type="text" className={styles.input} onChange={handleSearch} />

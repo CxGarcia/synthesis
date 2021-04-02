@@ -75,10 +75,7 @@ function Dashboard() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.leftPanel}>
-        <div className={styles.heading}>
-          <h3>SYNTHESIS</h3>
-        </div>
+      <div className={styles.selectionPanel}>
         <SelectionPanel
           Tone={Tone}
           dispatch={dispatch}
@@ -86,7 +83,7 @@ function Dashboard() {
           activeInstrumentId={activeInstrumentId}
         />
       </div>
-      <div className={styles.panels}>
+      <div className={styles.mainPanels}>
         <MasterPanel
           Tone={Tone}
           dispatch={dispatch}
