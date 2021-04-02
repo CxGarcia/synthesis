@@ -36,7 +36,7 @@ function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
   const handleOctave = (_octave) =>
     dispatch({ type: 'SET_OCTAVE', octave: _octave });
 
-  const barsOptions = ['1/4', '1/2', '1', '2'];
+  const barsOptions = ['1/4', '1/2', '1'];
   const octaveOptions = createArr(7, null, (_, idx) => idx + 1);
 
   const moduleProps = {
@@ -86,7 +86,7 @@ function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
   function renderPanels() {
     const width = window.innerWidth;
     const _activePanels =
-      width > 1200 ? activePanels.slice(0, 4) : activePanels.slice(0, 3);
+      width > 1500 ? activePanels.slice(0, 4) : activePanels.slice(0, 3);
 
     return _activePanels.map((_panel, idx) => {
       const newPanel = React.createElement(panelModules[_panel], {

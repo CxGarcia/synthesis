@@ -69,6 +69,8 @@ const SelectionPanel = React.memo(function SelectionPanel({
         });
   }
 
+  const handleCloseError = () => dispatch({ type: 'CLOSE_ERROR' });
+
   function renderOptions() {
     return instruments
       .filter((instrument) => {
@@ -142,6 +144,7 @@ const SelectionPanel = React.memo(function SelectionPanel({
       {categoryErrorFlag && (
         <div className={styles.categoryError}>
           Please select an instrument in the same category
+          <p onClick={handleCloseError}>OK</p>
         </div>
       )}
     </div>

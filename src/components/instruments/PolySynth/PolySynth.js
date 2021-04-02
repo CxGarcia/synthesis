@@ -127,7 +127,6 @@ const PolySynth = React.memo(function PolySynth({
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
     ]);
-    // setChords(createArr(totalTiles, []));
     setChords([
       [],
       [],
@@ -159,7 +158,12 @@ const PolySynth = React.memo(function PolySynth({
 
   const handleSelectInstrument = (option) => setInstrument(option);
 
-  const menuOptions = [];
+  function setInitialPattern() {
+    setChords(createArr(totalTiles, []));
+    setPattern(createMatrix(notes.length, totalTiles));
+  }
+
+  const menuOptions = [{ name: 'Reset Pattern', method: setInitialPattern }];
 
   return (
     <>
@@ -189,5 +193,3 @@ const PolySynth = React.memo(function PolySynth({
 compareChanges);
 
 export default PolySynth;
-
-// [["D3","F3","A3"],[],["D3","F3","A3"],[],[],["E3","G3","B3"],[],[],[],[],[],[],[],[],[],[]]

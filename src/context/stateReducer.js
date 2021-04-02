@@ -242,6 +242,10 @@ export default function stateReducer(state, action) {
       return { ...state, master: { ...master, volume: value } };
     }
 
+    case 'CLOSE_ERROR': {
+      return { ...state, categoryErrorFlag: false };
+    }
+
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }

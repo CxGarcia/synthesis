@@ -135,7 +135,8 @@
 .categoryError {
   transform-origin: center top;
   position: absolute;
-  bottom: 30px;
+  bottom: 0px;
+  left: 0;
 
   width: 100%;
   color: $highlights;
@@ -146,6 +147,16 @@
   transition: all 0.25s ease;
   animation: grow 0.25s;
   font-size: 0.75rem;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+
+  & p {
+    margin-top: 0.25rem;
+    font-weight: 700;
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
 
 @keyframes grow {
