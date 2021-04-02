@@ -24,7 +24,6 @@ const SelectionPanel = React.memo(function SelectionPanel({
 
   useEffect(() => {
     getSampleNames().then((res) => {
-      console.log(res);
       const _samples = Object.values(res).flat(1);
       const _subCategories = Object.keys(res);
 

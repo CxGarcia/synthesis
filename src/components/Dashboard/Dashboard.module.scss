@@ -58,3 +58,9 @@ $panels-width: calc(#{$container-width} - #{$library-width});
 
   border-radius: 5px;
 }
+
+@media (max-width: 1500px) {
+  .container {
+    grid-template-columns: 2.5fr 6fr;
+  }
+}

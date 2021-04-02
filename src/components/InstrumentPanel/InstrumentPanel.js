@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import panelModules from '@panels/index.PanelModule';
 import PanelModuleContainer from '@panels/PanelModuleContainer/PanelModuleContainer';
@@ -9,12 +9,13 @@ import { ArrowL, ArrowR } from '@resources/icons';
 import styles from './InstrumentPanel.module.scss';
 
 function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
-  const panels =
-    activeInstrument?.category === 'sampler'
-      ? ['bars', 'effects', 'volume', 'oscillator', 'adsr']
-      : ['adsr', 'oscillator', 'effects', 'volume', 'bars'];
+  const [activePanels, setActivePanels] = useState([]);
 
-  const [activePanels, setActivePanels] = useState(panels);
+  useEffect(() => {
+    if (activeInstrument && activeInstrument.category === 'sampler') {
+      setActivePanels(['bars', 'effects', 'volume', 'oscillator']);
+    } else setActivePanels(['adsr', 'oscillator', 'effects', 'volume', 'bars']);
+  }, [activeInstrument]);
 
   if (!activeInstrument) {
     return (
