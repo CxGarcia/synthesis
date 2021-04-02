@@ -2,7 +2,6 @@
 @import '@styles/mixins';
 
 .container {
-  width: fit-content;
   max-height: 20px;
   max-width: 27%;
   font-size: 0.75rem;
@@ -11,7 +10,6 @@
   border-radius: 5px;
   padding: 0.25rem;
   transition: all 0.25s ease;
-  align-self: flex-start;
   flex: 0 0 33%;
 
   &:hover {

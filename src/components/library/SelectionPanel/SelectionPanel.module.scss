@@ -9,6 +9,7 @@
   padding: 0.75rem;
   overflow: hidden;
 }
+
 .panelTitle {
   // @include panel-title;
   position: absolute;
@@ -30,7 +31,8 @@
   height: 100%;
   max-height: 100%;
   margin-top: 40px;
-  // overflow: hidden;
+
+  overflow: hidden;
 }
 
 .categories {
@@ -47,11 +49,10 @@
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  align-items: flex-start;
-  overflow: scroll;
-  height: min-content;
-  height: 100%;
-  max-height: 100%;
+  align-content: flex-start;
+  overflow-y: auto;
+  height: 60%;
+  max-height: 60%;
 }
 
 .input {
@@ -149,5 +150,12 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+@media screen and (max-width: 1500px) {
+  .options {
+    height: 50%;
+    max-height: 50%;
   }
 }

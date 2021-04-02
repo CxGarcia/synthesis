@@ -121,7 +121,6 @@ const SelectionPanel = React.memo(function SelectionPanel({
       <div className={styles.panelTitle}>
         <h2>Library</h2>
       </div>
-      {/* TODO - make banner disappear */}
 
       <div className={styles.selection}>
         <input type="text" className={styles.input} onChange={handleSearch} />
