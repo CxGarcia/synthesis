@@ -8,3 +8,9 @@
 .active {
   background-color: $highlights;
 }
+
+@media screen and (max-width: 1500px) {
+  .tile {
+    @include tiles-sm;
+  }
+}

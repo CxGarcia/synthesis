@@ -84,7 +84,11 @@ function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
   }
 
   function renderPanels() {
-    return activePanels.slice(0, 4).map((_panel, idx) => {
+    const width = window.innerWidth;
+    const _activePanels =
+      width > 1500 ? activePanels.slice(0, 4) : activePanels.slice(0, 3);
+
+    return _activePanels.map((_panel, idx) => {
       const newPanel = React.createElement(panelModules[_panel], {
         ...moduleProps[_panel],
         key: _panel,

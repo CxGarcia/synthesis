@@ -22,8 +22,7 @@
 }
 
 .noteSeparator {
-  width: 2.5rem;
-  padding: 0.25rem;
+  @include tiles;
 }
 
 .sequence {
@@ -35,11 +34,21 @@
 .tile {
   @include tiles;
   color: $primary;
-  padding: 0.5rem;
   text-align: center;
   font-weight: 600;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
 }
 
 .active {
   background: $highlights;
+}
+
+@media screen and (max-width: 1500px) {
+  .tile,
+  .noteSeparator {
+    @include tiles-sm;
+  }
 }
