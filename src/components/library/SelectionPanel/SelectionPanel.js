@@ -5,6 +5,7 @@ import CategoryItems from '@library/CategoryItems/CategoryItems';
 import SelectionItems from '@library/SelectionItems/SelectionItems';
 import { useDebounce } from '@utils';
 
+import { ReactComponent as Logo } from '@resources/logo/logo.svg';
 import { getSampleNames } from '@api';
 import styles from './SelectionPanel.module.scss';
 
@@ -119,7 +120,7 @@ const SelectionPanel = React.memo(function SelectionPanel({
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.appTitle}>SYNTHESIS</h2>
+      <Logo className={styles.appTitle} />
 
       <h2 className={styles.libraryTitle}>Library</h2>
 
