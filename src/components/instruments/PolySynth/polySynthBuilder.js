@@ -12,13 +12,7 @@ export default function synthBuilder(Tone) {
     options: synths,
   };
 
-  function createSynth(
-    instrument,
-    envelope = [],
-    volume,
-    effects,
-    oscillators
-  ) {
+  function createSynth(instrument, envelope = [], volume, effects) {
     const [attack, decay, sustain, release] = envelope;
     const _synth = new Tone.PolySynth(Tone[instrument], {
       volume: volume,
@@ -28,10 +22,6 @@ export default function synthBuilder(Tone) {
     });
 
     const _effects = mapEffects(effects);
-
-    // const lfo = new Tone[oscillators]('4n', 400, 4000);
-
-    // lfo.connect(_synth.frequency).toDestination();
 
     _synth.chain(..._effects, Tone.Destination);
 

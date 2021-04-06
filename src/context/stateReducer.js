@@ -22,8 +22,6 @@ export default function stateReducer(state, action) {
           ? synthSubCategoryOptions[instrument]
           : {};
 
-      console.log(synthOptions);
-
       const newInstrument = {
         category,
         subCategory,

@@ -15,7 +15,7 @@ function InstrumentPanel({ dispatch, activeInstrument, effectsList }) {
     if (activeInstrument && activeInstrument.category === 'sampler') {
       setActivePanels(['bars', 'effects', 'volume', 'oscillator']);
     } else setActivePanels(['adsr', 'oscillator', 'effects', 'volume', 'bars']);
-  }, [activeInstrument]);
+  }, [activeInstrument?.id]);
 
   if (!activeInstrument) {
     return (

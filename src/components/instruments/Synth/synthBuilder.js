@@ -17,20 +17,23 @@ export default function synthBuilder(Tone) {
     mute
   ) {
     const [attack, decay, sustain, release] = envelope;
-    const { oscVol, oscType } = oscillator;
+    let oscVol, oscType;
+
+    if (oscillator?.oscVol && oscillator?.oscType) {
+      oscType = oscillator.oscType;
+      oscVol = oscillator.oscVol;
+    }
 
     const _synth = new Tone[instrument]({
       volume: volume,
       portamento: 0.1,
-      oscillator: oscType ? { volume: oscVol, type: oscType } : null,
+      oscillator: oscType ? { volume: oscVol, type: oscType } : {},
       envelope: { attack, decay, sustain, release },
     });
 
     let _effects = mapEffects(effects);
 
     if (mute) {
-      console.log('hiya');
-
       const vol = new Tone.Volume();
       vol.mute = true;
       _effects = [vol];
@@ -78,18 +81,6 @@ export default function synthBuilder(Tone) {
     return sequence;
   }
 
-  // function createArpeggiatorSequence(synth, progression) {
-  //   const sequence = new Tone.Sequence((time, note) => {
-  //     synth.triggerAttackRelease(note, '8n', time);
-  //   }, progression);
-
-  //   sequence.playbackRate = 2;
-  //   sequence.loop = true;
-  //   sequence.start(0);
-
-  //   return sequence;
-  // }
-
   function setNewOctaveToProgression(progression, octave) {
     return progression.map(
       (note) => typeof note === 'string' && note.replace(/[0-9]/g, octave)
@@ -100,6 +91,18 @@ export default function synthBuilder(Tone) {
     return effects.map((_effect) => _effect.method);
   }
 }
+
+// function createArpeggiatorSequence(synth, progression) {
+//   const sequence = new Tone.Sequence((time, note) => {
+//     synth.triggerAttackRelease(note, '8n', time);
+//   }, progression);
+
+//   sequence.playbackRate = 2;
+//   sequence.loop = true;
+//   sequence.start(0);
+
+//   return sequence;
+// }
 
 /* additional configs
   -----

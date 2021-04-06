@@ -86,7 +86,7 @@ const SelectionPanel = React.memo(function SelectionPanel({
           return instrument?.instrument.toLowerCase().includes(search);
         } else return false;
       })
-      .slice(0, 250)
+      .slice(0, 504)
       .map((_instrument, idx) => {
         const { category, subCategory, instrument } = _instrument;
         // if (instrument.length < 1 || instrument == null) return null;

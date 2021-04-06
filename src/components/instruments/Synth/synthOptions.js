@@ -36,32 +36,32 @@ const synthSubCategoryOptions = {
     },
     modulationEnvelope: [0.01, 0.01, 1, 0.5],
   },
-  DuoSynt: {
-    vibratoAmount: 0.5,
-    vibratoRate: 5,
-    harmonicity: 1.5,
-    voice0: {
-      volume: -10,
-      portamento: 0,
-      oscillator: {
-        oscType: 'sine',
-        oscVol: 10,
-      },
-      filterEnvelope: [0.01, 0.01, 1, 0.5],
-      envelope: [0.01, 0.01, 1, 0.5],
-    },
-    voice1: {
-      volume: -10,
-      portamento: 0,
-      oscillator: {
-        oscType: 'sine',
-        oscVol: 10,
-      },
-      filterEnvelope: [0.01, 0.01, 1, 0.5],
-      envelope: [0.01, 0.01, 1, 0.5],
-    },
-  },
-  MembraneSynt: {
+  // DuoSynth: {
+  //   vibratoAmount: 0.5,
+  //   vibratoRate: 5,
+  //   harmonicity: 1.5,
+  //   voice0: {
+  //     volume: -10,
+  //     portamento: 0,
+  //     oscillator: {
+  //       oscType: 'sine',
+  //       oscVol: 10,
+  //     },
+  //     filterEnvelope: [0.01, 0.01, 1, 0.5],
+  //     envelope: [0.01, 0.01, 1, 0.5],
+  //   },
+  //   voice1: {
+  //     volume: -10,
+  //     portamento: 0,
+  //     oscillator: {
+  //       oscType: 'sine',
+  //       oscVol: 10,
+  //     },
+  //     filterEnvelope: [0.01, 0.01, 1, 0.5],
+  //     envelope: [0.01, 0.01, 1, 0.5],
+  //   },
+  // },
+  MembraneSynth: {
     pitchDecay: 0.05,
     octaves: 10,
     oscillator: {
@@ -70,19 +70,7 @@ const synthSubCategoryOptions = {
     },
     envelope: [0.01, 0.01, 1, 0.5],
   },
-  MetalSynt: {
-    frequency: 200,
-    envelope: {
-      attack: 0.001,
-      decay: 1.4,
-      release: 0.2,
-    },
-    harmonicity: 5.1,
-    modulationIndex: 32,
-    resonance: 4000,
-    octaves: 1.5,
-  },
-  MonoSynt: {
+  MonoSynth: {
     frequency: 'C4',
     detune: 0,
     oscillator: {
