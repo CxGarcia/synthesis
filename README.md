@@ -4,7 +4,7 @@ Synthesis is a Digital Audio Workstation (DAW) made with web technologies. It em
 
 ## Tech Stack
 ![tech-stack](https://github.com/CxGarcia/synthesis/blob/master/resources/tech-stack.png)
-Before moving on to the teck stack, I would like to deeply thank all the open sourcers who made this project possible. Without your passion and dedication to create such amazing software, none of this would have been possible.\ 
+Before moving on to the teck stack, I would like to deeply thank all the open sourcers who made this project possible. Without your passion and dedication to create such amazing software, none of this would have been possible.
 \
 Having said this, to build the project I used the following technologies:
 - [React](https://reactjs.org/) on the frontend
