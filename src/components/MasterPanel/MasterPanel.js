@@ -1,14 +1,10 @@
-import React, { useEffect } from 'react';
-
-import PanelModuleContainer from '@panels/PanelModuleContainer/PanelModuleContainer';
-import Visualizer from '@panels/Visualizer/Visualizer';
+import React from 'react';
 import Slider from '@panels/Slider/Slider';
 
 import { Play, Pause } from '@resources/icons';
 import styles from './MasterPanel.module.scss';
 
 function MasterPanel({
-  Tone,
   dispatch,
   playState,
   handleTransport,

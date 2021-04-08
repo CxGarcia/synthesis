@@ -1,5 +1,3 @@
-const synthOptions = {};
-
 const synthSubCategoryOptions = {
   Synth: {
     envelope: [0.01, 0.01, 1, 0.5],
