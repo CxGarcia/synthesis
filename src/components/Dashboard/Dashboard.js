@@ -39,7 +39,16 @@ function Dashboard() {
   // Play/Pause master
   const handleTransport = useCallback(() => {
     if (playState === 'started') Tone.Transport.stop();
-    else Tone.Transport.start();
+    else {
+      //had to add this for debug purposes so you can play music as soon as you hit the browser. will need a better solution
+      const synth = new Tone.Synth({
+        volume: -60,
+      });
+      synth.triggerAttackRelease('C0', '8n');
+      synth.dispose();
+
+      Tone.Transport.start();
+    }
 
     setPlayState(Tone.Transport.state);
   }, [Tone.Transport, playState]);
@@ -98,6 +107,7 @@ function Dashboard() {
           effectsList={effectsList}
           activeInstrument={activeInstrument}
         />
+
         <Playground
           Tone={Tone}
           maxBars={maxBars}

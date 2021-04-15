@@ -7,6 +7,7 @@ import React, {
 
 import Sequencer from '@components/Sequencer/Sequencer';
 import InstrumentContainer from '../InstrumentContainer/InstrumentContainer';
+import demoObj from './samplerOptions';
 
 import { createArr, compareChanges } from '@utils';
 import samplerBuilder from './samplerBuilder';
@@ -121,7 +122,11 @@ const Sampler = React.memo(function Sampler({
     setPattern(_pattern);
   }
 
-  const setInitialPattern = () => setPattern(createArr(totalTiles));
+  const setInitialPattern = () => {
+    const initialPattern = demoObj[id] || createArr(totalTiles);
+
+    setPattern(initialPattern);
+  };
 
   const toggleHumanize = () => setHumanize(!humanize);
 
