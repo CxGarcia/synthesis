@@ -20,10 +20,10 @@ note: the backend for this project is hosted in a different repo which you can f
 The app's UI is composed of an instrument's library on the left and on the right the panels to control your instruments, sequences and last but not least, The Playground 😎. If you want to use the app, the first thing to do is browse the library so you can check out all the instruments and samples it has. If you click once, you will be able to hear it and if you click twice it will be loaded to The Playground. 
 \
 \
-Once in The Playground, you have many options to interact with the instrument. The options variy depending on the category you choose. For starters, samples have options to repeat every X tiles, which makes it very convenient to create a beat. On the other hand, synths have an experimental feature to create a random sequence for you. I am still polishing this and I can wait for you to see the final result! After you are set on a sequence, you can click on the instrument's container and the instrument panel will open. Here you can add effects, play with the ADSR chart of synths, change the amount of bars, and some othe cool stuff that I will let you check out for yourself.
+Once in The Playground, you have many options to interact with the instrument. The options vary depending on the category you choose. For starters, samples have options to repeat every X tiles, which makes it very convenient to create a beat. On the other hand, synths have an experimental feature to create a random sequence for you. This feature is still in beta but I can't wait for you to see the final result! After you are set on a sequence, you can click on the instrument's container and the instrument panel will open. Here you can add effects, play with the ADSR chart of synths, change the amount of bars, and some other cool stuff that I will let you check out for yourself.
 \
 \
-Hope you enjoy the app and if you want to contribute please don't hesitate to reach out! 
+Hope you enjoy the app and if you want to contribute please reach out! 
 \
 \
 **You can click on the image for a video of me demoing the app** 
