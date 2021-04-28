@@ -66,7 +66,8 @@ function createMatrix(row, col, cb = (_) => createArr(col)) {
 function compareChanges(prevProps, newProps) {
   return (
     prevProps.active === newProps.active &&
-    prevProps.properties === newProps.properties
+    prevProps.properties === newProps.properties &&
+    prevProps.activeReplace === newProps.activeReplace
   );
 }
 

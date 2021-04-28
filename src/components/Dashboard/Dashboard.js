@@ -19,6 +19,7 @@ function Dashboard() {
     instruments,
     categoryErrorFlag,
     activeInstrumentId,
+    replaceInstrumentId,
   } = state;
 
   const { bpm, volume, metronomeVol } = master;
@@ -89,7 +90,7 @@ function Dashboard() {
           Tone={Tone}
           dispatch={dispatch}
           categoryErrorFlag={categoryErrorFlag}
-          activeInstrumentId={activeInstrumentId}
+          replaceInstrumentId={replaceInstrumentId}
         />
       </div>
       <div className={styles.mainPanels}>
@@ -116,6 +117,7 @@ function Dashboard() {
           metronomeVol={metronomeVol}
           categoryErrorFlag={categoryErrorFlag}
           activeInstrumentId={activeInstrumentId}
+          replaceInstrumentId={replaceInstrumentId}
         />
       </div>
     </div>

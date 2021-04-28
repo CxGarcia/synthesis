@@ -15,17 +15,18 @@ import styles from './Sampler.module.scss';
 
 const Sampler = React.memo(function Sampler({
   Tone,
-  dispatch,
   active,
+  dispatch,
   properties,
+  activeReplace,
 }) {
   const {
     id,
-    effects,
-    subCategory,
-    instrument,
-    volume,
     bars,
+    volume,
+    effects,
+    instrument,
+    subCategory,
     subdivisions,
     savedPattern = [],
   } = properties;
@@ -132,7 +133,13 @@ const Sampler = React.memo(function Sampler({
 
   const handleMute = () => setMute(!mute);
 
+  const handleReplace = () => dispatch({ type: 'SET_UPDATE_INSTRUMENT', id });
+
   const menuOptions = [
+    {
+      name: `${activeReplace ? "Don't Replace" : 'Replace'} Instrument`,
+      method: handleReplace,
+    },
     { name: 'Shift Pattern Left', method: shiftPatternLeft },
     { name: 'Shift Pattern Right', method: shiftPatternRight },
     {
@@ -174,14 +181,15 @@ const Sampler = React.memo(function Sampler({
     <>
       <div className={styles.instrument}>
         <InstrumentContainer
-          handleMute={handleMute}
           mute={mute}
+          active={active}
+          name={instrument}
+          handleMute={handleMute}
+          menuOptions={menuOptions}
+          activeReplace={activeReplace}
+          setActiveTilesByStep={setActiveTilesByStep}
           handleDeleteInstrument={handleDeleteInstrument}
           handleActiveInstrument={handleActiveInstrument}
-          setActiveTilesByStep={setActiveTilesByStep}
-          name={instrument}
-          active={active}
-          menuOptions={menuOptions}
         />
         <Sequencer
           instrument={sample}

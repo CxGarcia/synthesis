@@ -12,6 +12,7 @@ function Playground({
   instruments,
   metronomeVol,
   activeInstrumentId,
+  replaceInstrumentId,
 }) {
   // Create component dynamically, based on the instrument that the user selects
   function renderInstruments() {
@@ -28,6 +29,7 @@ function Playground({
           key: id,
           properties: _instrument,
           active: id === activeInstrumentId,
+          activeReplace: id === replaceInstrumentId,
         }
       );
 

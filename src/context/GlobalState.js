@@ -16,6 +16,11 @@ function useGlobalState() {
       metronome: true,
       metronomeVol: -20,
     },
+    activeInstrumentId: 'e6f14aa1-5b2c-4d1a-bd05-474a139d3c0e',
+    replaceInstrumentId: null,
+    maxBars: 1,
+    effectsList: keys,
+    categoryErrorFlag: false,
     instruments: [
       {
         category: 'polySynth',
@@ -86,10 +91,6 @@ function useGlobalState() {
         octave: 2,
       },
     ],
-    activeInstrumentId: 'e6f14aa1-5b2c-4d1a-bd05-474a139d3c0e',
-    maxBars: 1,
-    effectsList: keys,
-    categoryErrorFlag: false,
   });
 
   return [state, dispatch];

@@ -18,6 +18,7 @@ const PolySynth = React.memo(function PolySynth({
   properties,
   instrument: _instrument,
   subCategory,
+  activeReplace,
 }) {
   const {
     effects,
@@ -158,12 +159,20 @@ const PolySynth = React.memo(function PolySynth({
 
   const handleSelectInstrument = (option) => setInstrument(option);
 
+  const handleReplace = () => dispatch({ type: 'SET_UPDATE_INSTRUMENT', id });
+
   function setInitialPattern() {
     setChords(createArr(totalTiles, []));
     setPattern(createMatrix(notes.length, totalTiles));
   }
 
-  const menuOptions = [{ name: 'Reset Pattern', method: setInitialPattern }];
+  const menuOptions = [
+    {
+      name: `${activeReplace ? "Don't Replace" : 'Replace'} Instrument`,
+      method: handleReplace,
+    },
+    { name: 'Reset Pattern', method: setInitialPattern },
+  ];
 
   return (
     <>
@@ -176,6 +185,7 @@ const PolySynth = React.memo(function PolySynth({
           options={options}
           name={`${subCategory} | ${_instrument}`}
           active={active}
+          activeReplace={activeReplace}
         />
         <div className={styles.keyboard}>
           <Sequencer

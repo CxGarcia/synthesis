@@ -34,7 +34,16 @@
 }
 
 .activePanel {
-  border: 1px solid $highlights;
+  border: 2px solid $highlights;
+}
+
+.activeReplace {
+  border: 2px solid #ff6385;
+
+  .muteButton,
+  .fxButton {
+    background-color: #ff6385;
+  }
 }
 
 .fxButton {

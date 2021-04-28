@@ -13,7 +13,7 @@ const SelectionPanel = React.memo(function SelectionPanel({
   Tone,
   dispatch,
   categoryErrorFlag,
-  activeInstrumentId,
+  replaceInstrumentId,
 }) {
   const [instruments, setInstruments] = useState([...synths, ...polySynths]);
   const [subCategories, setSubCategories] = useState(['synth', 'polySynth']);
@@ -54,7 +54,8 @@ const SelectionPanel = React.memo(function SelectionPanel({
   }
 
   function handleSelectInstrument(category, subCategory, instrument) {
-    activeInstrumentId
+    console.log(replaceInstrumentId);
+    replaceInstrumentId
       ? dispatch({
           type: 'UPDATE_ACTIVE_INSTRUMENT',
           category,
@@ -156,7 +157,7 @@ export default SelectionPanel;
 
 function compareActiveInstrument(prevProps, newProps) {
   return (
-    prevProps.activeInstrumentId === newProps.activeInstrumentId &&
+    prevProps.replaceInstrumentId === newProps.replaceInstrumentId &&
     prevProps.categoryErrorFlag === newProps.categoryErrorFlag
   );
 }

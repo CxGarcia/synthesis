@@ -37,13 +37,22 @@ export default function stateReducer(state, action) {
       };
     }
 
+    case 'SET_UPDATE_INSTRUMENT': {
+      const { id } = action;
+      const { replaceInstrumentId } = state;
+
+      if (id === replaceInstrumentId)
+        return { ...state, replaceInstrumentId: null };
+      else return { ...state, replaceInstrumentId: id };
+    }
+
     case 'UPDATE_ACTIVE_INSTRUMENT': {
       const { type, category, ...otherProperties } = action;
-      const { instruments, activeInstrumentId } = state;
+      const { instruments, replaceInstrumentId } = state;
       let categoryErrorFlag = false;
 
       const _instruments = instruments.map((_instrument) => {
-        if (_instrument.id !== activeInstrumentId) return _instrument;
+        if (_instrument.id !== replaceInstrumentId) return _instrument;
         if (_instrument.category !== category) {
           categoryErrorFlag = true;
           return _instrument;
@@ -61,6 +70,8 @@ export default function stateReducer(state, action) {
 
     case 'DELETE_INSTRUMENT': {
       const { id } = action;
+      const { activeInstrumentId, replaceInstrumentId } = state;
+
       const _instruments = [...state.instruments];
 
       const filteredInstruments = _instruments.filter((instrument) => {
@@ -70,7 +81,10 @@ export default function stateReducer(state, action) {
       return {
         ...state,
         instruments: filteredInstruments,
-        activeInstrumentId: state.activeInstrumentId === id && null,
+        activeInstrumentId:
+          activeInstrumentId === id ? null : activeInstrumentId,
+        replaceInstrumentId:
+          replaceInstrumentId === id ? null : replaceInstrumentId,
       };
     }
 

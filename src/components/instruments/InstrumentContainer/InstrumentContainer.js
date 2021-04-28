@@ -8,6 +8,7 @@ import styles from './InstrumentContainer.module.scss';
 function InstrumentContainer({
   handleActiveInstrument,
   handleDeleteInstrument,
+  activeReplace,
   menuOptions,
   handleMute,
   active,
@@ -56,8 +57,11 @@ function InstrumentContainer({
 
   return (
     <div
-      // className={styles.instrumentContainer}
-      className={`${styles.panel} ${active && styles.activePanel}`}
+      className={`
+      ${styles.panel}
+      ${active && styles.activePanel}
+      ${activeReplace && styles.activeReplace}
+      `}
       onMouseLeave={handleCloseMenu}
       onMouseEnter={handleMenuTimeout}
     >

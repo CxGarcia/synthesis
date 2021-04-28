@@ -21,6 +21,7 @@ const Synth = React.memo(function Synth({
   properties,
   instrument: _instrument,
   subCategory,
+  activeReplace,
 }) {
   const {
     effects,
@@ -141,6 +142,8 @@ const Synth = React.memo(function Synth({
       : dispatch({ type: 'SET_ACTIVE_INSTRUMENT', id });
   }
 
+  const handleReplace = () => dispatch({ type: 'SET_UPDATE_INSTRUMENT', id });
+
   const handleDeleteInstrument = () =>
     dispatch({ type: 'DELETE_INSTRUMENT', id });
 
@@ -169,6 +172,10 @@ const Synth = React.memo(function Synth({
   }
 
   const menuOptions = [
+    {
+      name: `${activeReplace ? "Don't Replace" : 'Replace'} Instrument`,
+      method: handleReplace,
+    },
     { name: 'Random Progression', method: handleRandomProgression },
     { name: 'Reset Pattern', method: setInitialPattern },
     {
@@ -191,6 +198,7 @@ const Synth = React.memo(function Synth({
             options={options}
             name={`${subCategory} | ${_instrument}`}
             active={active}
+            activeReplace={activeReplace}
           />
         </div>
         <div className={styles.keyboard}>
