@@ -12,8 +12,9 @@ export default function synthBuilder(Tone) {
     options: synths,
   };
 
-  function createSynth(instrument, envelope = [], volume, effects) {
+  function createSynth(instrument, envelope = [], volume, effects, _, mute) {
     const [attack, decay, sustain, release] = envelope;
+
     const _synth = new Tone.PolySynth(Tone[instrument], {
       volume: volume,
       portamento: 0.005,
@@ -21,7 +22,13 @@ export default function synthBuilder(Tone) {
       envelope: { attack, decay, sustain, release },
     });
 
-    const _effects = mapEffects(effects);
+    let _effects = mapEffects(effects);
+
+    if (mute) {
+      const vol = new Tone.Volume();
+      vol.mute = true;
+      _effects = [vol];
+    }
 
     _synth.chain(..._effects, Tone.Destination);
 

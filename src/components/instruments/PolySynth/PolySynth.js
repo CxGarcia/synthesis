@@ -46,6 +46,7 @@ const PolySynth = React.memo(function PolySynth({
   const [synth, setSynth] = useState(null);
   const [chords, setChords] = useState(savedChords);
   const [pattern, setPattern] = useState(savedPattern);
+  const [mute, setMute] = useState(false);
 
   const totalTiles = bars * subdivisions;
 
@@ -55,7 +56,8 @@ const PolySynth = React.memo(function PolySynth({
       envelope,
       volume,
       effects,
-      oscillators
+      oscillators,
+      mute
     );
     setSynth(_synth);
 
@@ -72,6 +74,7 @@ const PolySynth = React.memo(function PolySynth({
     effects,
     instrument,
     octave,
+    mute,
   ]);
 
   const toggleActive = (col, row, note) => {
@@ -154,6 +157,8 @@ const PolySynth = React.memo(function PolySynth({
       : dispatch({ type: 'SET_ACTIVE_INSTRUMENT', id });
   }
 
+  const handleMute = () => setMute(!mute);
+
   const handleDeleteInstrument = () =>
     dispatch({ type: 'DELETE_INSTRUMENT', id });
 
@@ -183,6 +188,8 @@ const PolySynth = React.memo(function PolySynth({
           handleDeleteInstrument={handleDeleteInstrument}
           menuOptions={menuOptions}
           options={options}
+          handleMute={handleMute}
+          mute={mute}
           name={`${subCategory} | ${_instrument}`}
           active={active}
           activeReplace={activeReplace}
